@@ -27,7 +27,7 @@
             align-items: center;
             z-index: 1;
         }
-        #interactive-rectangle {
+        .interactive-rectangle {
             width: 200px;
             height: 150px;
             background-color: #fff;
@@ -37,6 +37,9 @@
             transform: translate(-50%, -50%);
             cursor: move;
             touch-action: none;
+        }
+        .selected-rectangle {
+            border: 2px solid #ff0000;
         }
         .resize-handle {
             position: absolute;
@@ -91,14 +94,44 @@
         .back-button:hover {
             background-color: #ddd;
         }
+        .control-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        .control-button {
+            background-color: #fff;
+            color: #000;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .control-button:hover {
+            background-color: #ddd;
+        }
+        .control-button:disabled {
+            background-color: #555;
+            color: #888;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 
 <body>
     <a href="../" class="back-button">Back to Home</a>
     
+    <div class="control-buttons">
+        <button id="add-rectangle" class="control-button">Add a rectangle</button>
+        <button id="delete-rectangle" class="control-button" disabled>Delete selected rectangle</button>
+    </div>
+    
     <div id="rectangle-container">
-        <div id="interactive-rectangle">
+        <div id="rectangle-1" class="interactive-rectangle">
             <div class="resize-handle handle-nw"></div>
             <div class="resize-handle handle-ne"></div>
             <div class="resize-handle handle-se"></div>
@@ -107,151 +140,265 @@
     </div>
     
     <div class="info-text">
-        Drag to move the rectangle. Use the corner handles to resize.
+        Drag to move the rectangle. Use the corner handles to resize. Click to select a rectangle.
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const rectangle = document.getElementById('interactive-rectangle');
-            const handles = document.querySelectorAll('.resize-handle');
+            let rectangles = [];
+            let selectedRectangle = null;
+            let rectangleCount = 1;
             
-            let isDragging = false;
-            let isResizing = false;
-            let currentHandle = null;
+            const container = document.getElementById('rectangle-container');
+            const addButton = document.getElementById('add-rectangle');
+            const deleteButton = document.getElementById('delete-rectangle');
             
-            let initialX, initialY;
-            let initialWidth, initialHeight;
-            let initialLeft, initialTop;
+            // Initialize the first rectangle
+            initRectangle(document.getElementById('rectangle-1'));
             
-            // For mouse events (desktop)
-            rectangle.addEventListener('mousedown', startDrag);
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('mouseup', stopDrag);
+            // Add rectangle button click event
+            addButton.addEventListener('click', createNewRectangle);
             
-            // For touch events (mobile)
-            rectangle.addEventListener('touchstart', startDrag);
-            document.addEventListener('touchmove', drag);
-            document.addEventListener('touchend', stopDrag);
+            // Delete rectangle button click event
+            deleteButton.addEventListener('click', deleteSelectedRectangle);
             
-            // Add resize handle events
-            handles.forEach(handle => {
-                handle.addEventListener('mousedown', startResize);
-                handle.addEventListener('touchstart', startResize);
-            });
-            
-            function startDrag(e) {
-                // Prevent default only for touch to avoid scrolling
-                if (e.type === 'touchstart') {
-                    e.preventDefault();
+            function createNewRectangle() {
+                rectangleCount++;
+                const rectId = 'rectangle-' + rectangleCount;
+                
+                // Create the new rectangle element
+                const newRect = document.createElement('div');
+                newRect.id = rectId;
+                newRect.className = 'interactive-rectangle';
+                
+                // Add random position offset
+                const offsetX = Math.random() * 100 - 50;
+                const offsetY = Math.random() * 100 - 50;
+                newRect.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`;
+                
+                // Add resize handles
+                for (const position of ['nw', 'ne', 'se', 'sw']) {
+                    const handle = document.createElement('div');
+                    handle.className = `resize-handle handle-${position}`;
+                    newRect.appendChild(handle);
                 }
                 
-                // Don't start dragging if we're on a handle
-                if (e.target.classList.contains('resize-handle')) {
-                    return;
+                // Add to the container
+                container.appendChild(newRect);
+                
+                // Initialize the rectangle
+                initRectangle(newRect);
+                
+                // Select the new rectangle
+                selectRectangle(newRect);
+            }
+            
+            function deleteSelectedRectangle() {
+                if (selectedRectangle) {
+                    // Make sure we don't delete the last rectangle
+                    if (rectangles.length > 1) {
+                        container.removeChild(selectedRectangle);
+                        rectangles = rectangles.filter(rect => rect !== selectedRectangle);
+                        selectedRectangle = null;
+                        deleteButton.disabled = true;
+                    }
                 }
-                
-                isDragging = true;
-                
-                // Get initial mouse/touch position
-                initialX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
-                initialY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
-                
-                // Get initial rectangle position
-                const rect = rectangle.getBoundingClientRect();
-                initialLeft = rect.left;
-                initialTop = rect.top;
             }
             
-            function startResize(e) {
-                // Always prevent default for resize
-                e.preventDefault();
-                e.stopPropagation();
+            function initRectangle(rectangle) {
+                const handles = rectangle.querySelectorAll('.resize-handle');
                 
-                isResizing = true;
-                currentHandle = e.target;
+                // Store these variables as properties on the rectangle element
+                rectangle.isDragging = false;
+                rectangle.isResizing = false;
+                rectangle.currentHandle = null;
+                rectangle.initialX = 0;
+                rectangle.initialY = 0;
+                rectangle.initialWidth = 0;
+                rectangle.initialHeight = 0;
+                rectangle.initialLeft = 0;
+                rectangle.initialTop = 0;
                 
-                // Get initial mouse/touch position
-                initialX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
-                initialY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+                // Add rectangle to our collection
+                rectangles.push(rectangle);
                 
-                // Get initial rectangle size and position
-                const rect = rectangle.getBoundingClientRect();
-                initialWidth = rect.width;
-                initialHeight = rect.height;
-                initialLeft = rect.left;
-                initialTop = rect.top;
-            }
-            
-            function drag(e) {
-                if (!isDragging && !isResizing) return;
+                // Add click event to select the rectangle
+                rectangle.addEventListener('mousedown', function(e) {
+                    // Don't select if we're on a handle
+                    if (!e.target.classList.contains('resize-handle')) {
+                        selectRectangle(rectangle);
+                    }
+                });
                 
-                // Get current mouse/touch position
-                const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-                const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+                // For mouse events (desktop)
+                rectangle.addEventListener('mousedown', startDrag);
                 
-                // Calculate the delta (how much the mouse/touch has moved)
-                const deltaX = clientX - initialX;
-                const deltaY = clientY - initialY;
+                // For touch events (mobile)
+                rectangle.addEventListener('touchstart', startDrag);
                 
-                if (isDragging) {
-                    // For dragging, just update the position
-                    const newLeft = initialLeft + deltaX;
-                    const newTop = initialTop + deltaY;
-                    
-                    rectangle.style.left = newLeft + 'px';
-                    rectangle.style.top = newTop + 'px';
-                    rectangle.style.transform = 'none'; // Remove the transform to use absolute positioning
-                } else if (isResizing) {
-                    // For resizing, update size based on which handle is being used
-                    let newWidth = initialWidth;
-                    let newHeight = initialHeight;
-                    let newLeft = initialLeft;
-                    let newTop = initialTop;
-                    
-                    if (currentHandle.classList.contains('handle-se')) {
-                        // Southeast: resize width and height
-                        newWidth = initialWidth + deltaX;
-                        newHeight = initialHeight + deltaY;
-                    } else if (currentHandle.classList.contains('handle-sw')) {
-                        // Southwest: resize width and height, adjust left
-                        newWidth = initialWidth - deltaX;
-                        newHeight = initialHeight + deltaY;
-                        newLeft = initialLeft + deltaX;
-                    } else if (currentHandle.classList.contains('handle-ne')) {
-                        // Northeast: resize width and height, adjust top
-                        newWidth = initialWidth + deltaX;
-                        newHeight = initialHeight - deltaY;
-                        newTop = initialTop + deltaY;
-                    } else if (currentHandle.classList.contains('handle-nw')) {
-                        // Northwest: resize width and height, adjust top and left
-                        newWidth = initialWidth - deltaX;
-                        newHeight = initialHeight - deltaY;
-                        newLeft = initialLeft + deltaX;
-                        newTop = initialTop + deltaY;
+                // Add resize handle events
+                handles.forEach(handle => {
+                    handle.addEventListener('mousedown', startResize);
+                    handle.addEventListener('touchstart', startResize);
+                });
+                
+                function startDrag(e) {
+                    // Prevent default only for touch to avoid scrolling
+                    if (e.type === 'touchstart') {
+                        e.preventDefault();
                     }
                     
-                    // Apply minimum size constraints
+                    // Don't start dragging if we're on a handle
+                    if (e.target.classList.contains('resize-handle')) {
+                        return;
+                    }
+                    
+                    rectangle.isDragging = true;
+                    
+                    // Select this rectangle
+                    selectRectangle(rectangle);
+                    
+                    // Get initial mouse/touch position
+                    rectangle.initialX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+                    rectangle.initialY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+                    
+                    // Get initial rectangle position
+                    const rect = rectangle.getBoundingClientRect();
+                    rectangle.initialLeft = rect.left;
+                    rectangle.initialTop = rect.top;
+                }
+                
+                function startResize(e) {
+                    // Always prevent default for resize
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Select this rectangle
+                    selectRectangle(rectangle);
+                    
+                    rectangle.isResizing = true;
+                    rectangle.currentHandle = e.target;
+                    
+                    // Get initial mouse/touch position
+                    rectangle.initialX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+                    rectangle.initialY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+                    
+                    // Get initial rectangle size and position
+                    const rect = rectangle.getBoundingClientRect();
+                    rectangle.initialWidth = rect.width;
+                    rectangle.initialHeight = rect.height;
+                    rectangle.initialLeft = rect.left;
+                    rectangle.initialTop = rect.top;
+                }
+            }
+            
+            // Document-level handlers for mouse/touch move and up
+            document.addEventListener('mousemove', function(e) {
+                dragOrResize(e, false);
+            });
+            
+            document.addEventListener('touchmove', function(e) {
+                dragOrResize(e, true);
+            });
+            
+            document.addEventListener('mouseup', stopDragOrResize);
+            document.addEventListener('touchend', stopDragOrResize);
+            
+            function dragOrResize(e, isTouch) {
+                if (!selectedRectangle) return;
+                
+                // Get current mouse/touch position
+                const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+                const clientY = isTouch ? e.touches[0].clientY : e.clientY;
+                
+                const targetRectangle = selectedRectangle;
+                
+                // Check if we're dragging this rectangle
+                if (targetRectangle.isDragging) {
+                    // Calculate the delta (how much the mouse/touch has moved)
+                    const deltaX = clientX - targetRectangle.initialX;
+                    const deltaY = clientY - targetRectangle.initialY;
+                    
+                    // For dragging, just update the position
+                    const newLeft = targetRectangle.initialLeft + deltaX;
+                    const newTop = targetRectangle.initialTop + deltaY;
+                    
+                    targetRectangle.style.left = newLeft + 'px';
+                    targetRectangle.style.top = newTop + 'px';
+                    
+                    // Reset the transform since we're using absolute positioning
+                    targetRectangle.style.transform = 'none';
+                } 
+                // Check if we're resizing this rectangle
+                else if (targetRectangle.isResizing && targetRectangle.currentHandle) {
+                    // Calculate the delta (how much the mouse/touch has moved)
+                    const deltaX = clientX - targetRectangle.initialX;
+                    const deltaY = clientY - targetRectangle.initialY;
+                    
+                    // Determine which handle we're using
+                    const handle = targetRectangle.currentHandle;
+                    
+                    let newWidth = targetRectangle.initialWidth;
+                    let newHeight = targetRectangle.initialHeight;
+                    let newLeft = targetRectangle.initialLeft;
+                    let newTop = targetRectangle.initialTop;
+                    
+                    if (handle.classList.contains('handle-nw')) {
+                        newWidth = targetRectangle.initialWidth - deltaX;
+                        newHeight = targetRectangle.initialHeight - deltaY;
+                        newLeft = targetRectangle.initialLeft + deltaX;
+                        newTop = targetRectangle.initialTop + deltaY;
+                    } else if (handle.classList.contains('handle-ne')) {
+                        newWidth = targetRectangle.initialWidth + deltaX;
+                        newHeight = targetRectangle.initialHeight - deltaY;
+                        newTop = targetRectangle.initialTop + deltaY;
+                    } else if (handle.classList.contains('handle-se')) {
+                        newWidth = targetRectangle.initialWidth + deltaX;
+                        newHeight = targetRectangle.initialHeight + deltaY;
+                    } else if (handle.classList.contains('handle-sw')) {
+                        newWidth = targetRectangle.initialWidth - deltaX;
+                        newHeight = targetRectangle.initialHeight + deltaY;
+                        newLeft = targetRectangle.initialLeft + deltaX;
+                    }
+                    
+                    // Ensure minimum size
                     newWidth = Math.max(50, newWidth);
                     newHeight = Math.max(50, newHeight);
                     
-                    // Update rectangle size and position
-                    rectangle.style.width = newWidth + 'px';
-                    rectangle.style.height = newHeight + 'px';
-                    rectangle.style.left = newLeft + 'px';
-                    rectangle.style.top = newTop + 'px';
-                    rectangle.style.transform = 'none'; // Remove the transform to use absolute positioning
-                }
-                
-                // Prevent default only for touch to avoid scrolling
-                if (e.type === 'touchmove') {
-                    e.preventDefault();
+                    // Apply the new size and position
+                    targetRectangle.style.width = newWidth + 'px';
+                    targetRectangle.style.height = newHeight + 'px';
+                    targetRectangle.style.left = newLeft + 'px';
+                    targetRectangle.style.top = newTop + 'px';
+                    
+                    // Reset the transform since we're using absolute positioning
+                    targetRectangle.style.transform = 'none';
                 }
             }
             
-            function stopDrag() {
-                isDragging = false;
-                isResizing = false;
-                currentHandle = null;
+            function stopDragOrResize() {
+                // Reset state for all rectangles
+                rectangles.forEach(rect => {
+                    if (rect) {
+                        rect.isDragging = false;
+                        rect.isResizing = false;
+                        rect.currentHandle = null;
+                    }
+                });
+            }
+            
+            function selectRectangle(rectangle) {
+                // Deselect previously selected rectangle
+                if (selectedRectangle && selectedRectangle !== rectangle) {
+                    selectedRectangle.classList.remove('selected-rectangle');
+                }
+                
+                // Select new rectangle
+                selectedRectangle = rectangle;
+                selectedRectangle.classList.add('selected-rectangle');
+                
+                // Enable delete button
+                deleteButton.disabled = rectangles.length <= 1;
             }
         });
     </script>
