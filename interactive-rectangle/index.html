@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="max-image-preview:large">
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	<title>Interactive Rectangle &#8211; Gallery</title>
+    <link rel="stylesheet" href="../wp-content/themes/twentytwentyfive/style.css?ver=1.0" media="all">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+        }
+        #rectangle-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+        #interactive-rectangle {
+            width: 200px;
+            height: 150px;
+            background-color: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: move;
+            touch-action: none;
+        }
+        .resize-handle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #fff;
+            border: 2px solid #000;
+            border-radius: 50%;
+            z-index: 100;
+        }
+        .handle-nw {
+            top: -10px;
+            left: -10px;
+            cursor: nw-resize;
+        }
+        .handle-ne {
+            top: -10px;
+            right: -10px;
+            cursor: ne-resize;
+        }
+        .handle-se {
+            bottom: -10px;
+            right: -10px;
+            cursor: se-resize;
+        }
+        .handle-sw {
+            bottom: -10px;
+            left: -10px;
+            cursor: sw-resize;
+        }
+        .info-text {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            color: #fff;
+            font-size: 14px;
+            z-index: 10;
+        }
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #fff;
+            color: #000;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 10;
+        }
+        .back-button:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="../" class="back-button">Back to Home</a>
+    
+    <div id="rectangle-container">
+        <div id="interactive-rectangle">
+            <div class="resize-handle handle-nw"></div>
+            <div class="resize-handle handle-ne"></div>
+            <div class="resize-handle handle-se"></div>
+            <div class="resize-handle handle-sw"></div>
+        </div>
+    </div>
+    
+    <div class="info-text">
+        Drag to move the rectangle. Use the corner handles to resize.
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const rectangle = document.getElementById('interactive-rectangle');
+            const handles = document.querySelectorAll('.resize-handle');
+            
+            let isDragging = false;
+            let isResizing = false;
+            let currentHandle = null;
+            
+            let initialX, initialY;
+            let initialWidth, initialHeight;
+            let initialLeft, initialTop;
+            
+            // For mouse events (desktop)
+            rectangle.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+            
+            // For touch events (mobile)
+            rectangle.addEventListener('touchstart', startDrag);
+            document.addEventListener('touchmove', drag);
+            document.addEventListener('touchend', stopDrag);
+            
+            // Add resize handle events
+            handles.forEach(handle => {
+                handle.addEventListener('mousedown', startResize);
+                handle.addEventListener('touchstart', startResize);
+            });
+            
+            function startDrag(e) {
+                // Prevent default only for touch to avoid scrolling
+                if (e.type === 'touchstart') {
+                    e.preventDefault();
+                }
+                
+                // Don't start dragging if we're on a handle
+                if (e.target.classList.contains('resize-handle')) {
+                    return;
+                }
+                
+                isDragging = true;
+                
+                // Get initial mouse/touch position
+                initialX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+                initialY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+                
+                // Get initial rectangle position
+                const rect = rectangle.getBoundingClientRect();
+                initialLeft = rect.left;
+                initialTop = rect.top;
+            }
+            
+            function startResize(e) {
+                // Always prevent default for resize
+                e.preventDefault();
+                e.stopPropagation();
+                
+                isResizing = true;
+                currentHandle = e.target;
+                
+                // Get initial mouse/touch position
+                initialX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+                initialY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+                
+                // Get initial rectangle size and position
+                const rect = rectangle.getBoundingClientRect();
+                initialWidth = rect.width;
+                initialHeight = rect.height;
+                initialLeft = rect.left;
+                initialTop = rect.top;
+            }
+            
+            function drag(e) {
+                if (!isDragging && !isResizing) return;
+                
+                // Get current mouse/touch position
+                const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+                
+                // Calculate the delta (how much the mouse/touch has moved)
+                const deltaX = clientX - initialX;
+                const deltaY = clientY - initialY;
+                
+                if (isDragging) {
+                    // For dragging, just update the position
+                    const newLeft = initialLeft + deltaX;
+                    const newTop = initialTop + deltaY;
+                    
+                    rectangle.style.left = newLeft + 'px';
+                    rectangle.style.top = newTop + 'px';
+                    rectangle.style.transform = 'none'; // Remove the transform to use absolute positioning
+                } else if (isResizing) {
+                    // For resizing, update size based on which handle is being used
+                    let newWidth = initialWidth;
+                    let newHeight = initialHeight;
+                    let newLeft = initialLeft;
+                    let newTop = initialTop;
+                    
+                    if (currentHandle.classList.contains('handle-se')) {
+                        // Southeast: resize width and height
+                        newWidth = initialWidth + deltaX;
+                        newHeight = initialHeight + deltaY;
+                    } else if (currentHandle.classList.contains('handle-sw')) {
+                        // Southwest: resize width and height, adjust left
+                        newWidth = initialWidth - deltaX;
+                        newHeight = initialHeight + deltaY;
+                        newLeft = initialLeft + deltaX;
+                    } else if (currentHandle.classList.contains('handle-ne')) {
+                        // Northeast: resize width and height, adjust top
+                        newWidth = initialWidth + deltaX;
+                        newHeight = initialHeight - deltaY;
+                        newTop = initialTop + deltaY;
+                    } else if (currentHandle.classList.contains('handle-nw')) {
+                        // Northwest: resize width and height, adjust top and left
+                        newWidth = initialWidth - deltaX;
+                        newHeight = initialHeight - deltaY;
+                        newLeft = initialLeft + deltaX;
+                        newTop = initialTop + deltaY;
+                    }
+                    
+                    // Apply minimum size constraints
+                    newWidth = Math.max(50, newWidth);
+                    newHeight = Math.max(50, newHeight);
+                    
+                    // Update rectangle size and position
+                    rectangle.style.width = newWidth + 'px';
+                    rectangle.style.height = newHeight + 'px';
+                    rectangle.style.left = newLeft + 'px';
+                    rectangle.style.top = newTop + 'px';
+                    rectangle.style.transform = 'none'; // Remove the transform to use absolute positioning
+                }
+                
+                // Prevent default only for touch to avoid scrolling
+                if (e.type === 'touchmove') {
+                    e.preventDefault();
+                }
+            }
+            
+            function stopDrag() {
+                isDragging = false;
+                isResizing = false;
+                currentHandle = null;
+            }
+        });
+    </script>
+</body>
+</html>
