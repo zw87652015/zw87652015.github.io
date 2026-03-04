@@ -306,7 +306,7 @@ let solution = null;
 let pieces = [];
 let pieceSerial = 0;
 let greenCount = 0, blueCount = 0;
-let gridEditMode = 'disabled'; // 'disabled' | 'green' | 'blue'
+let gridEditMode = 'none'; // 'none' | 'disabled' | 'green' | 'blue'
 
 // DOM refs for inline constraint inputs (filled by buildGridWrapper)
 let _rowInputsG = [], _rowInputsB = [];
@@ -339,10 +339,16 @@ function setMode(m) {
 }
 
 function setGridEditMode(newMode) {
-  gridEditMode = newMode;
-  document.getElementById('toolDisabled').classList.toggle('sel', newMode === 'disabled');
-  document.getElementById('toolGreen').classList.toggle('sel', newMode === 'green');
-  document.getElementById('toolBlue').classList.toggle('sel', newMode === 'blue');
+  // Toggle: if clicking the same mode, turn off editing
+  if (gridEditMode === newMode) {
+    gridEditMode = 'none';
+  } else {
+    gridEditMode = newMode;
+  }
+  
+  document.getElementById('toolDisabled').classList.toggle('sel', gridEditMode === 'disabled');
+  document.getElementById('toolGreen').classList.toggle('sel', gridEditMode === 'green');
+  document.getElementById('toolBlue').classList.toggle('sel', gridEditMode === 'blue');
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -532,6 +538,7 @@ function gridCanvasCell(clientX, clientY) {
 }
 
 function onGridMouseDown(e) {
+  if (gridEditMode === 'none') return; // Editing disabled
   e.preventDefault();
   _gridDragging = true;
   const [r,c] = gridCanvasCell(e.clientX, e.clientY);
@@ -582,7 +589,7 @@ function onGridMouseDown(e) {
   solution = null; setStatus('', ''); drawGrid();
 }
 function onGridMouseMove(e) {
-  if (!_gridDragging) return;
+  if (!_gridDragging || gridEditMode === 'none') return;
   const [r,c] = gridCanvasCell(e.clientX, e.clientY);
   if (r < 0) return;
   const key = `${r},${c}`;
@@ -604,6 +611,7 @@ function onGridMouseMove(e) {
 }
 
 function onGridTouchStart(e) {
+  if (gridEditMode === 'none') return; // Editing disabled
   e.preventDefault();
   _gridDragging = true;
   const t = e.touches[0];
@@ -639,7 +647,7 @@ function onGridTouchStart(e) {
   solution = null; setStatus('', ''); drawGrid();
 }
 function onGridTouchMove(e) {
-  if (!_gridDragging) return;
+  if (!_gridDragging || gridEditMode === 'none') return;
   e.preventDefault();
   const t = e.touches[0];
   const [r,c] = gridCanvasCell(t.clientX, t.clientY);
