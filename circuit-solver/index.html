@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>源石电路求解器 - Circuit Solver</title>
+<meta name="description" content="交互式电路拼图求解器，支持双色原件、禁用格子、行列双色约束">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0f0f1a;
+    color: #c0c0e0;
+    font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+    font-size: 14px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    background: #13132a;
+    border-bottom: 1px solid #2a2a4a;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    user-select: none;
+  }
+  header h1 { font-size: 18px; color: #7ca8ff; letter-spacing: 1px; font-weight: 600; }
+  header .subtitle { color: #555580; font-size: 12px; }
+  header .back-link {
+    margin-left: auto; color: #7ca8ff; text-decoration: none; font-size: 13px;
+    padding: 4px 12px; border: 1px solid #333366; border-radius: 4px; transition: all 0.2s;
+  }
+  header .back-link:hover { background: #1a1a2e; border-color: #5555aa; }
+
+  /* ── Mode toggle ── */
+  .mode-toggle {
+    display: flex; gap: 0; border: 1px solid #333366; border-radius: 6px; overflow: hidden;
+  }
+  .mode-toggle button {
+    border: none; border-radius: 0; padding: 5px 14px; font-size: 13px;
+    background: #1a1a2e; color: #7070a0;
+  }
+  .mode-toggle button.active {
+    background: #2a2a50; color: #c0c0ff; font-weight: bold;
+  }
+  .mode-toggle button:hover:not(.active) { background: #222240; }
+
+  .main-layout {
+    display: flex; flex: 1; gap: 0; overflow: hidden; height: calc(100vh - 50px);
+  }
+  .left-panel {
+    display: flex; flex-direction: column; gap: 10px; padding: 12px 14px;
+    width: 560px; min-width: 400px; border-right: 1px solid #1e1e38; overflow-y: auto;
+  }
+  .right-panel {
+    flex: 1; display: flex; flex-direction: column; padding: 12px 14px; gap: 10px; overflow: hidden;
+  }
+
+  .section {
+    background: #13132a; border: 1px solid #1e1e3a; border-radius: 8px; padding: 10px 12px;
+  }
+  .section-title {
+    font-size: 12px; color: #5555aa; text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 8px; font-weight: 600;
+  }
+
+  .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .row label { color: #8080b0; white-space: nowrap; }
+
+  input[type=number] {
+    background: #1a1a2e; color: #c0c0e0; border: 1px solid #333366;
+    border-radius: 4px; padding: 3px 6px; width: 48px;
+    text-align: center; font-size: 13px; outline: none;
+  }
+  input[type=number]:focus { border-color: #5555cc; }
+
+  button {
+    background: #1a1a2e; color: #c0c0e0; border: 1px solid #333366;
+    border-radius: 5px; padding: 5px 12px; cursor: pointer; font-size: 13px;
+    transition: background .15s, border-color .15s; white-space: nowrap;
+  }
+  button:hover { background: #222244; border-color: #5555aa; }
+  button:active { background: #111133; }
+  button:disabled { color: #444466; border-color: #222233; cursor: not-allowed; }
+
+  .btn-primary {
+    background: #1a3a1a; color: #4CAF50; border: 2px solid #4CAF50;
+    font-weight: bold; font-size: 14px; padding: 7px 20px;
+  }
+  .btn-primary:hover { background: #224422; border-color: #66cc66; }
+  .btn-primary:disabled { background: #111; color: #555; border-color: #333; }
+
+  /* ── Constraint rows ── */
+  .counts-table { border-collapse: separate; border-spacing: 0; width: 100%; }
+  .counts-table td { padding: 2px 3px; vertical-align: middle; }
+  .counts-table .idx-lbl {
+    font-size: 11px; color: #5555aa; text-align: center; width: 22px;
+  }
+  .counts-table input { width: 44px; }
+  .cnt-green { border-color: #2a5a2a !important; color: #4CAF50 !important; }
+  .cnt-green:focus { border-color: #4CAF50 !important; }
+  .cnt-blue  { border-color: #1a2a5a !important; color: #5599ff !important; }
+  .cnt-blue:focus  { border-color: #5599ff !important; }
+  .counts-table .col-lbl {
+    font-size: 11px; text-align: center; padding: 0 2px; line-height: 1.2;
+  }
+
+  /* ── Grid canvas ── */
+  .grid-scroll {
+    flex: 1; overflow: auto; display: flex; align-items: center; justify-content: center;
+  }
+  canvas#gridCanvas {
+    image-rendering: pixelated; cursor: crosshair;
+    border: 1px solid #1e1e3a; border-radius: 4px;
+  }
+  canvas#gridCanvas.mode-solve { cursor: default; }
+
+  /* ── Grid edit mode indicator ── */
+  .grid-edit-bar {
+    display: flex; align-items: center; gap: 8px; font-size: 12px; color: #7070a0;
+  }
+  .grid-edit-bar .active-tool {
+    padding: 3px 10px; border-radius: 4px; border: 1px solid #333366;
+    font-size: 12px; cursor: pointer; background: #1a1a2e;
+  }
+  .grid-edit-bar .active-tool.sel { background: #2a2050; border-color: #9955ff; color: #cc88ff; }
+
+  /* ── Status ── */
+  #statusBar {
+    text-align: center; font-size: 13px; color: #5555aa;
+    padding: 2px 0; min-height: 22px; font-weight: 500;
+  }
+  #statusBar.ok  { color: #4CAF50; }
+  #statusBar.err { color: #F44336; }
+
+  /* ── Piece panel ── */
+  .piece-list-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .piece-list-header span { flex: 1; color: #8080b0; font-size: 12px; }
+
+  .piece-add-btns { display: flex; gap: 6px; }
+  .btn-add-green {
+    background: #1a3a1a; color: #4CAF50; border: 1px solid #3a7a3a;
+    font-size: 13px; padding: 4px 10px;
+  }
+  .btn-add-green:hover { background: #234a23; border-color: #4CAF50; }
+  .btn-add-blue {
+    background: #1a1a3a; color: #5599ff; border: 1px solid #2a3a7a;
+    font-size: 13px; padding: 4px 10px;
+  }
+  .btn-add-blue:hover { background: #22224a; border-color: #5599ff; }
+
+  .piece-list {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    overflow-y: auto; flex: 1; align-content: flex-start;
+  }
+  .piece-card {
+    border: 2px solid #333; border-radius: 7px; padding: 6px 8px;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 5px; width: 164px; background: #111120;
+  }
+  .piece-card .piece-name { font-size: 12px; font-weight: bold; }
+  canvas.piece-canvas { cursor: crosshair; display: block; image-rendering: pixelated; }
+  .piece-card button {
+    width: 100%; padding: 3px 0; font-size: 12px; border-color: #333; color: #888;
+  }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #0f0f1a; }
+  ::-webkit-scrollbar-thumb { background: #333366; border-radius: 4px; }
+
+  @media (max-width: 900px) {
+    .main-layout { flex-direction: column; height: auto; }
+    .left-panel { width: 100%; border-right: none; border-bottom: 1px solid #1e1e38; }
+    .right-panel { min-height: 400px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>源石电路求解器</h1>
+  <span class="subtitle">CircuitSolver</span>
+  <div class="mode-toggle">
+    <button id="btnModeGreen" class="active" onclick="setMode('green')">🟢 纯绿模式</button>
+    <button id="btnModeDual"  onclick="setMode('dual')">🔵 双色模式</button>
+  </div>
+  <a href="../" class="back-link">← 返回主页</a>
+</header>
+
+<div class="main-layout">
+  <div class="left-panel">
+
+    <!-- Grid size -->
+    <div class="section">
+      <div class="section-title">网格尺寸</div>
+      <div class="row">
+        <label>行数</label>
+        <input type="number" id="inpRows" min="1" max="20" value="5">
+        <label>列数</label>
+        <input type="number" id="inpCols" min="1" max="20" value="5">
+        <button onclick="applySize()">应用尺寸</button>
+      </div>
+    </div>
+
+    <!-- Row constraints -->
+    <div class="section">
+      <div class="section-title" id="rowConstraintTitle">每行约束（从上到下）</div>
+      <div id="rowCountsContainer"></div>
+    </div>
+
+    <!-- Col constraints -->
+    <div class="section">
+      <div class="section-title" id="colConstraintTitle">每列约束（从左到右）</div>
+      <div id="colCountsContainer"></div>
+    </div>
+
+    <!-- Grid canvas -->
+    <div class="section" style="flex:1;display:flex;flex-direction:column;min-height:220px;">
+      <div class="section-title" style="display:flex;align-items:center;gap:8px;">
+        <span>求解网格</span>
+        <div class="grid-edit-bar">
+          <button class="active-tool sel" id="toolBtn" onclick="toggleGridTool()">✏ 编辑禁用格</button>
+          <span id="toolHint" style="color:#555580;">左键禁用，右键启用</span>
+        </div>
+      </div>
+      <div class="grid-scroll">
+        <canvas id="gridCanvas"></canvas>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="row" style="gap:8px;">
+      <button class="btn-primary" id="btnSolve" onclick="startSolve()">▶ 开始求解</button>
+      <button onclick="clearSolution()">清除结果</button>
+      <button onclick="clearDisabled()" style="color:#ff9944;border-color:#664422;">清除禁用</button>
+    </div>
+    <div id="statusBar"></div>
+  </div>
+
+  <!-- Right: Piece editors -->
+  <div class="right-panel">
+    <div class="piece-list-header">
+      <span>原件列表（单击/拖动绘制形状 · 可旋转 · 不可翻转）</span>
+      <div class="piece-add-btns">
+        <button class="btn-add-green" onclick="addPiece('green')">＋ 绿色原件</button>
+        <button class="btn-add-blue" id="btnAddBlue" onclick="addPiece('blue')">＋ 蓝色原件</button>
+      </div>
+      <button onclick="removePiece()" style="color:#cc4444;border-color:#442222;">－ 删除末位</button>
+    </div>
+    <div class="piece-list" id="pieceList"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// Constants
+// ═══════════════════════════════════════════════════════════
+const CELL = 36;
+const PCELL = 28;
+const PIECE_GRID = 5;
+
+// Green piece shades (for individual pieces)
+const GREEN_SHADES = [
+  '#4CAF50','#66BB6A','#388E3C','#81C784','#2E7D32',
+  '#A5D6A7','#1B5E20','#C8E6C9','#43A047','#00C853',
+];
+// Blue piece shades
+const BLUE_SHADES = [
+  '#2196F3','#42A5F5','#1565C0','#64B5F6','#0D47A1',
+  '#90CAF9','#1976D2','#BBDEFB','#1E88E5','#2979FF',
+];
+
+// Sentinel values stored in solution grid
+// Positive even = green piece id slot; positive odd = blue piece id slot
+// We store { type:'green'|'blue', idx } -> encoded as id directly on piece objects
+const DISABLED = 'X'; // cell is blocked
+
+// ═══════════════════════════════════════════════════════════
+// State
+// ═══════════════════════════════════════════════════════════
+let mode = 'green'; // 'green' | 'dual'
+let gridRows = 5, gridCols = 5;
+
+// rowConstraints[i] = { green: 0, blue: 0 }
+let rowConstraints = Array.from({length:5}, () => ({green:0, blue:0}));
+let colConstraints = Array.from({length:5}, () => ({green:0, blue:0}));
+
+// disabledCells: Set of 'r,c' strings
+let disabledCells = new Set();
+
+// solution: 2D array, each cell = null | { type, pieceIdx } | 'X'
+let solution = null;
+
+// pieces: [{id, type:'green'|'blue', cells:Set, serial:number}, ...]
+let pieces = [];
+let pieceSerial = 0; // monotonically increasing, used for display numbering
+let greenCount = 0, blueCount = 0; // live counts for color-local numbering
+
+// gridEditMode: whether clicking the canvas edits disabled cells
+let gridEditMode = true;
+
+// ═══════════════════════════════════════════════════════════
+// Init
+// ═══════════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  applySize();
+  setupGridCanvas();
+  setMode('green');
+});
+
+// ═══════════════════════════════════════════════════════════
+// Mode switching
+// ═══════════════════════════════════════════════════════════
+function setMode(m) {
+  mode = m;
+  document.getElementById('btnModeGreen').classList.toggle('active', m === 'green');
+  document.getElementById('btnModeDual').classList.toggle('active', m === 'dual');
+  document.getElementById('btnAddBlue').style.display = m === 'dual' ? '' : 'none';
+
+  // Update constraint section titles
+  document.getElementById('rowConstraintTitle').textContent =
+    m === 'green' ? '每行约束（绿色方块数，从上到下）'
+                  : '每行约束（绿/蓝方块数，从上到下）';
+  document.getElementById('colConstraintTitle').textContent =
+    m === 'green' ? '每列约束（绿色方块数，从左到右）'
+                  : '每列约束（绿/蓝方块数，从左到右）';
+
+  rebuildConstraintInputs();
+  solution = null;
+  drawGrid();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Grid size
+// ═══════════════════════════════════════════════════════════
+function applySize() {
+  gridRows = Math.max(1, Math.min(20, parseInt(document.getElementById('inpRows').value) || 5));
+  gridCols = Math.max(1, Math.min(20, parseInt(document.getElementById('inpCols').value) || 5));
+  document.getElementById('inpRows').value = gridRows;
+  document.getElementById('inpCols').value = gridCols;
+
+  rowConstraints = Array.from({length: gridRows}, (_, i) => ({
+    green: (rowConstraints[i] || {}).green || 0,
+    blue:  (rowConstraints[i] || {}).blue  || 0,
+  }));
+  colConstraints = Array.from({length: gridCols}, (_, j) => ({
+    green: (colConstraints[j] || {}).green || 0,
+    blue:  (colConstraints[j] || {}).blue  || 0,
+  }));
+
+  // Remove disabled cells outside new bounds
+  for (const k of [...disabledCells]) {
+    const [r, c] = k.split(',').map(Number);
+    if (r >= gridRows || c >= gridCols) disabledCells.delete(k);
+  }
+
+  rebuildConstraintInputs();
+  solution = null;
+  drawGrid();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Constraint inputs
+// ═══════════════════════════════════════════════════════════
+function rebuildConstraintInputs() {
+  buildConstraintTable('rowCountsContainer', 'row');
+  buildConstraintTable('colCountsContainer', 'col');
+}
+
+function buildConstraintTable(containerId, axis) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  const n = axis === 'row' ? gridRows : gridCols;
+  const constraints = axis === 'row' ? rowConstraints : colConstraints;
+  const maxVal = axis === 'row' ? gridCols : gridRows;
+
+  const table = document.createElement('table');
+  table.className = 'counts-table';
+
+  if (mode === 'dual') {
+    // Header row
+    const hdr = table.insertRow();
+    hdr.insertCell().innerHTML = '<span style="color:#5555aa;font-size:11px;">#</span>';
+    const thG = hdr.insertCell();
+    thG.innerHTML = '<span style="color:#4CAF50;font-size:11px;">🟢 绿</span>';
+    const thB = hdr.insertCell();
+    thB.innerHTML = '<span style="color:#5599ff;font-size:11px;">🔵 蓝</span>';
+  }
+
+  for (let i = 0; i < n; i++) {
+    const tr = table.insertRow();
+
+    const tdLbl = tr.insertCell();
+    tdLbl.className = 'idx-lbl';
+    tdLbl.textContent = i + 1;
+
+    // Green input
+    const tdG = tr.insertCell();
+    const inpG = document.createElement('input');
+    inpG.type = 'number'; inpG.min = 0; inpG.max = maxVal;
+    inpG.value = constraints[i].green;
+    inpG.className = 'cnt-green';
+    inpG.title = `第${i+1}${axis==='row'?'行':'列'} 绿色`;
+    inpG.addEventListener('change', () => { constraints[i].green = parseInt(inpG.value) || 0; });
+    tdG.appendChild(inpG);
+
+    if (mode === 'dual') {
+      const tdB = tr.insertCell();
+      const inpB = document.createElement('input');
+      inpB.type = 'number'; inpB.min = 0; inpB.max = maxVal;
+      inpB.value = constraints[i].blue;
+      inpB.className = 'cnt-blue';
+      inpB.title = `第${i+1}${axis==='row'?'行':'列'} 蓝色`;
+      inpB.addEventListener('change', () => { constraints[i].blue = parseInt(inpB.value) || 0; });
+      tdB.appendChild(inpB);
+    }
+  }
+  container.appendChild(table);
+}
+
+function readConstraints() {
+  function readTable(containerId, constraints) {
+    const inputs = document.getElementById(containerId).querySelectorAll('input');
+    let gi = 0;
+    if (mode === 'green') {
+      inputs.forEach((el, i) => { constraints[i].green = parseInt(el.value) || 0; });
+    } else {
+      // pairs: green, blue per row
+      for (let i = 0; i < constraints.length; i++) {
+        constraints[i].green = parseInt(inputs[i * 2].value)     || 0;
+        constraints[i].blue  = parseInt(inputs[i * 2 + 1].value) || 0;
+      }
+    }
+  }
+  readTable('rowCountsContainer', rowConstraints);
+  readTable('colCountsContainer', colConstraints);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Grid canvas interaction (disabled cell editing)
+// ═══════════════════════════════════════════════════════════
+function setupGridCanvas() {
+  const canvas = document.getElementById('gridCanvas');
+  canvas.addEventListener('mousedown', onGridMouseDown);
+  canvas.addEventListener('mousemove', onGridMouseMove);
+  canvas.addEventListener('mouseup', () => { _gridDragging = false; });
+  canvas.addEventListener('mouseleave', () => { _gridDragging = false; });
+  canvas.addEventListener('contextmenu', e => e.preventDefault());
+}
+
+let _gridDragging = false;
+let _gridDragAction = null; // 'disable' | 'enable'
+
+function onGridMouseDown(e) {
+  if (!gridEditMode) return;
+  e.preventDefault();
+  _gridDragging = true;
+  const [r, c] = gridCanvasCell(e);
+  if (r < 0) return;
+  const key = `${r},${c}`;
+  if (e.button === 2) {
+    _gridDragAction = 'enable';
+    disabledCells.delete(key);
+  } else {
+    _gridDragAction = disabledCells.has(key) ? 'enable' : 'disable';
+    if (_gridDragAction === 'disable') disabledCells.add(key);
+    else disabledCells.delete(key);
+  }
+  solution = null;
+  drawGrid();
+}
+
+function onGridMouseMove(e) {
+  if (!_gridDragging || !gridEditMode) return;
+  const [r, c] = gridCanvasCell(e);
+  if (r < 0) return;
+  const key = `${r},${c}`;
+  if (_gridDragAction === 'disable') disabledCells.add(key);
+  else disabledCells.delete(key);
+  solution = null;
+  drawGrid();
+}
+
+function gridCanvasCell(e) {
+  const canvas = document.getElementById('gridCanvas');
+  const rect = canvas.getBoundingClientRect();
+  const margin = CELL + 4;
+  const x = e.clientX - rect.left - margin;
+  const y = e.clientY - rect.top - margin;
+  if (x < 0 || y < 0) return [-1, -1];
+  const c = Math.floor(x / CELL);
+  const r = Math.floor(y / CELL);
+  if (r < 0 || r >= gridRows || c < 0 || c >= gridCols) return [-1, -1];
+  return [r, c];
+}
+
+function toggleGridTool() {
+  gridEditMode = !gridEditMode;
+  const btn = document.getElementById('toolBtn');
+  const hint = document.getElementById('toolHint');
+  btn.classList.toggle('sel', gridEditMode);
+  btn.textContent = gridEditMode ? '✏ 编辑禁用格' : '🔒 禁用编辑';
+  hint.textContent = gridEditMode ? '左键禁用，右键/左键已选则启用' : '点击按钮进入禁用格编辑模式';
+}
+
+function clearDisabled() {
+  disabledCells.clear();
+  solution = null;
+  drawGrid();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Drawing
+// ═══════════════════════════════════════════════════════════
+function pieceColor(piece) {
+  if (piece.type === 'blue') return BLUE_SHADES[piece.colorIdx % BLUE_SHADES.length];
+  return GREEN_SHADES[piece.colorIdx % GREEN_SHADES.length];
+}
+
+function drawGrid() {
+  const canvas = document.getElementById('gridCanvas');
+  const margin = CELL + 4;
+  canvas.width  = gridCols * CELL + margin + 2;
+  canvas.height = gridRows * CELL + margin + 2;
+  const ctx = canvas.getContext('2d');
+
+  ctx.fillStyle = '#0f0f1a';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.font = 'bold 11px Consolas, monospace';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  // ── Column headers ──
+  for (let c = 0; c < gridCols; c++) {
+    const cx = margin + c * CELL + CELL / 2;
+    if (mode === 'dual') {
+      const gCnt = colConstraints[c].green;
+      const bCnt = colConstraints[c].blue;
+      const gFilled = solution ? solution.reduce((s,row) => s + (row[c]&&row[c].type==='green'?1:0), 0) : 0;
+      const bFilled = solution ? solution.reduce((s,row) => s + (row[c]&&row[c].type==='blue'?1:0), 0) : 0;
+      ctx.font = '10px Consolas, monospace';
+      ctx.fillStyle = (solution && gFilled === gCnt) ? '#66ee66' : '#4CAF50';
+      ctx.fillText(gCnt, cx, CELL / 2 - 4);
+      ctx.fillStyle = (solution && bFilled === bCnt) ? '#88aaff' : '#5599ff';
+      ctx.fillText(bCnt, cx, CELL / 2 + 7);
+      ctx.font = 'bold 11px Consolas, monospace';
+    } else {
+      const cnt = colConstraints[c].green;
+      const filled = solution ? solution.reduce((s,row) => s + (row[c]&&row[c].type?1:0), 0) : 0;
+      ctx.fillStyle = (solution && filled === cnt) ? '#66ee66' : '#a0a0c0';
+      ctx.fillText(cnt, cx, CELL / 2 + 2);
+    }
+  }
+
+  // ── Row headers ──
+  for (let r = 0; r < gridRows; r++) {
+    const cy = margin + r * CELL + CELL / 2;
+    if (mode === 'dual') {
+      const gCnt = rowConstraints[r].green;
+      const bCnt = rowConstraints[r].blue;
+      const gFilled = solution ? solution[r].filter(c=>c&&c.type==='green').length : 0;
+      const bFilled = solution ? solution[r].filter(c=>c&&c.type==='blue').length : 0;
+      ctx.font = '10px Consolas, monospace';
+      ctx.fillStyle = (solution && gFilled === gCnt) ? '#66ee66' : '#4CAF50';
+      ctx.fillText(gCnt, CELL/2 - 5, cy - 4);
+      ctx.fillStyle = (solution && bFilled === bCnt) ? '#88aaff' : '#5599ff';
+      ctx.fillText(bCnt, CELL/2 - 5, cy + 7);
+      ctx.font = 'bold 11px Consolas, monospace';
+    } else {
+      const cnt = rowConstraints[r].green;
+      const filled = solution ? solution[r].filter(c=>c&&c.type).length : 0;
+      ctx.fillStyle = (solution && filled === cnt) ? '#66ee66' : '#a0a0c0';
+      ctx.fillText(cnt, CELL/2 - 2, cy);
+    }
+  }
+
+  // ── Cells ──
+  for (let r = 0; r < gridRows; r++) {
+    for (let c = 0; c < gridCols; c++) {
+      const x = margin + c * CELL;
+      const y = margin + r * CELL;
+      const key = `${r},${c}`;
+
+      if (disabledCells.has(key) && !solution) {
+        // Disabled (unsolved)
+        ctx.fillStyle = '#0a0a14';
+        ctx.fillRect(x, y, CELL, CELL);
+        ctx.strokeStyle = '#1a1a2a';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x+0.5, y+0.5, CELL, CELL);
+        // Cross pattern
+        ctx.strokeStyle = '#2a2a3a';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x+4, y+4); ctx.lineTo(x+CELL-4, y+CELL-4);
+        ctx.moveTo(x+CELL-4, y+4); ctx.lineTo(x+4, y+CELL-4);
+        ctx.stroke();
+        continue;
+      }
+
+      const cell = solution ? solution[r][c] : null;
+      if (cell === 'X') {
+        // Disabled in solution
+        ctx.fillStyle = '#0a0a14';
+        ctx.fillRect(x, y, CELL, CELL);
+        ctx.strokeStyle = '#1a1a2a';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x+0.5, y+0.5, CELL, CELL);
+        ctx.strokeStyle = '#2a2a3a';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x+4, y+4); ctx.lineTo(x+CELL-4, y+CELL-4);
+        ctx.moveTo(x+CELL-4, y+4); ctx.lineTo(x+4, y+CELL-4);
+        ctx.stroke();
+      } else if (cell) {
+        const color = pieceColor(pieces[cell.pieceIdx]);
+        ctx.fillStyle = color;
+        ctx.fillRect(x+1, y+1, CELL-1, CELL-1);
+        ctx.strokeStyle = shadeColor(color, -40);
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x+0.5, y+0.5, CELL, CELL);
+      } else {
+        ctx.fillStyle = '#1a1a2e';
+        ctx.fillRect(x, y, CELL, CELL);
+        ctx.strokeStyle = '#2a2a4a';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x+0.5, y+0.5, CELL, CELL);
+      }
+    }
+  }
+
+  if (solution) drawOutlines(ctx, margin);
+}
+
+function drawOutlines(ctx, margin) {
+  for (let r = 0; r < gridRows; r++) {
+    for (let c = 0; c < gridCols; c++) {
+      const cell = solution[r][c];
+      if (!cell || cell === 'X') continue;
+      const x = margin + c * CELL;
+      const y = margin + r * CELL;
+      const color = lightenColor(pieceColor(pieces[cell.pieceIdx]), 50);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2.5;
+      const same = (r2,c2) => {
+        if (r2<0||r2>=gridRows||c2<0||c2>=gridCols) return false;
+        const nb = solution[r2][c2];
+        return nb && nb !== 'X' && nb.pieceIdx === cell.pieceIdx;
+      };
+      ctx.beginPath();
+      if (!same(r-1,c)) { ctx.moveTo(x,y); ctx.lineTo(x+CELL,y); }
+      if (!same(r+1,c)) { ctx.moveTo(x,y+CELL); ctx.lineTo(x+CELL,y+CELL); }
+      if (!same(r,c-1)) { ctx.moveTo(x,y); ctx.lineTo(x,y+CELL); }
+      if (!same(r,c+1)) { ctx.moveTo(x+CELL,y); ctx.lineTo(x+CELL,y+CELL); }
+      ctx.stroke();
+    }
+  }
+}
+
+function shadeColor(col, amt) {
+  let num = parseInt(col.slice(1), 16);
+  let r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  let g = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + amt));
+  let b = Math.max(0, Math.min(255, (num & 0x0000FF) + amt));
+  return '#' + ((r<<16)|(g<<8)|b).toString(16).padStart(6, '0');
+}
+function lightenColor(col, amt) { return shadeColor(col, amt); }
+
+function clearSolution() {
+  solution = null;
+  drawGrid();
+  setStatus('', '');
+}
+
+function setStatus(text, cls) {
+  const el = document.getElementById('statusBar');
+  el.textContent = text;
+  el.className = cls;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Piece management
+// ═══════════════════════════════════════════════════════════
+function addPiece(type) {
+  if (type === 'blue' && mode === 'green') return; // guard
+  const colorIdx = type === 'green' ? greenCount++ : blueCount++;
+  const piece = { id: pieceSerial++, type, colorIdx, cells: new Set() };
+  pieces.push(piece);
+  renderPieceCard(piece, pieces.length - 1);
+}
+
+function removePiece() {
+  if (pieces.length === 0) return;
+  const removed = pieces.pop();
+  if (removed.type === 'green') greenCount = Math.max(0, greenCount - 1);
+  else blueCount = Math.max(0, blueCount - 1);
+  const list = document.getElementById('pieceList');
+  if (list.lastChild) list.removeChild(list.lastChild);
+}
+
+function renderPieceCard(piece, idx) {
+  const color = pieceColor(piece);
+  const label = piece.type === 'green'
+    ? `🟢 绿色原件 ${piece.colorIdx + 1}`
+    : `🔵 蓝色原件 ${piece.colorIdx + 1}`;
+
+  const card = document.createElement('div');
+  card.className = 'piece-card';
+  card.style.borderColor = color;
+
+  const name = document.createElement('div');
+  name.className = 'piece-name';
+  name.textContent = label;
+  name.style.color = color;
+  card.appendChild(name);
+
+  const canvas = document.createElement('canvas');
+  canvas.className = 'piece-canvas';
+  canvas.width = PIECE_GRID * PCELL + 1;
+  canvas.height = PIECE_GRID * PCELL + 1;
+  card.appendChild(canvas);
+
+  const btn = document.createElement('button');
+  btn.textContent = '清空';
+  btn.onclick = () => { piece.cells.clear(); drawPieceCanvas(canvas, piece); };
+  card.appendChild(btn);
+
+  let isDrawing = false;
+  canvas.addEventListener('mousedown', (e) => { isDrawing = true; togglePieceCell(e, canvas, piece); });
+  canvas.addEventListener('mousemove', (e) => { if (isDrawing) togglePieceCell(e, canvas, piece, true); });
+  canvas.addEventListener('mouseup', () => { isDrawing = false; });
+  canvas.addEventListener('mouseleave', () => { isDrawing = false; });
+
+  drawPieceCanvas(canvas, piece);
+  document.getElementById('pieceList').appendChild(card);
+}
+
+function togglePieceCell(e, canvas, piece, drag = false) {
+  const rect = canvas.getBoundingClientRect();
+  const c = Math.floor((e.clientX - rect.left) / PCELL);
+  const r = Math.floor((e.clientY - rect.top) / PCELL);
+  if (r < 0 || r >= PIECE_GRID || c < 0 || c >= PIECE_GRID) return;
+  const key = `${r},${c}`;
+  if (drag) { if (e.buttons === 1) piece.cells.add(key); }
+  else { piece.cells.has(key) ? piece.cells.delete(key) : piece.cells.add(key); }
+  drawPieceCanvas(canvas, piece);
+}
+
+function drawPieceCanvas(canvas, piece) {
+  const ctx = canvas.getContext('2d');
+  const color = pieceColor(piece);
+  ctx.fillStyle = '#1a1a2e';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  for (let r = 0; r < PIECE_GRID; r++) {
+    for (let c = 0; c < PIECE_GRID; c++) {
+      const x = c * PCELL, y = r * PCELL;
+      const key = `${r},${c}`;
+      if (piece.cells.has(key)) {
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, PCELL, PCELL);
+        ctx.strokeStyle = shadeColor(color, -40);
+      } else {
+        ctx.strokeStyle = '#333355';
+      }
+      ctx.lineWidth = 1;
+      ctx.strokeRect(x+0.5, y+0.5, PCELL, PCELL);
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// Solve
+// ═══════════════════════════════════════════════════════════
+function startSolve() {
+  readConstraints();
+
+  // Collect pieces by type
+  const greenPieces = pieces.filter(p => p.type === 'green');
+  const bluePieces  = pieces.filter(p => p.type === 'blue');
+
+  // Validate empty pieces
+  for (const p of pieces) {
+    if (p.cells.size === 0) {
+      alert(`原件「${p.type === 'green' ? '绿色' : '蓝色'} ${p.colorIdx+1}」没有绘制任何方块。`);
+      return;
+    }
+  }
+
+  if (greenPieces.length === 0) {
+    alert('请至少添加一个绿色原件。'); return;
+  }
+  if (mode === 'dual' && bluePieces.length === 0) {
+    alert('双色模式下请至少添加一个蓝色原件。'); return;
+  }
+
+  // Total available cells (excluding disabled)
+  const totalAvailable = gridRows * gridCols - disabledCells.size;
+
+  // Sum constraints
+  const totalGreenNeeded = rowConstraints.reduce((s,r) => s+r.green, 0);
+  const totalBlueNeeded  = rowConstraints.reduce((s,r) => s+r.blue, 0);
+  const totalNeeded = totalGreenNeeded + totalBlueNeeded;
+
+  // Check row vs col sums
+  const rowGSum = rowConstraints.reduce((s,r)=>s+r.green,0);
+  const colGSum = colConstraints.reduce((s,r)=>s+r.green,0);
+  if (rowGSum !== colGSum) {
+    alert(`绿色：行之和(${rowGSum}) ≠ 列之和(${colGSum})，请检查输入。`); return;
+  }
+  if (mode === 'dual') {
+    const rowBSum = rowConstraints.reduce((s,r)=>s+r.blue,0);
+    const colBSum = colConstraints.reduce((s,r)=>s+r.blue,0);
+    if (rowBSum !== colBSum) {
+      alert(`蓝色：行之和(${rowBSum}) ≠ 列之和(${colBSum})，请检查输入。`); return;
+    }
+  }
+
+  const totalGreenCells = greenPieces.reduce((s,p) => s+p.cells.size, 0);
+  const totalBlueCells  = bluePieces.reduce((s,p)  => s+p.cells.size, 0);
+  if (totalGreenCells !== totalGreenNeeded) {
+    if (!confirm(`绿色原件方块总数(${totalGreenCells}) ≠ 绿色需求(${totalGreenNeeded})。继续求解？`)) return;
+  }
+  if (mode === 'dual' && totalBlueCells !== totalBlueNeeded) {
+    if (!confirm(`蓝色原件方块总数(${totalBlueCells}) ≠ 蓝色需求(${totalBlueNeeded})。继续求解？`)) return;
+  }
+
+  setStatus('正在求解中，请稍候…', '');
+  document.getElementById('btnSolve').disabled = true;
+
+  setTimeout(() => {
+    const result = solveAll();
+    document.getElementById('btnSolve').disabled = false;
+    if (result) {
+      solution = result;
+      drawGrid();
+      setStatus('✓ 求解成功！', 'ok');
+    } else {
+      setStatus('✗ 当前约束条件无解，请检查输入。', 'err');
+    }
+  }, 50);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Solver algorithm
+// ═══════════════════════════════════════════════════════════
+function normalize(coords) {
+  const minR = Math.min(...coords.map(c=>c[0]));
+  const minC = Math.min(...coords.map(c=>c[1]));
+  return coords.map(([r,c]) => [r-minR, c-minC]).sort((a,b) => a[0]-b[0] || a[1]-b[1]);
+}
+function rotate90(coords) {
+  return normalize(coords.map(([r,c]) => [c,-r]));
+}
+function getRotations(coords) {
+  const seen = new Set(); const rots = [];
+  let cur = normalize(coords);
+  for (let i = 0; i < 4; i++) {
+    const k = JSON.stringify(cur);
+    if (!seen.has(k)) { seen.add(k); rots.push(cur); }
+    cur = rotate90(cur);
+  }
+  return rots;
+}
+
+function solveAll() {
+  const rows = gridRows, cols = gridCols;
+
+  // Build piece list with rotations
+  const allPieces = pieces.map((p, idx) => ({
+    idx,
+    type: p.type,
+    rotations: getRotations(Array.from(p.cells).map(k => k.split(',').map(Number)))
+  }));
+
+  // Pre-compute valid placements per piece (must not land on disabled cells)
+  const validPlacements = allPieces.map(piece => {
+    const pl = [];
+    for (const rot of piece.rotations) {
+      const maxR = Math.max(...rot.map(c=>c[0]));
+      const maxC = Math.max(...rot.map(c=>c[1]));
+      for (let ar = 0; ar+maxR < rows; ar++) {
+        for (let ac = 0; ac+maxC < cols; ac++) {
+          const cells = rot.map(([r,c]) => [r+ar, c+ac]);
+          if (cells.some(([r,c]) => disabledCells.has(`${r},${c}`))) continue;
+          pl.push(cells);
+        }
+      }
+    }
+    return pl;
+  });
+
+  // grid stores pieceIdx or null or 'X'
+  const grid = Array.from({length:rows}, (_,r) =>
+    Array.from({length:cols}, (_,c) => disabledCells.has(`${r},${c}`) ? 'X' : null)
+  );
+
+  // Remaining counts (green and blue separately)
+  const rowRemG = rowConstraints.map(r => r.green);
+  const rowRemB = rowConstraints.map(r => r.blue);
+  const colRemG = colConstraints.map(c => c.green);
+  const colRemB = colConstraints.map(c => c.blue);
+
+  function place(cells, pIdx, type) {
+    for (const [r,c] of cells) {
+      grid[r][c] = { pieceIdx: pIdx, type };
+      if (type === 'green') { rowRemG[r]--; colRemG[c]--; }
+      else                  { rowRemB[r]--; colRemB[c]--; }
+    }
+  }
+  function unplace(cells, type) {
+    for (const [r,c] of cells) {
+      grid[r][c] = null;
+      if (type === 'green') { rowRemG[r]++; colRemG[c]++; }
+      else                  { rowRemB[r]++; colRemB[c]++; }
+    }
+  }
+  function feasible() {
+    return rowRemG.every(v=>v>=0) && colRemG.every(v=>v>=0) &&
+           rowRemB.every(v=>v>=0) && colRemB.every(v=>v>=0);
+  }
+
+  function backtrack(idx) {
+    if (idx === allPieces.length) {
+      return rowRemG.every(v=>v===0) && colRemG.every(v=>v===0) &&
+             rowRemB.every(v=>v===0) && colRemB.every(v=>v===0);
+    }
+    const piece = allPieces[idx];
+    for (const cells of validPlacements[idx]) {
+      if (cells.some(([r,c]) => grid[r][c] !== null)) continue;
+      place(cells, idx, piece.type);
+      if (feasible() && backtrack(idx+1)) return true;
+      unplace(cells, piece.type);
+    }
+    return false;
+  }
+
+  if (backtrack(0)) return grid;
+  return null;
+}
+</script>
+
+</body>
+</html>
