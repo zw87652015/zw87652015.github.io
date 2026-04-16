@@ -5,352 +5,427 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ImageLayoutManager</title>
   <meta name="description" content="A PyQt6 desktop app for creating publication-ready multi-panel figures with repeatable spacing, alignment, labels, and export.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      background: #0f0f1a;
-      color: #c0c0e0;
-      font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
-      font-size: 15px;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    :root {
+      --blue:        #0075de;
+      --blue-active: #005bab;
+      --blue-focus:  #097fe8;
+      --badge-bg:    #f2f9ff;
+      --badge-text:  #097fe8;
+      --near-black:  rgba(0,0,0,0.95);
+      --gray-500:    #615d59;
+      --gray-300:    #a39e98;
+      --warm-white:  #f6f5f4;
+      --border:      1px solid rgba(0,0,0,0.1);
+      --shadow-card: rgba(0,0,0,0.04) 0px 4px 18px,
+                     rgba(0,0,0,0.027) 0px 2.025px 7.85px,
+                     rgba(0,0,0,0.02) 0px 0.8px 2.93px,
+                     rgba(0,0,0,0.01) 0px 0.175px 1.04px;
     }
 
-    header {
-      background: #13132a;
-      border-bottom: 1px solid #2a2a4a;
-      padding: 10px 24px;
+    body {
+      background: #fff;
+      color: var(--near-black);
+      font-family: Inter, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    nav {
+      border-bottom: var(--border);
+      padding: 0 clamp(20px, 5vw, 48px);
+      height: 56px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
     }
-    header h1 {
-      font-size: 18px;
-      color: #7ca8ff;
-      letter-spacing: 1px;
+    .nav-brand {
+      font-size: 15px;
       font-weight: 600;
-    }
-    header .subtitle {
-      color: #555580;
-      font-size: 13px;
-    }
-    header .back-link {
-      margin-left: auto;
-      color: #7ca8ff;
+      color: var(--near-black);
       text-decoration: none;
-      font-size: 13px;
-      padding: 4px 14px;
-      border: 1px solid #333366;
-      border-radius: 4px;
-      transition: background 0.15s, border-color 0.15s;
+      letter-spacing: -0.1px;
     }
-    header .back-link:hover {
-      background: #1a1a38;
-      border-color: #5566aa;
+    .nav-back {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-500);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-back:hover { color: var(--near-black); }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 48px);
     }
 
-    main {
-      flex: 1;
-      max-width: 860px;
-      width: 100%;
-      margin: 48px auto;
-      padding: 0 24px;
-    }
-
+    /* ── Hero ── */
     .hero {
+      padding: 80px 0 72px;
       text-align: center;
-      margin-bottom: 52px;
     }
-    .hero .badge {
+    .badge {
       display: inline-block;
-      background: #1a1a38;
-      color: #7ca8ff;
-      border: 1px solid #333366;
-      border-radius: 20px;
+      background: var(--badge-bg);
+      color: var(--badge-text);
       font-size: 12px;
-      padding: 3px 14px;
-      margin-bottom: 18px;
-      letter-spacing: 0.5px;
+      font-weight: 600;
+      letter-spacing: 0.125px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      margin-bottom: 24px;
     }
-    .hero h2 {
-      font-size: 38px;
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 54px);
       font-weight: 700;
-      color: #e0e8ff;
-      margin-bottom: 16px;
-      line-height: 1.2;
+      line-height: 1.04;
+      letter-spacing: clamp(-1.2px, -0.03em, -1.875px);
+      color: var(--near-black);
+      margin-bottom: 20px;
+      font-variant-numeric: lining-nums;
     }
     .hero p {
-      font-size: 16px;
-      color: #8888b8;
-      max-width: 600px;
-      margin: 0 auto 32px;
-      line-height: 1.7;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--gray-500);
+      max-width: 540px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
     }
-
     .cta-group {
       display: flex;
-      gap: 14px;
+      gap: 12px;
       justify-content: center;
       flex-wrap: wrap;
     }
     .btn-primary {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: #1e3a8a;
-      color: #a8c8ff;
-      border: 2px solid #3b6fd4;
-      border-radius: 8px;
-      padding: 12px 28px;
+      gap: 6px;
+      background: var(--blue);
+      color: #fff;
       font-size: 15px;
       font-weight: 600;
+      line-height: 1.33;
+      padding: 9px 18px;
+      border-radius: 4px;
       text-decoration: none;
-      cursor: pointer;
-      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      border: 1px solid transparent;
+      transition: background 0.15s;
     }
-    .btn-primary:hover {
-      background: #254da0;
-      border-color: #5588ff;
-      color: #c8dcff;
-    }
+    .btn-primary:hover { background: var(--blue-active); }
+    .btn-primary:active { transform: scale(0.96); }
+
     .btn-secondary {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: #13132a;
-      color: #8888b8;
-      border: 1px solid #333366;
-      border-radius: 8px;
-      padding: 12px 28px;
+      gap: 6px;
+      background: rgba(0,0,0,0.05);
+      color: var(--near-black);
       font-size: 15px;
-      font-weight: 500;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.15s, border-color 0.15s, color 0.15s;
-    }
-    .btn-secondary:hover {
-      background: #1a1a38;
-      border-color: #5566aa;
-      color: #c0c0e0;
-    }
-
-    /* Download arrow icon */
-    .icon-download::before {
-      content: "↓";
-      font-size: 16px;
-    }
-    .icon-github::before {
-      content: "⬡";
-      font-size: 14px;
-    }
-
-    /* Feature grid */
-    .section-title {
-      font-size: 11px;
-      color: #4a4a88;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 20px;
       font-weight: 600;
+      line-height: 1.33;
+      padding: 9px 18px;
+      border-radius: 4px;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: background 0.15s;
     }
-    .features {
-      margin-bottom: 52px;
+    .btn-secondary:hover { background: rgba(0,0,0,0.09); }
+    .btn-secondary:active { transform: scale(0.96); }
+
+    /* ── Divider ── */
+    .divider {
+      border: none;
+      border-top: var(--border);
+      margin: 0;
     }
+
+    /* ── Section ── */
+    section { padding: 64px 0; }
+    section.alt { background: var(--warm-white); }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.125px;
+      color: var(--gray-300);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.625px;
+      color: var(--near-black);
+      margin-bottom: 8px;
+      font-variant-numeric: lining-nums;
+    }
+    .section-subtitle {
+      font-size: 16px;
+      color: var(--gray-500);
+      margin-bottom: 36px;
+      line-height: 1.5;
+    }
+
+    /* ── Feature grid ── */
     .feature-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 16px;
     }
     .feature-card {
-      background: #13132a;
-      border: 1px solid #1e1e3a;
-      border-radius: 10px;
-      padding: 20px 22px;
-      transition: border-color 0.15s;
+      background: #fff;
+      border: var(--border);
+      border-radius: 12px;
+      padding: 22px 22px 20px;
+      box-shadow: var(--shadow-card);
+      transition: box-shadow 0.15s;
     }
     .feature-card:hover {
-      border-color: #333366;
+      box-shadow: rgba(0,0,0,0.07) 0px 6px 24px,
+                  rgba(0,0,0,0.04) 0px 2px 8px,
+                  rgba(0,0,0,0.02) 0px 1px 3px;
     }
     .feature-card .icon {
-      font-size: 22px;
+      font-size: 20px;
       margin-bottom: 10px;
       display: block;
     }
     .feature-card h3 {
-      font-size: 14px;
-      color: #a0aad8;
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.1px;
+      color: var(--near-black);
       margin-bottom: 6px;
     }
     .feature-card p {
-      font-size: 13px;
-      color: #5a5a8a;
-      line-height: 1.6;
+      font-size: 14px;
+      color: var(--gray-500);
+      line-height: 1.55;
     }
 
-    /* Workflow */
-    .workflow {
-      margin-bottom: 52px;
-    }
+    /* ── Workflow ── */
     .workflow-steps {
       display: flex;
       gap: 0;
       flex-wrap: wrap;
+      counter-reset: step;
     }
     .step {
       flex: 1;
-      min-width: 130px;
+      min-width: 110px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       position: relative;
-      padding: 0 8px;
+      padding: 0 6px;
     }
     .step:not(:last-child)::after {
       content: "→";
       position: absolute;
-      right: -10px;
-      top: 16px;
-      color: #333366;
-      font-size: 18px;
+      right: -8px;
+      top: 12px;
+      color: var(--gray-300);
+      font-size: 14px;
     }
     .step .num {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      background: #1a1a38;
-      border: 1px solid #333366;
-      color: #7ca8ff;
-      font-size: 14px;
+      border: var(--border);
+      background: #fff;
+      color: var(--blue);
+      font-size: 13px;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 10px;
+      box-shadow: var(--shadow-card);
     }
     .step span {
       font-size: 13px;
-      color: #7070a0;
+      color: var(--gray-500);
       line-height: 1.4;
     }
 
-    /* Tech info */
-    .tech {
-      background: #13132a;
-      border: 1px solid #1e1e3a;
-      border-radius: 10px;
-      padding: 22px 26px;
-      margin-bottom: 52px;
+    /* ── Tech row ── */
+    .tech-row {
       display: flex;
-      gap: 32px;
+      gap: 0;
       flex-wrap: wrap;
+      border: var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: var(--shadow-card);
     }
     .tech-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      flex: 1;
+      min-width: 120px;
+      padding: 18px 20px;
+      border-right: var(--border);
     }
+    .tech-item:last-child { border-right: none; }
     .tech-item .label {
       font-size: 11px;
-      color: #4a4a88;
+      font-weight: 600;
+      letter-spacing: 0.125px;
+      color: var(--gray-300);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      margin-bottom: 4px;
     }
     .tech-item .value {
       font-size: 14px;
-      color: #a0aad8;
       font-weight: 500;
+      color: var(--near-black);
     }
 
-    /* Release callout */
-    .release-callout {
-      background: linear-gradient(135deg, #0d1f44 0%, #131330 100%);
-      border: 1px solid #2a3a6a;
-      border-radius: 12px;
-      padding: 32px;
+    /* ── Release callout ── */
+    .release-card {
+      border: var(--border);
+      border-radius: 16px;
+      padding: 40px 32px;
       text-align: center;
-      margin-bottom: 52px;
+      background: #fff;
+      box-shadow: rgba(0,0,0,0.01) 0px 1px 3px,
+                  rgba(0,0,0,0.02) 0px 3px 7px,
+                  rgba(0,0,0,0.02) 0px 7px 15px,
+                  rgba(0,0,0,0.04) 0px 14px 28px,
+                  rgba(0,0,0,0.05) 0px 23px 52px;
     }
-    .release-callout .version-tag {
+    .release-card .version-badge {
       display: inline-block;
-      background: #1e3a8a;
-      color: #7ca8ff;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 700;
-      padding: 4px 14px;
-      margin-bottom: 14px;
-      letter-spacing: 0.5px;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.125px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      margin-bottom: 16px;
     }
-    .release-callout h3 {
-      font-size: 22px;
-      color: #d0d8ff;
+    .release-card h3 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.625px;
+      color: var(--near-black);
       margin-bottom: 10px;
     }
-    .release-callout p {
-      font-size: 14px;
-      color: #6070a0;
-      margin-bottom: 24px;
+    .release-card p {
+      font-size: 15px;
+      color: var(--gray-500);
+      margin-bottom: 28px;
       line-height: 1.6;
     }
+    .release-meta {
+      font-size: 13px;
+      color: var(--gray-300);
+      margin-top: 16px;
+    }
 
+    /* Loading skeleton */
+    .skeleton {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--warm-white) 25%, #ece9e6 50%, var(--warm-white) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 4px;
+      color: transparent;
+      min-width: 60px;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ── Footer ── */
     footer {
-      text-align: center;
-      padding: 24px;
-      border-top: 1px solid #1a1a30;
-      color: #3a3a60;
-      font-size: 12px;
+      border-top: var(--border);
+      padding: 24px clamp(20px, 5vw, 48px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
     }
     footer a {
-      color: #555580;
+      font-size: 13px;
+      color: var(--gray-500);
       text-decoration: none;
     }
-    footer a:hover {
-      color: #7ca8ff;
-    }
+    footer a:hover { color: var(--near-black); text-decoration: underline; }
+    .footer-right { display: flex; gap: 20px; }
 
     @media (max-width: 600px) {
-      .hero h2 { font-size: 26px; }
       .step:not(:last-child)::after { display: none; }
-      .tech { gap: 16px; }
+      .tech-row { flex-direction: column; }
+      .tech-item { border-right: none; border-bottom: var(--border); }
+      .tech-item:last-child { border-bottom: none; }
+      .release-card { padding: 28px 20px; }
+      footer { justify-content: center; }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>ImageLayoutManager</h1>
-    <span class="subtitle">Publication-ready figure composer</span>
-    <a href="/" class="back-link">← Home</a>
-  </header>
+  <nav>
+    <a href="/" class="nav-brand">ImageLayoutManager</a>
+    <a href="/" class="nav-back">← Back to Home</a>
+  </nav>
 
-  <main>
-
-    <section class="hero">
+  <!-- Hero -->
+  <div class="container">
+    <div class="hero">
       <span class="badge">Open Source · Apache 2.0</span>
-      <h2>Compose Multi-Panel<br>Figures with Precision</h2>
+      <h1>Publication-ready<br>figure composer</h1>
       <p>
-        A PyQt6 desktop application for academics and researchers.
-        Build publication-quality figure layouts with consistent spacing,
-        alignment, labels, and one-click export to PDF, TIFF, or JPG.
+        Assemble multi-panel figures with consistent spacing,
+        alignment, labels, and one-click export — built for academics,
+        on PyQt6.
       </p>
       <div class="cta-group">
-        <a href="https://github.com/zw87652015/ImageLayoutManager/releases/tag/v2.1.4"
+        <a id="hero-download-btn"
+           href="https://github.com/zw87652015/ImageLayoutManager/releases/latest"
            class="btn-primary" target="_blank" rel="noopener noreferrer">
-          <span class="icon-download"></span> Download v2.1.4
+          ↓ Download <span id="hero-version" class="skeleton">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         </a>
         <a href="https://github.com/zw87652015/ImageLayoutManager"
            class="btn-secondary" target="_blank" rel="noopener noreferrer">
-          <span class="icon-github"></span> View on GitHub
+          ⬡ View on GitHub
         </a>
       </div>
-    </section>
+    </div>
+  </div>
 
-    <section class="features">
-      <div class="section-title">Features</div>
+  <hr class="divider">
+
+  <!-- Features -->
+  <section>
+    <div class="container">
+      <div class="section-label">Features</div>
+      <div class="section-title">Everything you need for journal figures</div>
+      <p class="section-subtitle">From layout to export, in a single desktop app.</p>
       <div class="feature-grid">
         <div class="feature-card">
           <span class="icon">🖼️</span>
@@ -365,38 +440,45 @@
         <div class="feature-card">
           <span class="icon">🏷️</span>
           <h3>Label Editing</h3>
-          <p>Per-item label editing with color synchronization so panel labels stay consistent.</p>
+          <p>Per-item label editing with color synchronization so panel labels stay visually consistent.</p>
         </div>
         <div class="feature-card">
           <span class="icon">📏</span>
           <h3>Customizable Scale Bars</h3>
-          <p>Add and customize scale bars for each panel — new in v2.1.4.</p>
+          <p>Add and fine-tune scale bars per panel — ideal for microscopy and imaging figures.</p>
         </div>
         <div class="feature-card">
           <span class="icon">♻️</span>
           <h3>Reproducible Layouts</h3>
-          <p>Save and reopen layout definitions (<code style="color:#7ca8ff;font-size:12px">*.figlayout</code>) for reproducible figure generation.</p>
+          <p>Save and reopen <code style="font-size:12px;color:var(--blue)">.figlayout</code> files to regenerate figures without starting over.</p>
         </div>
         <div class="feature-card">
           <span class="icon">📤</span>
-          <h3>Academic-Friendly Export</h3>
-          <p>WYSIWYG export to PDF, TIFF, and JPG — exactly what you see on the canvas.</p>
+          <h3>WYSIWYG Export</h3>
+          <p>Export to PDF, TIFF, or JPG — exactly what you see on the canvas, ready for submission.</p>
         </div>
         <div class="feature-card">
           <span class="icon">🗂️</span>
-          <h3>SVG Support</h3>
-          <p>Import SVG vector images alongside raster formats (PNG, JPG, TIFF) with PDF rendering.</p>
+          <h3>SVG &amp; Raster Support</h3>
+          <p>Import SVG vector images alongside PNG, JPG, and TIFF rasters with PDF rendering.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">🔄</span>
-          <h3>WYSIWYG Canvas</h3>
-          <p>What you see on screen is exactly what gets exported — no surprises when submitting to journals.</p>
+          <span class="icon">⚙️</span>
+          <h3>Built on PyQt6</h3>
+          <p>Native desktop performance on Windows, macOS, and Linux. Requires Python 3.9+.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="workflow">
-      <div class="section-title">Typical Workflow</div>
+  <hr class="divider">
+
+  <!-- Workflow -->
+  <section class="alt">
+    <div class="container">
+      <div class="section-label">Workflow</div>
+      <div class="section-title">Six steps to a journal figure</div>
+      <p class="section-subtitle" style="margin-bottom: 40px;">A repeatable process from canvas to camera-ready export.</p>
       <div class="workflow-steps">
         <div class="step">
           <div class="num">1</div>
@@ -416,58 +498,131 @@
         </div>
         <div class="step">
           <div class="num">5</div>
-          <span>Save <code style="font-size:11px;color:#7ca8ff">.figlayout</code></span>
+          <span>Save <code style="font-size:11px;color:var(--blue)">.figlayout</code></span>
         </div>
         <div class="step">
           <div class="num">6</div>
-          <span>Export to PDF / TIFF / JPG</span>
+          <span>Export PDF / TIFF / JPG</span>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="tech">
-      <div class="tech-item">
-        <span class="label">Language</span>
-        <span class="value">Python 3.9+</span>
-      </div>
-      <div class="tech-item">
-        <span class="label">Framework</span>
-        <span class="value">PyQt6</span>
-      </div>
-      <div class="tech-item">
-        <span class="label">Formats</span>
-        <span class="value">PDF · TIFF · JPG · SVG · PNG</span>
-      </div>
-      <div class="tech-item">
-        <span class="label">Layout file</span>
-        <span class="value">.figlayout</span>
-      </div>
-      <div class="tech-item">
-        <span class="label">License</span>
-        <span class="value">Apache 2.0</span>
-      </div>
-    </section>
+  <hr class="divider">
 
-    <section class="release-callout">
-      <div class="version-tag">Latest Release</div>
-      <h3>v2.1.4 — Customizable Scale Bars</h3>
-      <p>
-        The latest release adds customizable scale bars for each panel,<br>
-        making microscopy and imaging figures even more publication-ready.
-      </p>
-      <a href="https://github.com/zw87652015/ImageLayoutManager/releases/tag/v2.1.4"
-         class="btn-primary" target="_blank" rel="noopener noreferrer">
-        <span class="icon-download"></span> Go to Release Page
-      </a>
-    </section>
+  <!-- Tech -->
+  <section>
+    <div class="container">
+      <div class="section-label">Technical</div>
+      <div class="section-title" style="margin-bottom: 24px;">Stack &amp; formats</div>
+      <div class="tech-row">
+        <div class="tech-item">
+          <div class="label">Language</div>
+          <div class="value">Python 3.9+</div>
+        </div>
+        <div class="tech-item">
+          <div class="label">Framework</div>
+          <div class="value">PyQt6</div>
+        </div>
+        <div class="tech-item">
+          <div class="label">Formats</div>
+          <div class="value">PDF · TIFF · JPG · SVG · PNG</div>
+        </div>
+        <div class="tech-item">
+          <div class="label">Layout file</div>
+          <div class="value">.figlayout</div>
+        </div>
+        <div class="tech-item">
+          <div class="label">License</div>
+          <div class="value">Apache 2.0</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  </main>
+  <hr class="divider">
+
+  <!-- Release -->
+  <section class="alt">
+    <div class="container" style="max-width: 560px;">
+      <div class="release-card">
+        <div class="version-badge" id="release-badge">
+          <span class="skeleton">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+        <h3 id="release-title">
+          <span class="skeleton" style="display:block;height:1.2em;width:70%;margin:0 auto 8px;"></span>
+        </h3>
+        <p id="release-body">Loading release notes…</p>
+        <a id="release-btn"
+           href="https://github.com/zw87652015/ImageLayoutManager/releases/latest"
+           class="btn-primary" target="_blank" rel="noopener noreferrer"
+           style="display:inline-flex;">
+          ↓ Go to Release Page
+        </a>
+        <div class="release-meta" id="release-meta"></div>
+      </div>
+    </div>
+  </section>
 
   <footer>
-    <a href="/">← Back to Home</a>
-    &nbsp;·&nbsp;
-    <a href="https://github.com/zw87652015/ImageLayoutManager" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+    <a href="/">← Home</a>
+    <div class="footer-right">
+      <a href="https://github.com/zw87652015/ImageLayoutManager" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer">All Releases</a>
+    </div>
   </footer>
+
+  <script>
+    (async () => {
+      try {
+        const res = await fetch(
+          'https://api.github.com/repos/zw87652015/ImageLayoutManager/releases/latest',
+          { headers: { Accept: 'application/vnd.github+json' } }
+        );
+        if (!res.ok) throw new Error('API error');
+        const r = await res.json();
+
+        const tag   = r.tag_name  || '';
+        const name  = r.name      || tag;
+        const url   = r.html_url  || 'https://github.com/zw87652015/ImageLayoutManager/releases/latest';
+        const body  = r.body      || '';
+        const date  = r.published_at
+          ? new Date(r.published_at).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })
+          : '';
+
+        // Hero button
+        document.getElementById('hero-version').textContent  = tag;
+        document.getElementById('hero-version').className    = '';
+        document.getElementById('hero-download-btn').href    = url;
+
+        // Release card badge
+        const badge = document.getElementById('release-badge');
+        badge.textContent = 'Latest Release · ' + tag;
+
+        // Release title
+        document.getElementById('release-title').textContent = name;
+
+        // Release body — render first paragraph / first line only, truncated
+        const firstLine = body.split('\n').find(l => l.trim()) || '';
+        const cleaned   = firstLine.replace(/^#+\s*/, '').replace(/\*\*/g, '').trim();
+        document.getElementById('release-body').textContent =
+          cleaned.length > 120 ? cleaned.slice(0, 120) + '…' : (cleaned || 'See the release page for full notes.');
+
+        // Link + meta
+        document.getElementById('release-btn').href = url;
+        if (date) document.getElementById('release-meta').textContent = 'Released ' + date;
+
+      } catch (e) {
+        // Fallback to last known version if API fails
+        document.getElementById('hero-version').textContent = 'v2.1.4';
+        document.getElementById('hero-version').className   = '';
+        document.getElementById('release-badge').textContent = 'Latest Release · v2.1.4';
+        document.getElementById('release-title').textContent = 'v2.1.4 — Customizable Scale Bars';
+        document.getElementById('release-body').textContent  =
+          'Adds customizable scale bars for each panel, making microscopy and imaging figures publication-ready.';
+      }
+    })();
+  </script>
 
 </body>
 </html>
