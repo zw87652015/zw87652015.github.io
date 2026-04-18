@@ -344,6 +344,17 @@
       margin-top: 16px;
     }
 
+    /* Screen-reader only */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     /* Loading skeleton */
     .skeleton {
       display: inline-block;
@@ -385,35 +396,91 @@
       .release-card { padding: 28px 20px; }
       footer { justify-content: center; }
     }
+
+    /* ── Download picker ── */
+    .dl-wrap { position: relative; display: inline-block; }
+    .dl-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-4px);
+      min-width: 280px;
+      background: #fff;
+      border: var(--border);
+      border-radius: 14px;
+      box-shadow: rgba(0,0,0,0.08) 0px 10px 30px, rgba(0,0,0,0.06) 0px 4px 10px;
+      padding: 8px;
+      z-index: 50;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity .15s ease, transform .15s ease, visibility .15s;
+      text-align: left;
+    }
+    .dl-wrap.open .dl-menu {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    .dl-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--near-black);
+      font-size: 14px;
+      line-height: 1.3;
+      transition: background .12s ease;
+    }
+    .dl-item:hover { background: var(--gray-100, #f5f5f7); }
+    .dl-item .dl-ico {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .dl-item .dl-title { font-weight: 600; }
+    .dl-item .dl-sub { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+    .dl-sep { height: 1px; background: var(--border-color, #e5e5e7); margin: 4px 6px; border: 0; }
+    .dl-foot {
+      padding: 8px 14px 6px;
+      font-size: 12px;
+      color: var(--gray-500);
+    }
+    .dl-foot a { color: var(--gray-500); text-decoration: underline; }
+    .dl-foot a:hover { color: var(--near-black); }
   </style>
 </head>
 <body>
 
   <nav>
     <a href="/" class="nav-brand">ImageLayoutManager</a>
-    <a href="/" class="nav-back">← Back to Home</a>
+    <a href="/" class="nav-back" data-i18n="nav-back">← Back to Home</a>
   </nav>
 
   <!-- Hero -->
   <div class="container">
     <div class="hero">
-      <span class="badge">Open Source · Apache 2.0</span>
-      <h1>Publication-ready<br>figure composer</h1>
-      <p>
+      <span class="badge" data-i18n="hero-badge">Open Source · Apache 2.0</span>
+      <h1 data-i18n-html="hero-h1">Publication-ready<br>figure composer</h1>
+      <p data-i18n="hero-p">
         Assemble multi-panel figures with consistent spacing,
         alignment, labels, and one-click export — built for academics,
         on PyQt6.
       </p>
       <div class="cta-group">
-        <a id="hero-download-btn"
-           href="https://github.com/zw87652015/ImageLayoutManager/releases/latest"
-           class="btn-primary" target="_blank" rel="noopener noreferrer">
-          ↓ Download <span id="hero-version" class="skeleton">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        </a>
+        <div class="dl-wrap" id="hero-dl-wrap">
+          <button type="button" id="hero-download-btn" class="btn-primary" aria-haspopup="menu" aria-expanded="false">
+            <span data-i18n="hero-download-text">↓ Download</span> <span id="hero-version" class="skeleton">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </button>
+          <div class="dl-menu" role="menu" data-dl-menu></div>
+        </div>
         <a href="https://github.com/zw87652015/ImageLayoutManager"
-           class="btn-secondary" target="_blank" rel="noopener noreferrer">
-          ⬡ View on GitHub
-        </a>
+           class="btn-secondary" target="_blank" rel="noopener noreferrer"
+           data-i18n="hero-github-btn">⬡ View on GitHub</a>
       </div>
     </div>
   </div>
@@ -423,49 +490,49 @@
   <!-- Features -->
   <section>
     <div class="container">
-      <div class="section-label">Features</div>
-      <div class="section-title">Everything you need for journal figures</div>
-      <p class="section-subtitle">From layout to export, in a single desktop app.</p>
+      <div class="section-label" data-i18n="features-label">Features</div>
+      <div class="section-title" data-i18n="features-title">Everything you need for journal figures</div>
+      <p class="section-subtitle" data-i18n="features-subtitle">From layout to export, in a single desktop app.</p>
       <div class="feature-grid">
         <div class="feature-card">
           <span class="icon">🖼️</span>
-          <h3>Multi-Panel Layouts</h3>
-          <p>Assemble multiple images into a single figure with consistent margins and gaps across all panels.</p>
+          <h3 data-i18n="feat1-title">Multi-Panel Layouts</h3>
+          <p data-i18n="feat1-desc">Assemble multiple images into a single figure with consistent margins and gaps across all panels.</p>
         </div>
         <div class="feature-card">
           <span class="icon">📐</span>
-          <h3>Hierarchical Cell Splitting</h3>
-          <p>Split layout cells horizontally or vertically to create complex nested arrangements.</p>
+          <h3 data-i18n="feat2-title">Hierarchical Cell Splitting</h3>
+          <p data-i18n="feat2-desc">Split layout cells horizontally or vertically to create complex nested arrangements.</p>
         </div>
         <div class="feature-card">
           <span class="icon">🏷️</span>
-          <h3>Label Editing</h3>
-          <p>Per-item label editing with color synchronization so panel labels stay visually consistent.</p>
+          <h3 data-i18n="feat3-title">Label Editing</h3>
+          <p data-i18n="feat3-desc">Per-item label editing with color synchronization so panel labels stay visually consistent.</p>
         </div>
         <div class="feature-card">
           <span class="icon">📏</span>
-          <h3>Customizable Scale Bars</h3>
-          <p>Add and fine-tune scale bars per panel — ideal for microscopy and imaging figures.</p>
+          <h3 data-i18n="feat4-title">Customizable Scale Bars</h3>
+          <p data-i18n="feat4-desc">Add and fine-tune scale bars per panel — ideal for microscopy and imaging figures.</p>
         </div>
         <div class="feature-card">
           <span class="icon">♻️</span>
-          <h3>Reproducible Layouts</h3>
-          <p>Save and reopen <code style="font-size:12px;color:var(--blue)">.figlayout</code> files to regenerate figures without starting over.</p>
+          <h3 data-i18n="feat5-title">Reproducible Layouts</h3>
+          <p data-i18n-html="feat5-desc">Save and reopen <code style="font-size:12px;color:var(--blue)">.figlayout</code> files to regenerate figures without starting over.</p>
         </div>
         <div class="feature-card">
           <span class="icon">📤</span>
-          <h3>WYSIWYG Export</h3>
-          <p>Export to PDF, TIFF, or JPG — exactly what you see on the canvas, ready for submission.</p>
+          <h3 data-i18n="feat6-title">WYSIWYG Export</h3>
+          <p data-i18n="feat6-desc">Export to PDF, TIFF, or JPG — exactly what you see on the canvas, ready for submission.</p>
         </div>
         <div class="feature-card">
           <span class="icon">🗂️</span>
-          <h3>SVG &amp; Raster Support</h3>
-          <p>Import SVG vector images alongside PNG, JPG, and TIFF rasters with PDF rendering.</p>
+          <h3 data-i18n="feat7-title">SVG &amp; Raster Support</h3>
+          <p data-i18n="feat7-desc">Import SVG vector images alongside PNG, JPG, and TIFF rasters with PDF rendering.</p>
         </div>
         <div class="feature-card">
           <span class="icon">⚙️</span>
-          <h3>Built on PyQt6</h3>
-          <p>Native desktop performance on Windows, macOS, and Linux. Requires Python 3.9+.</p>
+          <h3 data-i18n="feat8-title">Built on PyQt6</h3>
+          <p data-i18n="feat8-desc">Native desktop performance on Windows, macOS, and Linux. Requires Python 3.9+.</p>
         </div>
       </div>
     </div>
@@ -476,33 +543,33 @@
   <!-- Workflow -->
   <section class="alt">
     <div class="container">
-      <div class="section-label">Workflow</div>
-      <div class="section-title">Six steps to a journal figure</div>
-      <p class="section-subtitle" style="margin-bottom: 40px;">A repeatable process from canvas to camera-ready export.</p>
+      <div class="section-label" data-i18n="workflow-label">Workflow</div>
+      <div class="section-title" data-i18n="workflow-title">Six steps to a journal figure</div>
+      <p class="section-subtitle" style="margin-bottom: 40px;" data-i18n="workflow-subtitle">A repeatable process from canvas to camera-ready export.</p>
       <div class="workflow-steps">
         <div class="step">
           <div class="num">1</div>
-          <span>Create layout</span>
+          <span data-i18n="step1">Create layout</span>
         </div>
         <div class="step">
           <div class="num">2</div>
-          <span>Add images</span>
+          <span data-i18n="step2">Add images</span>
         </div>
         <div class="step">
           <div class="num">3</div>
-          <span>Split cells</span>
+          <span data-i18n="step3">Split cells</span>
         </div>
         <div class="step">
           <div class="num">4</div>
-          <span>Adjust spacing &amp; labels</span>
+          <span data-i18n="step4">Adjust spacing &amp; labels</span>
         </div>
         <div class="step">
           <div class="num">5</div>
-          <span>Save <code style="font-size:11px;color:var(--blue)">.figlayout</code></span>
+          <span data-i18n-html="step5">Save <code style="font-size:11px;color:var(--blue)">.figlayout</code></span>
         </div>
         <div class="step">
           <div class="num">6</div>
-          <span>Export PDF / TIFF / JPG</span>
+          <span data-i18n="step6">Export PDF / TIFF / JPG</span>
         </div>
       </div>
     </div>
@@ -513,27 +580,27 @@
   <!-- Tech -->
   <section>
     <div class="container">
-      <div class="section-label">Technical</div>
-      <div class="section-title" style="margin-bottom: 24px;">Stack &amp; formats</div>
+      <div class="section-label" data-i18n="technical-label">Technical</div>
+      <div class="section-title" style="margin-bottom: 24px;" data-i18n="technical-title">Stack &amp; formats</div>
       <div class="tech-row">
         <div class="tech-item">
-          <div class="label">Language</div>
+          <div class="label" data-i18n="tech-lang">Language</div>
           <div class="value">Python 3.9+</div>
         </div>
         <div class="tech-item">
-          <div class="label">Framework</div>
+          <div class="label" data-i18n="tech-framework">Framework</div>
           <div class="value">PyQt6</div>
         </div>
         <div class="tech-item">
-          <div class="label">Formats</div>
+          <div class="label" data-i18n="tech-formats">Formats</div>
           <div class="value">PDF · TIFF · JPG · SVG · PNG</div>
         </div>
         <div class="tech-item">
-          <div class="label">Layout file</div>
+          <div class="label" data-i18n="tech-layoutfile">Layout file</div>
           <div class="value">.figlayout</div>
         </div>
         <div class="tech-item">
-          <div class="label">License</div>
+          <div class="label" data-i18n="tech-license">License</div>
           <div class="value">Apache 2.0</div>
         </div>
       </div>
@@ -549,30 +616,291 @@
         <div class="version-badge" id="release-badge">
           <span class="skeleton">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         </div>
-        <h3 id="release-title">
-          <span class="skeleton" style="display:block;height:1.2em;width:70%;margin:0 auto 8px;"></span>
+        <h3 id="release-title" aria-live="polite">
+          <span class="skeleton" aria-hidden="true" style="display:block;height:1.2em;width:70%;margin:0 auto 8px;"></span>
+          <span class="sr-only">Loading…</span>
         </h3>
-        <p id="release-body">Loading release notes…</p>
-        <a id="release-btn"
-           href="https://github.com/zw87652015/ImageLayoutManager/releases/latest"
-           class="btn-primary" target="_blank" rel="noopener noreferrer"
-           style="display:inline-flex;">
-          ↓ Go to Release Page
-        </a>
+        <p id="release-body" data-i18n="release-loading">Loading release notes…</p>
+        <div class="dl-wrap" id="release-dl-wrap" style="display:inline-block;">
+          <button type="button" id="release-btn" class="btn-primary"
+                  style="display:inline-flex;" aria-haspopup="menu" aria-expanded="false">
+            <span data-i18n="release-btn">↓ Download</span>
+          </button>
+          <div class="dl-menu" role="menu" data-dl-menu></div>
+        </div>
         <div class="release-meta" id="release-meta"></div>
       </div>
     </div>
   </section>
 
   <footer>
-    <a href="/">← Home</a>
+    <a href="/" data-i18n="footer-home">← Home</a>
     <div class="footer-right">
       <a href="https://github.com/zw87652015/ImageLayoutManager" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer">All Releases</a>
+      <a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer" data-i18n="footer-releases">All Releases</a>
     </div>
   </footer>
 
   <script>
+    // ── i18n ──────────────────────────────────────────────────────────────────
+    const translations = {
+      en: {
+        'nav-back':            '← Back to Home',
+        'hero-badge':          'Open Source · Apache 2.0',
+        'hero-h1':             'Publication-ready<br>figure composer',
+        'hero-p':              'Assemble multi-panel figures with consistent spacing, alignment, labels, and one-click export — built for academics, on PyQt6.',
+        'hero-download-text':  '↓ Download',
+        'hero-github-btn':     '⬡ View on GitHub',
+        'features-label':      'Features',
+        'features-title':      'Everything you need for journal figures',
+        'features-subtitle':   'From layout to export, in a single desktop app.',
+        'feat1-title': 'Multi-Panel Layouts',
+        'feat1-desc':  'Assemble multiple images into a single figure with consistent margins and gaps across all panels.',
+        'feat2-title': 'Hierarchical Cell Splitting',
+        'feat2-desc':  'Split layout cells horizontally or vertically to create complex nested arrangements.',
+        'feat3-title': 'Label Editing',
+        'feat3-desc':  'Per-item label editing with color synchronization so panel labels stay visually consistent.',
+        'feat4-title': 'Customizable Scale Bars',
+        'feat4-desc':  'Add and fine-tune scale bars per panel — ideal for microscopy and imaging figures.',
+        'feat5-title': 'Reproducible Layouts',
+        'feat5-desc':  'Save and reopen <code style="font-size:12px;color:var(--blue)">.figlayout</code> files to regenerate figures without starting over.',
+        'feat6-title': 'WYSIWYG Export',
+        'feat6-desc':  'Export to PDF, TIFF, or JPG — exactly what you see on the canvas, ready for submission.',
+        'feat7-title': 'SVG & Raster Support',
+        'feat7-desc':  'Import SVG vector images alongside PNG, JPG, and TIFF rasters with PDF rendering.',
+        'feat8-title': 'Built on PyQt6',
+        'feat8-desc':  'Native desktop performance on Windows, macOS, and Linux. Requires Python 3.9+.',
+        'workflow-label':    'Workflow',
+        'workflow-title':    'Six steps to a journal figure',
+        'workflow-subtitle': 'A repeatable process from canvas to camera-ready export.',
+        'step1': 'Create layout',
+        'step2': 'Add images',
+        'step3': 'Split cells',
+        'step4': 'Adjust spacing & labels',
+        'step5': 'Save <code style="font-size:11px;color:var(--blue)">.figlayout</code>',
+        'step6': 'Export PDF / TIFF / JPG',
+        'technical-label': 'Technical',
+        'technical-title': 'Stack & formats',
+        'tech-lang':       'Language',
+        'tech-framework':  'Framework',
+        'tech-formats':    'Formats',
+        'tech-layoutfile': 'Layout file',
+        'tech-license':    'License',
+        'release-loading':        'Loading release notes…',
+        'release-btn':            '↓ Download',
+        'dl-win-installer-title': 'Windows Installer',
+        'dl-win-installer-sub':   'Recommended · .exe Setup',
+        'dl-win-portable-title':  'Windows Portable',
+        'dl-win-portable-sub':    'Standalone .exe · no install',
+        'dl-mac-title':           'macOS',
+        'dl-mac-sub':             '.zip · Apple Silicon / Intel',
+        'dl-foot':                'Looking for older versions? <a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer">View all releases</a>',
+        'release-latest-prefix':  'Latest Release · ',
+        'release-released-prefix':'Released ',
+        'release-fallback-title': 'v2.1.4 — Customizable Scale Bars',
+        'release-fallback-body':  'Adds customizable scale bars for each panel, making microscopy and imaging figures publication-ready.',
+        'release-notes-fallback': 'See the release page for full notes.',
+        'footer-home':     '← Home',
+        'footer-releases': 'All Releases',
+        'date-locale':     'en-US',
+      },
+      zh: {
+        'nav-back':            '← 返回首页',
+        'hero-badge':          '开源 · Apache 2.0',
+        'hero-h1':             '专业发表级<br>图形排版工具',
+        'hero-p':              '将多张图片组合成具有一致间距、对齐、标签的多面板图形，一键导出——专为学术研究者设计，基于 PyQt6。',
+        'hero-download-text':  '↓ 下载',
+        'hero-github-btn':     '⬡ 在 GitHub 上查看',
+        'features-label':      '功能特性',
+        'features-title':      '期刊图形所需的一切',
+        'features-subtitle':   '从布局到导出，一站式桌面应用。',
+        'feat1-title': '多面板布局',
+        'feat1-desc':  '将多张图片组合为单一图形，所有面板保持一致的边距和间距。',
+        'feat2-title': '层级单元格分割',
+        'feat2-desc':  '水平或垂直分割布局单元格，创建复杂的嵌套排列。',
+        'feat3-title': '标签编辑',
+        'feat3-desc':  '逐项标签编辑并支持颜色同步，确保面板标签视觉一致。',
+        'feat4-title': '可自定义标尺',
+        'feat4-desc':  '为每个面板添加并精细调整标尺——非常适合显微镜和成像图形。',
+        'feat5-title': '可复用布局',
+        'feat5-desc':  '保存并重新打开 <code style="font-size:12px;color:var(--blue)">.figlayout</code> 文件，无需从头再来即可重新生成图形。',
+        'feat6-title': '所见即所得导出',
+        'feat6-desc':  '导出为 PDF、TIFF 或 JPG——画布上呈现什么就导出什么，随时可提交。',
+        'feat7-title': 'SVG 与栅格格式支持',
+        'feat7-desc':  '支持导入 SVG 矢量图及 PNG、JPG、TIFF 栅格图，并支持 PDF 渲染。',
+        'feat8-title': '基于 PyQt6',
+        'feat8-desc':  '在 Windows、macOS 和 Linux 上实现原生桌面性能。需要 Python 3.9+。',
+        'workflow-label':    '工作流程',
+        'workflow-title':    '六步完成期刊图形',
+        'workflow-subtitle': '从画布到可提交导出的可重复流程。',
+        'step1': '创建布局',
+        'step2': '添加图片',
+        'step3': '分割单元格',
+        'step4': '调整间距与标签',
+        'step5': '保存 <code style="font-size:11px;color:var(--blue)">.figlayout</code>',
+        'step6': '导出 PDF / TIFF / JPG',
+        'technical-label': '技术栈',
+        'technical-title': '技术栈 & 格式',
+        'tech-lang':       '语言',
+        'tech-framework':  '框架',
+        'tech-formats':    '格式',
+        'tech-layoutfile': '布局文件',
+        'tech-license':    '许可证',
+        'release-loading':        '正在加载发布说明…',
+        'release-btn':            '↓ 下载',
+        'dl-win-installer-title': 'Windows 安装版',
+        'dl-win-installer-sub':   '推荐 · 安装程序 .exe',
+        'dl-win-portable-title':  'Windows 便携版',
+        'dl-win-portable-sub':    '免安装 · 独立 .exe',
+        'dl-mac-title':           'macOS',
+        'dl-mac-sub':             '.zip · Apple Silicon / Intel',
+        'dl-foot':                '想要旧版本？<a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer">查看所有发布</a>',
+        'release-latest-prefix':  '最新版本 · ',
+        'release-released-prefix':'发布于 ',
+        'release-fallback-title': 'v2.1.4 — 可自定义标尺',
+        'release-fallback-body':  '为每个面板添加可自定义的标尺，让显微镜和成像图形达到发表标准。',
+        'release-notes-fallback': '请前往发布页面查看完整说明。',
+        'footer-home':     '← 首页',
+        'footer-releases': '所有版本',
+        'date-locale':     'zh-CN',
+      }
+    };
+
+    function detectLang() {
+      const langs = navigator.languages && navigator.languages.length
+        ? navigator.languages
+        : [navigator.language || 'en'];
+      for (const l of langs) {
+        if (l.toLowerCase().startsWith('zh')) return 'zh';
+      }
+      return 'en';
+    }
+
+    const lang = detectLang();
+    const t = translations[lang];
+
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html');
+      if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+
+    // ── Local downloads ────────────────────────────────────────────────────────
+    // Bump this when a new build is dropped into ./downloads/ following the same
+    // file-name pattern: ImageLayoutManager_<VERSION>_<suffix>
+    const LATEST_VERSION = 'v2.2.2';
+
+    const DL_PLATFORMS = [
+      {
+        key:    'win-installer',
+        ico:    '⊞',
+        suffix: '_Windows_Setup.exe',
+        match:  ua => /windows/i.test(ua),
+      },
+      {
+        key:    'win-portable',
+        ico:    '⊞',
+        suffix: '_Windows.exe',
+        match:  () => false,
+      },
+      {
+        key:    'mac',
+        ico:    '',
+        suffix: '_MacOS.zip',
+        match:  ua => /mac os x|macintosh/i.test(ua),
+      },
+    ];
+
+    const dlFileName = (v, suffix) => `ImageLayoutManager_${v}${suffix}`;
+    const dlHref     = (v, suffix) => `downloads/${dlFileName(v, suffix)}`;
+
+    function buildDlMenus(version) {
+      const ua = navigator.userAgent || '';
+      const preferredKey =
+        (DL_PLATFORMS.find(p => p.match(ua)) || DL_PLATFORMS[0]).key;
+
+      document.querySelectorAll('[data-dl-menu]').forEach(menu => {
+        menu.innerHTML = '';
+        DL_PLATFORMS.forEach(p => {
+          const a = document.createElement('a');
+          a.className   = 'dl-item';
+          a.role        = 'menuitem';
+          a.href        = dlHref(version, p.suffix);
+          a.setAttribute('download', '');
+          a.innerHTML =
+            `<span class="dl-ico">${p.ico}</span>` +
+            `<span>` +
+              `<div class="dl-title">${t['dl-' + p.key + '-title']}` +
+                (p.key === preferredKey
+                  ? ` <span style="font-size:11px;color:var(--gray-500);font-weight:500;">· ${version}</span>`
+                  : '') +
+              `</div>` +
+              `<div class="dl-sub">${t['dl-' + p.key + '-sub']}</div>` +
+            `</span>`;
+          menu.appendChild(a);
+        });
+        const sep = document.createElement('hr');
+        sep.className = 'dl-sep';
+        menu.appendChild(sep);
+        const foot = document.createElement('div');
+        foot.className = 'dl-foot';
+        foot.innerHTML = t['dl-foot'];
+        menu.appendChild(foot);
+      });
+    }
+
+    function wireDlDropdown(wrapId) {
+      const wrap = document.getElementById(wrapId);
+      if (!wrap) return;
+      const btn  = wrap.querySelector('button');
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const willOpen = !wrap.classList.contains('open');
+        document.querySelectorAll('.dl-wrap.open').forEach(w => {
+          w.classList.remove('open');
+          const b = w.querySelector('button');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+        wrap.classList.toggle('open', willOpen);
+        btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      });
+      wrap.querySelector('.dl-menu').addEventListener('click', e => {
+        // Let the link navigate, then close.
+        if (e.target.closest('.dl-item')) {
+          setTimeout(() => wrap.classList.remove('open'), 50);
+        }
+      });
+    }
+
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.dl-wrap')) {
+        document.querySelectorAll('.dl-wrap.open').forEach(w => {
+          w.classList.remove('open');
+          const b = w.querySelector('button');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.dl-wrap.open').forEach(w => w.classList.remove('open'));
+      }
+    });
+
+    // Fill hero version + build menus immediately (no network required).
+    document.getElementById('hero-version').textContent = LATEST_VERSION;
+    document.getElementById('hero-version').className   = '';
+    document.getElementById('release-badge').textContent = t['release-latest-prefix'] + LATEST_VERSION;
+    buildDlMenus(LATEST_VERSION);
+    wireDlDropdown('hero-dl-wrap');
+    wireDlDropdown('release-dl-wrap');
+
+    // ── GitHub release notes fetch (text only; downloads are local) ───────────
     (async () => {
       try {
         const res = await fetch(
@@ -582,44 +910,25 @@
         if (!res.ok) throw new Error('API error');
         const r = await res.json();
 
-        const tag   = r.tag_name  || '';
-        const name  = r.name      || tag;
-        const url   = r.html_url  || 'https://github.com/zw87652015/ImageLayoutManager/releases/latest';
-        const body  = r.body      || '';
-        const date  = r.published_at
-          ? new Date(r.published_at).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })
+        const tag  = r.tag_name || LATEST_VERSION;
+        const name = r.name     || tag;
+        const body = r.body     || '';
+        const date = r.published_at
+          ? new Date(r.published_at).toLocaleDateString(t['date-locale'], { year:'numeric', month:'long', day:'numeric' })
           : '';
 
-        // Hero button
-        document.getElementById('hero-version').textContent  = tag;
-        document.getElementById('hero-version').className    = '';
-        document.getElementById('hero-download-btn').href    = url;
-
-        // Release card badge
-        const badge = document.getElementById('release-badge');
-        badge.textContent = 'Latest Release · ' + tag;
-
-        // Release title
         document.getElementById('release-title').textContent = name;
 
-        // Release body — render first paragraph / first line only, truncated
         const firstLine = body.split('\n').find(l => l.trim()) || '';
         const cleaned   = firstLine.replace(/^#+\s*/, '').replace(/\*\*/g, '').trim();
         document.getElementById('release-body').textContent =
-          cleaned.length > 120 ? cleaned.slice(0, 120) + '…' : (cleaned || 'See the release page for full notes.');
+          cleaned.length > 120 ? cleaned.slice(0, 120) + '…' : (cleaned || t['release-notes-fallback']);
 
-        // Link + meta
-        document.getElementById('release-btn').href = url;
-        if (date) document.getElementById('release-meta').textContent = 'Released ' + date;
+        if (date) document.getElementById('release-meta').textContent = t['release-released-prefix'] + date;
 
       } catch (e) {
-        // Fallback to last known version if API fails
-        document.getElementById('hero-version').textContent = 'v2.1.4';
-        document.getElementById('hero-version').className   = '';
-        document.getElementById('release-badge').textContent = 'Latest Release · v2.1.4';
-        document.getElementById('release-title').textContent = 'v2.1.4 — Customizable Scale Bars';
-        document.getElementById('release-body').textContent  =
-          'Adds customizable scale bars for each panel, making microscopy and imaging figures publication-ready.';
+        document.getElementById('release-title').textContent = LATEST_VERSION;
+        document.getElementById('release-body').textContent  = t['release-notes-fallback'];
       }
     })();
   </script>
