@@ -892,15 +892,11 @@
       }
     });
 
-    // Fill hero version + build menus immediately (no network required).
-    document.getElementById('hero-version').textContent = LATEST_VERSION;
-    document.getElementById('hero-version').className   = '';
-    document.getElementById('release-badge').textContent = t['release-latest-prefix'] + LATEST_VERSION;
-    buildDlMenus(LATEST_VERSION);
+    // Wire dropdowns first (menus are empty until version is known).
     wireDlDropdown('hero-dl-wrap');
     wireDlDropdown('release-dl-wrap');
 
-    // ── GitHub release notes fetch (text only; downloads are local) ───────────
+    // ── GitHub API: fetch version + release notes ──────────────────────────────
     (async () => {
       try {
         const res = await fetch(
@@ -917,6 +913,15 @@
           ? new Date(r.published_at).toLocaleDateString(t['date-locale'], { year:'numeric', month:'long', day:'numeric' })
           : '';
 
+        // Version display
+        document.getElementById('hero-version').textContent  = tag;
+        document.getElementById('hero-version').className    = '';
+        document.getElementById('release-badge').textContent = t['release-latest-prefix'] + tag;
+
+        // Download menus (hrefs constructed from fetched tag)
+        buildDlMenus(tag);
+
+        // Release notes
         document.getElementById('release-title').textContent = name;
 
         const firstLine = body.split('\n').find(l => l.trim()) || '';
@@ -927,8 +932,13 @@
         if (date) document.getElementById('release-meta').textContent = t['release-released-prefix'] + date;
 
       } catch (e) {
-        document.getElementById('release-title').textContent = LATEST_VERSION;
-        document.getElementById('release-body').textContent  = t['release-notes-fallback'];
+        // Fallback: use hardcoded version
+        document.getElementById('hero-version').textContent  = LATEST_VERSION;
+        document.getElementById('hero-version').className    = '';
+        document.getElementById('release-badge').textContent = t['release-latest-prefix'] + LATEST_VERSION;
+        buildDlMenus(LATEST_VERSION);
+        document.getElementById('release-title').textContent = t['release-fallback-title'];
+        document.getElementById('release-body').textContent  = t['release-fallback-body'];
       }
     })();
   </script>
