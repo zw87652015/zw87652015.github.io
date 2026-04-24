@@ -1100,18 +1100,20 @@
     wireDlDropdown('release-dl-wrap');
 
     (async () => {
+      // Self-hosted manifest — avoids api.github.com which is often
+      // unreachable from mainland China. Schema:
+      //   { "version": "3.2", "url": "...", "name": "...",
+      //     "notes": "...", "published_at": "YYYY-MM-DD" }
+      // Only `version` is required; the rest are optional.
       try {
-        const res = await fetch(
-          'https://api.github.com/repos/zw87652015/ImageLayoutManager/releases/latest',
-          { headers: { Accept: 'application/vnd.github+json' } }
-        );
-        if (!res.ok) throw new Error('API error');
+        const res = await fetch('latest.json', { cache: 'no-cache' });
+        if (!res.ok) throw new Error('manifest error');
         const r = await res.json();
 
-        latestTag = r.tag_name || LATEST_VERSION;
+        latestTag = r.version || r.tag_name || LATEST_VERSION;
         latestName = r.name || latestTag;
-        latestBody = r.body || '';
-        latestDate = r.published_at || '';
+        latestBody = r.notes || r.body || '';
+        latestDate = r.published_at || r.date || '';
 
         const firstLine = latestBody.split('\n').find(l => l.trim()) || '';
         latestCleanedBody = firstLine.replace(/^#+\s*/, '').replace(/\*\*/g, '').trim();
