@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ImageLayoutManager — CLI</title>
+  <meta name="description" content="Headless CLI for ImageLayoutManager. Render, pack, and inspect layouts from the command line.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #0075de; --blue-active: #005bab; --blue-focus: #097fe8;
+      --badge-bg: #f2f9ff; --badge-text: #097fe8;
+      --near-black: rgba(0,0,0,0.95);
+      --gray-500: #615d59; --gray-300: #a39e98;
+      --warm-white: #f6f5f4;
+      --border: 1px solid rgba(0,0,0,0.1);
+      --shadow-card: rgba(0,0,0,0.04) 0px 4px 18px, rgba(0,0,0,0.027) 0px 2.025px 7.85px, rgba(0,0,0,0.02) 0px 0.8px 2.93px, rgba(0,0,0,0.01) 0px 0.175px 1.04px;
+      --code-bg: #f6f8fa;
+      --code-border: #d0d7de;
+    }
+    body {
+      background: #fff; color: var(--near-black);
+      font-family: Inter, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 16px; font-weight: 400; line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      border-bottom: var(--border); padding: 0 clamp(20px,5vw,48px);
+      height: 56px; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 100;
+    }
+    .nav-brand { font-size: 15px; font-weight: 600; color: var(--near-black); text-decoration: none; letter-spacing: -0.1px; }
+    .nav-back { font-size: 14px; font-weight: 500; color: var(--gray-500); text-decoration: none; transition: color 0.15s; }
+    .nav-back:hover { color: var(--near-black); }
+    .lang-toggle { font-size: 13px; font-weight: 500; background: none; border: 1px solid rgba(0,0,0,0.18); border-radius: 4px; padding: 3px 10px; cursor: pointer; color: var(--gray-500); transition: color 0.15s, border-color 0.15s; font-family: inherit; }
+    .lang-toggle:hover { color: var(--near-black); border-color: rgba(0,0,0,0.35); }
+    .container { max-width: 720px; margin: 0 auto; padding: 0 clamp(20px,5vw,48px); }
+    .hero { padding: 56px 0 40px; }
+    .badge { display: inline-block; background: var(--badge-bg); color: var(--badge-text); font-size: 12px; font-weight: 600; letter-spacing: 0.125px; padding: 4px 10px; border-radius: 9999px; margin-bottom: 16px; }
+    .hero h1 { font-size: clamp(28px,4vw,42px); font-weight: 700; line-height: 1.15; letter-spacing: -0.625px; color: var(--near-black); margin-bottom: 12px; font-variant-numeric: lining-nums; }
+    .hero p { font-size: 16px; color: var(--gray-500); line-height: 1.6; }
+
+    /* ── Body typography ── */
+    article { padding-bottom: 80px; }
+    article h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.4px; color: var(--near-black); margin: 48px 0 16px; padding-bottom: 8px; border-bottom: var(--border); }
+    article h3 { font-size: 18px; font-weight: 700; letter-spacing: -0.2px; color: var(--near-black); margin: 32px 0 12px; }
+    article p { font-size: 15px; color: var(--near-black); margin-bottom: 14px; }
+    article p code, article li code {
+      font-family: "JetBrains Mono", "SF Mono", Consolas, monospace; font-size: 13px;
+      background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 4px; padding: 2px 5px;
+    }
+    article ul { margin: 0 0 16px 20px; }
+    article li { font-size: 15px; margin-bottom: 6px; color: var(--near-black); }
+    article strong { font-weight: 600; color: var(--near-black); }
+    article a { color: var(--blue); text-decoration: none; }
+    article a:hover { text-decoration: underline; }
+
+    /* ── Tables ── */
+    .table-wrap { overflow-x: auto; margin: 16px 0 24px; border: var(--border); border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { text-align: left; padding: 10px 14px; border-bottom: var(--border); }
+    th { font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-500); background: var(--warm-white); }
+    tr:last-child td { border-bottom: none; }
+    td code { font-family: "JetBrains Mono", "SF Mono", Consolas, monospace; font-size: 12px; background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 4px; padding: 2px 5px; }
+
+    /* ── Code blocks ── */
+    pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 8px; padding: 16px 18px; overflow-x: auto; margin: 16px 0 24px; }
+    pre code { font-family: "JetBrains Mono", "SF Mono", Consolas, monospace; font-size: 13px; line-height: 1.55; color: var(--near-black); background: none; border: none; padding: 0; display: block; }
+    .comment { color: var(--gray-300); font-style: italic; }
+    .keyword { color: #d73a49; }
+
+    /* ── Callout ── */
+    .callout { background: var(--badge-bg); border-left: 3px solid var(--blue); border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 16px 0; font-size: 14px; color: var(--near-black); }
+    .callout code { font-family: "JetBrains Mono", monospace; font-size: 12px; background: rgba(9,127,232,0.08); border: none; padding: 2px 5px; border-radius: 3px; }
+
+    /* ── Back to top ── */
+    .back-to-top { display: inline-flex; align-items: center; gap: 6px; color: var(--gray-500); font-size: 14px; text-decoration: none; margin-top: 48px; }
+    .back-to-top:hover { color: var(--near-black); }
+
+    /* ── Footer ── */
+    footer { border-top: var(--border); padding: 24px clamp(20px,5vw,48px); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    footer a { font-size: 13px; color: var(--gray-500); text-decoration: none; }
+    footer a:hover { color: var(--near-black); text-decoration: underline; }
+    .footer-right { display: flex; gap: 20px; }
+
+    @media (max-width: 600px) {
+      footer { justify-content: center; }
+      .hero { padding: 36px 0 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="./index.html" class="nav-brand">ImageLayoutManager</a>
+    <div style="display:flex;align-items:center;gap:14px">
+      <button id="lang-toggle" class="lang-toggle">中文</button>
+      <a href="./index.html" class="nav-back" data-i18n="nav-back">← Back to Home</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="hero">
+      <span class="badge">CLI</span>
+      <h1>imagelayout-cli</h1>
+      <p data-i18n="cli-hero-desc">Headless driver for ImageLayoutManager. Same renderer as the GUI's <strong>File → Export</strong>, no display server required.</p>
+    </div>
+
+    <article>
+
+      <h2 data-i18n="h-verbs">Verbs</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Verb</th><th data-i18n="th-purpose">Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>render</code></td>
+              <td><code>.figpack</code> / <code>.figlayout</code> → <code>pdf</code> / <code>tiff</code> / <code>jpg</code> / <code>png</code></td>
+            </tr>
+            <tr>
+              <td><code>pack</code></td>
+              <td><code>.figlayout</code> → <code>.figpack</code> <span data-i18n="td-pack">(bundle layout + referenced assets)</span></td>
+            </tr>
+            <tr>
+              <td><code>unpack</code></td>
+              <td><code>.figpack</code> → <span data-i18n="td-unpack">folder containing assets + sidecar</span> <code>.figlayout</code></td>
+            </tr>
+            <tr>
+              <td><code>inspect</code></td>
+              <td data-i18n="td-inspect">Print page size, DPI, cell counts, etc. (text or <code>--json</code>)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 data-i18n="h-examples">Examples</h2>
+      <pre><code><span class="comment"># Pixel-perfect PDF render at the project's saved DPI</span>
+imagelayout-cli.exe render figure_4.figpack -f pdf -o figure_4.pdf
+
+<span class="comment"># Override DPI for a fast preview PNG</span>
+imagelayout-cli.exe render figure_4.figlayout -f png --dpi 150
+
+<span class="comment"># Print-ready CMYK TIFF using a specific ICC profile</span>
+imagelayout-cli.exe render figure_4.figpack -f tiff --cmyk `
+    --icc-profile "C:\ICC\USWebCoatedSWOP.icc" --icc-intent 1 -o fig.tiff
+
+<span class="comment"># Bundle a .figlayout + every referenced image into a .figpack</span>
+imagelayout-cli.exe pack figure_4.figlayout -o figure_4.figpack
+
+<span class="comment"># Unpack a .figpack so you can edit the JSON / images by hand</span>
+imagelayout-cli.exe unpack figure_4.figpack -o ./extracted/
+
+<span class="comment"># Quick summary</span>
+imagelayout-cli.exe inspect figure_4.figpack
+imagelayout-cli.exe inspect figure_4.figpack --json</code></pre>
+
+      <h2 data-i18n="h-exit">Exit codes</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th data-i18n="th-code">Code</th><th data-i18n="th-meaning">Meaning</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>0</code></td><td data-i18n="td-success">Success</td></tr>
+            <tr><td><code>1</code></td><td data-i18n="td-user-err">User-facing error (bad path, unknown format, etc.)</td></tr>
+            <tr><td><code>2</code></td><td data-i18n="td-usage-err">Argparse usage error</td></tr>
+            <tr><td><code>3</code></td><td data-i18n="td-integrity">Bundle integrity / security failure</td></tr>
+            <tr><td><code>4</code></td><td data-i18n="td-internal">Unexpected internal error</td></tr>
+            <tr><td><code>130</code></td><td data-i18n="td-interrupt">Interrupted (Ctrl+C)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <p data-i18n="debug-note">Set <code>IMAGELAYOUT_CLI_DEBUG=1</code> to print full tracebacks on exit-4 errors.</p>
+      </div>
+
+      <h2 data-i18n="h-parity">Output parity</h2>
+      <p data-i18n="p-parity"><code>render</code> reuses the same <code>PdfExporter</code> / <code>ImageExporter</code> classes as <strong>File → Export</strong> — labels, scale bars, PiPs, rotated text, vector PDF stamping, CMYK ICC conversion all behave identically.</p>
+
+      <h3 data-i18n="h-platform">Platform plugin</h3>
+      <p data-i18n="p-platform">To preserve text rendering parity with the GUI the CLI uses the <strong>native</strong> Qt platform plugin on Windows and macOS (<code>windows</code> / <code>cocoa</code>). The native plugin is the only one that initialises the OS font database (DirectWrite on Windows, Core Text on macOS); the <code>offscreen</code> plugin on Windows ships without a font directory and renders every glyph as a filled rectangle (tofu). No window is ever shown — <code>QPdfWriter</code> / <code>QImage</code> paint to a paint device, not a window — so the native plugin behaves like a headless renderer in practice.</p>
+      <p data-i18n="p-linux">On Linux the CLI defaults to <code>offscreen</code>, which uses fontconfig (the system font db) and works without a <code>DISPLAY</code> (CI, SSH, Docker).</p>
+      <p data-i18n="p-override">You can override the choice with <code>QT_QPA_PLATFORM</code> in the environment if you need to (e.g. running under a Windows service account with no GDI access — accept that text will tofu).</p>
+
+      <h2 data-i18n="h-install">Installation</h2>
+      <p data-i18n="p-install">The Windows installer ships <code>imagelayout-cli.exe</code> next to the GUI exe. After install:</p>
+      <pre><code>"C:\Program Files\ImageLayoutManager\imagelayout-cli.exe" --help</code></pre>
+      <p data-i18n="p-shell">Or use the <strong>ImageLayoutManager CLI (shell)</strong> Start Menu entry, which opens <code>cmd.exe</code> in the install directory with <code>imagelayout-cli --help</code> already executed — from there you can run any verb without typing the full path.</p>
+      <p data-i18n="p-path">To call <code>imagelayout-cli</code> from any shell, add the install directory to <code>PATH</code> manually (System Properties → Environment Variables) — the installer deliberately does <strong>not</strong> modify <code>PATH</code> to avoid surprising existing user customisations.</p>
+
+      <h2 data-i18n="h-build">Building</h2>
+      <h3 data-i18n="h-dev">Dev runs (no install needed)</h3>
+      <pre><code>python cli_main.py inspect path\to\file.figpack</code></pre>
+      <h3 data-i18n="h-standalone">Standalone CLI binary (without the GUI installer)</h3>
+      <pre><code>pyinstaller --noconfirm imagelayout-cli.spec
+<span class="comment"># → dist\imagelayout-cli\imagelayout-cli.exe</span></code></pre>
+      <h3 data-i18n="h-combined">Combined GUI + CLI installer</h3>
+      <pre><code>python build_installer_windows.py
+<span class="comment"># → dist\ImageLayoutManager_Setup.exe   (contains both exes)</span></code></pre>
+      <p data-i18n="p-specs">Both specs exclude Qt modules the app doesn't need (<code>QtNetwork</code>, <code>QtMultimedia</code>, <code>QtWebEngine*</code>, <code>Qt3D*</code>, <code>QtQml</code>, <code>QtQuick*</code>, …) but include matplotlib + numpy because <code>$...$</code> LaTeX math depends on them.</p>
+
+      <a href="#" class="back-to-top" data-i18n="back-top">↑ Back to top</a>
+    </article>
+  </div>
+
+  <footer>
+    <a href="./index.html" data-i18n="footer-home">← Home</a>
+    <div class="footer-right">
+      <a href="https://github.com/zw87652015/ImageLayoutManager" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        'nav-back': '← Back to Home',
+        'cli-hero-desc': "Headless driver for ImageLayoutManager. Same renderer as the GUI's File → Export, no display server required.",
+        'h-verbs': 'Verbs',
+        'th-purpose': 'Purpose',
+        'td-pack': '(bundle layout + referenced assets)',
+        'td-unpack': 'folder containing assets + sidecar',
+        'td-inspect': 'Print page size, DPI, cell counts, etc. (text or --json)',
+        'h-examples': 'Examples',
+        'h-exit': 'Exit codes',
+        'th-code': 'Code',
+        'th-meaning': 'Meaning',
+        'td-success': 'Success',
+        'td-user-err': 'User-facing error (bad path, unknown format, etc.)',
+        'td-usage-err': 'Argparse usage error',
+        'td-integrity': 'Bundle integrity / security failure',
+        'td-internal': 'Unexpected internal error',
+        'td-interrupt': 'Interrupted (Ctrl+C)',
+        'debug-note': 'Set IMAGELAYOUT_CLI_DEBUG=1 to print full tracebacks on exit-4 errors.',
+        'h-parity': 'Output parity',
+        'p-parity': 'render reuses the same PdfExporter / ImageExporter classes as File → Export — labels, scale bars, PiPs, rotated text, vector PDF stamping, CMYK ICC conversion all behave identically.',
+        'h-platform': 'Platform plugin',
+        'p-platform': 'To preserve text rendering parity with the GUI the CLI uses the native Qt platform plugin on Windows and macOS (windows / cocoa). The native plugin is the only one that initialises the OS font database (DirectWrite on Windows, Core Text on macOS); the offscreen plugin on Windows ships without a font directory and renders every glyph as a filled rectangle (tofu). No window is ever shown — QPdfWriter / QImage paint to a paint device, not a window — so the native plugin behaves like a headless renderer in practice.',
+        'p-linux': 'On Linux the CLI defaults to offscreen, which uses fontconfig (the system font db) and works without a DISPLAY (CI, SSH, Docker).',
+        'p-override': 'You can override the choice with QT_QPA_PLATFORM in the environment if you need to (e.g. running under a Windows service account with no GDI access — accept that text will tofu).',
+        'h-install': 'Installation',
+        'p-install': 'The Windows installer ships imagelayout-cli.exe next to the GUI exe. After install:',
+        'p-shell': 'Or use the ImageLayoutManager CLI (shell) Start Menu entry, which opens cmd.exe in the install directory with imagelayout-cli --help already executed — from there you can run any verb without typing the full path.',
+        'p-path': 'To call imagelayout-cli from any shell, add the install directory to PATH manually (System Properties → Environment Variables) — the installer deliberately does not modify PATH to avoid surprising existing user customisations.',
+        'h-build': 'Building',
+        'h-dev': 'Dev runs (no install needed)',
+        'h-standalone': 'Standalone CLI binary (without the GUI installer)',
+        'h-combined': 'Combined GUI + CLI installer',
+        'p-specs': 'Both specs exclude Qt modules the app does not need (QtNetwork, QtMultimedia, QtWebEngine*, Qt3D*, QtQml, QtQuick*, …) but include matplotlib + numpy because $...$ LaTeX math depends on them.',
+        'back-top': '↑ Back to top',
+        'footer-home': '← Home',
+      },
+      zh: {
+        'nav-back': '← 返回首页',
+        'cli-hero-desc': 'ImageLayoutManager 的无头驱动。使用与 GUI 文件 → 导出相同的渲染器，无需图形服务器。',
+        'h-verbs': '命令',
+        'th-purpose': '功能',
+        'td-pack': '（将布局与引用资源打包）',
+        'td-unpack': '包含资源文件和附带',
+        'td-inspect': '输出页面尺寸、DPI、单元格数量等（文本或 --json 格式）',
+        'h-examples': '示例',
+        'h-exit': '退出码',
+        'th-code': '码',
+        'th-meaning': '含义',
+        'td-success': '成功',
+        'td-user-err': '用户可处理的错误（路径不存在、未知格式等）',
+        'td-usage-err': '参数解析错误',
+        'td-integrity': '包完整性 / 安全校验失败',
+        'td-internal': '意外内部错误',
+        'td-interrupt': '中断（Ctrl+C）',
+        'debug-note': '设置 IMAGELAYOUT_CLI_DEBUG=1 可在退出码 4 时打印完整堆栈跟踪。',
+        'h-parity': '输出一致性',
+        'p-parity': 'render 复用 GUI 文件 → 导出中的 PdfExporter / ImageExporter 类——标签、比例尺、画中画、旋转文字、矢量 PDF 压印、CMYK ICC 转换行为完全一致。',
+        'h-platform': '平台插件',
+        'p-platform': '为保持与 GUI 的文字渲染一致性，CLI 在 Windows 和 macOS 上使用原生 Qt 平台插件（windows / cocoa）。原生插件是唯一初始化系统字体数据库的（Windows 上为 DirectWrite，macOS 上为 Core Text）；Windows 上的 offscreen 插件不带字体目录，会将所有字形渲染为实心方块（豆腐块）。实际上不会显示任何窗口——QPdfWriter / QImage 直接绘制到设备而非窗口——因此原生插件在实践中表现得像无头渲染器。',
+        'p-linux': 'Linux 上 CLI 默认使用 offscreen，该插件通过 fontconfig（系统字体库）工作，无需 DISPLAY 即可运行（CI、SSH、Docker）。',
+        'p-override': '如需可设置环境变量 QT_QPA_PLATFORM 覆盖（例如在无 GDI 访问的 Windows 服务账户下运行——此时文字将显示为豆腐块）。',
+        'h-install': '安装',
+        'p-install': 'Windows 安装程序将 imagelayout-cli.exe 与 GUI 程序一并安装。安装完成后：',
+        'p-shell': '或者使用开始菜单中的「ImageLayoutManager CLI (shell)」快捷方式，它会打开 cmd.exe 并自动运行 imagelayout-cli --help——此后可直接在目录中运行命令，无需输入完整路径。',
+        'p-path': '要从任何 shell 调用 imagelayout-cli，请手动将安装目录添加到 PATH（系统属性 → 环境变量）——安装程序故意不修改 PATH，以避免覆盖用户现有配置。',
+        'h-build': '构建',
+        'h-dev': '开发运行（无需安装）',
+        'h-standalone': '独立 CLI 二进制（不含 GUI 安装包）',
+        'h-combined': 'GUI + CLI 组合安装包',
+        'p-specs': '两种 spec 都排除了应用不需要的 Qt 模块（QtNetwork、QtMultimedia、QtWebEngine*、Qt3D*、QtQml、QtQuick* 等），但保留了 matplotlib + numpy，因为 $...$ LaTeX 数学公式依赖它们。',
+        'back-top': '↑ 回到顶部',
+        'footer-home': '← 首页',
+      }
+    };
+
+    function detectLang() {
+      const stored = localStorage.getItem('ilm-cli-lang');
+      if (stored === 'zh' || stored === 'en') return stored;
+      const langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en'];
+      for (const l of langs) { if (l.toLowerCase().startsWith('zh')) return 'zh'; }
+      return 'en';
+    }
+
+    let currentLang = detectLang();
+
+    function applyLang(lang) {
+      const t = translations[lang];
+      document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) {
+          if (el.tagName === 'TD' && el.querySelector('code')) {
+            el.innerHTML = t[key];
+          } else {
+            el.textContent = t[key];
+          }
+        }
+      });
+      const btn = document.getElementById('lang-toggle');
+      if (btn) btn.textContent = lang === 'zh' ? 'EN' : '中文';
+    }
+
+    applyLang(currentLang);
+
+    document.getElementById('lang-toggle').addEventListener('click', () => {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      localStorage.setItem('ilm-cli-lang', currentLang);
+      applyLang(currentLang);
+    });
+  </script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 {
-  "version": "v3.2.0",
-  "name": "v3.2.0",
+  "version": "v3.2.1",
+  "name": "v3.2.1",
   "url": "https://luojiajiang.uk/image-layout-manager/#download",
-  "notes": ".figpack package support.",
-  "published_at": "2026-04-27"
+  "notes": "CLI tool.",
+  "published_at": "2026-04-28"
 }

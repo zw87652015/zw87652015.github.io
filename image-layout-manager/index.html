@@ -734,6 +734,43 @@
 
   <hr class="divider">
 
+  <!-- CLI -->
+  <section>
+    <div class="container">
+      <div class="section-label" data-i18n="cli-label">CLI</div>
+      <div class="section-title" data-i18n="cli-title">Headless automation for batch workflows</div>
+      <p class="section-subtitle" data-i18n="cli-subtitle">Render, pack, and inspect layouts from the command line — same quality as the GUI, no display required.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <span class="icon">🖥️</span>
+          <h3 data-i18n="cli-render-title">Render</h3>
+          <p data-i18n="cli-render-desc">Export .figpack / .figlayout to PDF, TIFF, JPG, or PNG with the same renderer as the GUI.</p>
+        </div>
+        <div class="feature-card">
+          <span class="icon">📦</span>
+          <h3 data-i18n="cli-pack-title">Pack / Unpack</h3>
+          <p data-i18n="cli-pack-desc">Bundle layouts with assets into .figpack, or extract .figpack to folders.</p>
+        </div>
+        <div class="feature-card">
+          <span class="icon">🔍</span>
+          <h3 data-i18n="cli-inspect-title">Inspect</h3>
+          <p data-i18n="cli-inspect-desc">Query page size, DPI, cell counts, and metadata (text or JSON output).</p>
+        </div>
+      </div>
+      <div style="margin-top: 32px; padding: 20px; background: var(--gray-100, #f5f5f7); border-radius: 12px; font-family: monospace; font-size: 13px; line-height: 1.6; color: var(--near-black);">
+        <div style="margin-bottom: 8px; color: var(--gray-500);"># Pixel-perfect PDF render at project DPI</div>
+        <div>imagelayout-cli.exe render figure_4.figpack -f pdf -o figure_4.pdf</div>
+        <div style="margin-top: 12px; margin-bottom: 8px; color: var(--gray-500);"># Fast preview PNG with custom DPI</div>
+        <div>imagelayout-cli.exe render figure_4.figlayout -f png --dpi 150</div>
+        <div style="margin-top: 12px; margin-bottom: 8px; color: var(--gray-500);"># Print-ready CMYK TIFF with ICC profile</div>
+        <div>imagelayout-cli.exe render figure_4.figpack -f tiff --cmyk --icc-profile "path/to/profile.icc" -o fig.tiff</div>
+      </div>
+      <p style="margin-top: 16px; font-size: 13px; color: var(--gray-500);" data-i18n="cli-note">Available only in Windows Installer. See <a href="cli.md" target="_blank" rel="noopener noreferrer" style="color: var(--blue);">cli.md</a> for full documentation.</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
   <!-- Tech -->
   <section>
     <div class="container">
@@ -794,6 +831,7 @@
   <footer>
     <a href="/" data-i18n="footer-home">← Home</a>
     <div class="footer-right">
+      <a href="./cli.html" rel="noopener noreferrer" data-i18n="footer-cli">CLI Docs</a>
       <a href="https://github.com/zw87652015/ImageLayoutManager" target="_blank" rel="noopener noreferrer">GitHub</a>
       <a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer"
         data-i18n="footer-releases">All Releases</a>
@@ -840,6 +878,16 @@
         'step4': 'Adjust spacing & labels',
         'step5': 'Save <code style="font-size:11px;color:var(--blue)">.figlayout</code>',
         'step6': 'Export PDF / TIFF / JPG',
+        'cli-label': 'CLI',
+        'cli-title': 'Headless automation for batch workflows',
+        'cli-subtitle': 'Render, pack, and inspect layouts from the command line — same quality as the GUI, no display required.',
+        'cli-render-title': 'Render',
+        'cli-render-desc': 'Export .figpack / .figlayout to PDF, TIFF, JPG, or PNG with the same renderer as the GUI.',
+        'cli-pack-title': 'Pack / Unpack',
+        'cli-pack-desc': 'Bundle layouts with assets into .figpack, or extract .figpack to folders.',
+        'cli-inspect-title': 'Inspect',
+        'cli-inspect-desc': 'Query page size, DPI, cell counts, and metadata (text or JSON output).',
+        'cli-note': 'Available only in Windows Installer. See <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI docs</a> for full documentation.',
         'technical-label': 'Technical',
         'technical-title': 'Stack & formats',
         'tech-lang': 'Language',
@@ -850,7 +898,7 @@
         'release-loading': 'Loading release notes…',
         'release-btn': '↓ Download',
         'dl-win-installer-title': 'Windows Installer',
-        'dl-win-installer-sub': 'Recommended · .exe Setup',
+        'dl-win-installer-sub': 'Recommended · .exe Setup · Includes CLI',
         'dl-win-portable-title': 'Windows Portable',
         'dl-win-portable-sub': 'Standalone .exe · no install',
         'dl-mac-title': 'macOS',
@@ -862,21 +910,22 @@
         'release-fallback-body': 'Adds customizable scale bars for each panel, making microscopy and imaging figures publication-ready.',
         'release-notes-fallback': 'See the release page for full notes.',
         'footer-home': '← Home',
+        'footer-cli': 'CLI Docs',
         'footer-releases': 'All Releases',
         'date-locale': 'en-US',
       },
       zh: {
         'nav-back': '← 返回首页',
         'hero-badge': '开源 · Apache 2.0',
-        'hero-h1': '学术图像排版工具',
+        'hero-h1': '学术级图形排版利器',
         'hero-p': '支持 LaTeX 公式、画中画叠放、矢量化 PDF 导出——专为学术论文排版打造的高效工具。',
         'hero-download-text': '↓ 下载',
         'hero-github-btn': '⬡ 在 GitHub 上查看',
         'features-label': '功能特性',
-        'features-title': '期刊图形所需的一切',
+        'features-title': '期刊图表一站式解决方案',
         'features-subtitle': '从布局到导出，一站式桌面应用。',
         'feat1-title': 'LaTeX 公式支持',
-        'feat1-desc': '使用标准的 LaTeX 语法直接在面板上渲染复杂的数学公式、符号和化学符号。',
+        'feat1-desc': '使用标准 LaTeX 语法直接在面板上渲染数学公式、化学符号等复杂内容。',
         'feat2-title': '画中画 (PiP)',
         'feat2-desc': '轻松创建嵌入图和放大视图。在主面板上叠放子图片，并可自定义边框样式以突出细节。',
         'feat3-title': '层级化单元格分割',
@@ -884,24 +933,34 @@
         'feat4-title': '矢量化 PDF 导出',
         'feat4-desc': '导出符合发表要求的 PDF，在嵌入高分辨率图像的同时，确保所有文字和标签保持矢量清晰。',
         'feat5-title': '智能拖拽交换',
-        'feat5-desc': '像操作手机图标一样直观地拖拽交换面板位置，并带有平滑的弹簧物理动画效果。',
+        'feat5-desc': '直观拖拽交换面板位置，搭配丝滑的弹性动画效果。',
         'feat6-title': '集成比例尺工具',
-        'feat6-desc': '为每个面板添加并精细调整专业标尺——这是显微成像论文的必备功能。',
+        'feat6-desc': '为每个面板添加并精细调整专业比例尺——显微镜与成像论文的必备功能。',
         'feat7-title': '嵌套布局支持',
-        'feat7-desc': '支持将已有的 .figlayout 文件导入任何单元格，实现从模块化组件构建复杂大图。',
+        'feat7-desc': '将已有 .figlayout 文件导入任意单元格，以模块化方式构建复杂大图。',
         'feat8-title': '智能一键排版',
         'feat8-desc': '只需点击一下，即可根据图片比例自动优化单元格尺寸和页面布局，实现完美对齐。',
-        'feat9-title': '批量矩阵导入',
-        'feat9-desc': '批量选择多张图片，即可瞬间生成排列整齐的矩阵网格，无需手动逐个放置，极速开启排版流程。',
+        'feat9-title': '批量网格导入',
+        'feat9-desc': '批量选中图片，一键生成整齐的多面板网格，省去逐个手动放置的繁琐。',
         'workflow-label': '工作流程',
         'workflow-title': '六步完成期刊图形',
-        'workflow-subtitle': '从画布到可提交导出的可重复流程。',
+        'workflow-subtitle': '从创建到投稿，可重复的标准化流程。',
         'step1': '创建布局',
         'step2': '添加图片',
         'step3': '分割单元格',
         'step4': '调整间距与标签',
         'step5': '保存 <code style="font-size:11px;color:var(--blue)">.figlayout</code>',
         'step6': '导出 PDF / TIFF / JPG',
+        'cli-label': 'CLI',
+        'cli-title': '命令行自动化，批量处理无压力',
+        'cli-subtitle': '通过命令行渲染、打包和检查布局 —— 无需图形界面，输出质量与 GUI 完全一致。',
+        'cli-render-title': '渲染',
+        'cli-render-desc': '使用与 GUI 相同的渲染器将 .figpack / .figlayout 导出为 PDF、TIFF、JPG 或 PNG。',
+        'cli-pack-title': '打包 / 解包',
+        'cli-pack-desc': '将布局与资源打包为 .figpack，或将 .figpack 解包到文件夹。',
+        'cli-inspect-title': '检查',
+        'cli-inspect-desc': '查询页面尺寸、DPI、单元格数量和元数据（文本或 JSON 输出）。',
+        'cli-note': '仅限 Windows 安装版。完整文档请参阅 <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI 文档</a>。',
         'technical-label': '技术栈',
         'technical-title': '技术栈 & 格式',
         'tech-lang': '语言',
@@ -912,7 +971,7 @@
         'release-loading': '正在加载发布说明…',
         'release-btn': '↓ 下载',
         'dl-win-installer-title': 'Windows 安装版',
-        'dl-win-installer-sub': '推荐 · 安装程序 .exe',
+        'dl-win-installer-sub': '推荐 · 安装程序 .exe · 包含 CLI',
         'dl-win-portable-title': 'Windows 便携版',
         'dl-win-portable-sub': '免安装 · 独立 .exe',
         'dl-mac-title': 'macOS',
@@ -924,6 +983,7 @@
         'release-fallback-body': '为每个面板添加可自定义的标尺，让显微镜和成像图形达到发表标准。',
         'release-notes-fallback': '请前往发布页面查看完整说明。',
         'footer-home': '← 首页',
+        'footer-cli': 'CLI 文档',
         'footer-releases': '所有版本',
         'date-locale': 'zh-CN',
       }
