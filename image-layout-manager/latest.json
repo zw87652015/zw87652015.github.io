@@ -1,7 +1,7 @@
 {
-  "version": "v3.3.0",
-  "name": "v3.3.0",
+  "version": "v3.3.1",
+  "name": "v3.3.1",
   "url": "https://luojiajiang.uk/image-layout-manager/#download",
-  "notes": "SVG bug fix.",
-  "published_at": "2026-05-03"
+  "notes": "UI polishing.",
+  "published_at": "2026-05-21"
 }
