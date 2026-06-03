@@ -1,7 +1,8 @@
 # `imagelayout-cli`
 
-Headless driver for ImageLayoutManager. Same renderer as the GUI's
-`File → Export`, no display server required.
+Headless driver and MCP adapter for ImageLayoutManager. Render, pack,
+inspect, and let AI hosts control the running GUI through
+`imagelayout-cli.exe mcp`.
 
 ## Verbs
 
@@ -11,6 +12,7 @@ Headless driver for ImageLayoutManager. Same renderer as the GUI's
 | `pack`    | `.figlayout` → `.figpack` (bundle layout + referenced assets)   |
 | `unpack`  | `.figpack` → folder containing assets + sidecar `.figlayout`    |
 | `inspect` | Print page size, DPI, cell counts, etc. (text or `--json`)      |
+| `mcp`     | Stdio MCP adapter for AI hosts; proxies 36 layout/styling/export tools to the running GUI |
 
 ## Examples
 
@@ -34,7 +36,37 @@ imagelayout-cli.exe unpack figure_4.figpack -o ./extracted/
 # Quick summary
 imagelayout-cli.exe inspect figure_4.figpack
 imagelayout-cli.exe inspect figure_4.figpack --json
+
+# MCP adapter used by Claude, Cursor, Windsurf, Cline, etc.
+imagelayout-cli.exe mcp
 ```
+
+## MCP automation
+
+The `mcp` verb is a stdio adapter for MCP-compatible AI hosts. It connects
+to the running ImageLayoutManager GUI over localhost WebSocket, so the AI
+can create layouts, import images, style labels/text, crop/rotate/pad
+panels, add scale bars, add PiP insets, manage size groups, set export
+regions, request screenshots, and save/export projects.
+
+In the GUI, enable **Tools → Enable MCP Server**. Then configure your AI
+host to run:
+
+```json
+{
+  "mcpServers": {
+    "imagelayout": {
+      "command": "C:/Program Files/ImageLayoutManager/imagelayout-cli.exe",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+After upgrading ImageLayoutManager, restart both the app and your AI host.
+If the installer reports a locked `.pyd` file, fully quit the AI host or
+stop any remaining `imagelayout-cli.exe` process, then run the installer
+again.
 
 ## Exit codes
 

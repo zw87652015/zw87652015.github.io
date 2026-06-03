@@ -613,7 +613,7 @@
       <h1 data-i18n-html="hero-h1">The ultimate figure composer<br>for researchers</h1>
       <p data-i18n="hero-p">
         Assemble multi-panel layouts with LaTeX support, PiP overlays,
-        and Vector-Sharp PDF export — built for publication-ready figures.
+        MCP-assisted editing, and Vector-Sharp PDF export — built for publication-ready figures.
       </p>
       <div class="cta-group">
         <div class="dl-wrap" id="hero-dl-wrap">
@@ -663,32 +663,31 @@
             labels as resolution-independent vector objects.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">🔄</span>
-          <h3 data-i18n="feat5-title">Smart Drag &amp; Swap</h3>
-          <p data-i18n="feat5-desc">Reorganize panels with intuitive smartphone-style drag-and-drop, featuring smooth
-            spring-physics animations.</p>
-        </div>
-        <div class="feature-card">
           <span class="icon">📏</span>
-          <h3 data-i18n="feat6-title">Integrated Scale Bar Tool</h3>
-          <p data-i18n="feat6-desc">Add and fine-tune professional scale bars—an essential requirement for microscopy
+          <h3 data-i18n="feat5-title">Integrated Scale Bar Tool</h3>
+          <p data-i18n="feat5-desc">Add and fine-tune professional scale bars—an essential requirement for microscopy
             and imaging figures.</p>
         </div>
         <div class="feature-card">
           <span class="icon">🗂️</span>
-          <h3 data-i18n="feat7-title">Nested Layouts</h3>
-          <p data-i18n="feat7-desc">Import existing .figlayout files into any cell to compose complex figures from
+          <h3 data-i18n="feat6-title">Nested Layouts</h3>
+          <p data-i18n="feat6-desc">Import existing .figlayout files into any cell to compose complex figures from
             modular components.</p>
         </div>
         <div class="feature-card">
           <span class="icon">🪄</span>
-          <h3 data-i18n="feat8-title">One-Click Auto Layout</h3>
-          <p data-i18n="feat8-desc">Automatically optimize cell ratios and page dimensions with a single click to perfectly fit all your images.</p>
+          <h3 data-i18n="feat7-title">One-Click Auto Layout</h3>
+          <p data-i18n="feat7-desc">Automatically optimize cell ratios and page dimensions with a single click to perfectly fit all your images.</p>
         </div>
         <div class="feature-card">
           <span class="icon">📷</span>
-          <h3 data-i18n="feat9-title">Batch Grid Import</h3>
-          <p data-i18n="feat9-desc">Select a batch of images and instantly generate a perfectly aligned multi-panel grid, ready for further refinement.</p>
+          <h3 data-i18n="feat8-title">Batch Grid Import</h3>
+          <p data-i18n="feat8-desc">Select a batch of images and instantly generate a perfectly aligned multi-panel grid, ready for further refinement.</p>
+        </div>
+        <div class="feature-card">
+          <span class="icon">🤖</span>
+          <h3 data-i18n="feat9-title">AI / MCP Assisted Editing</h3>
+          <p data-i18n="feat9-desc">Connect Claude, Cursor, Windsurf, Cline, or other MCP hosts to build, style, annotate, preview, save, and export figures through the running app.</p>
         </div>
       </div>
     </div>
@@ -738,8 +737,8 @@
   <section>
     <div class="container">
       <div class="section-label" data-i18n="cli-label">CLI</div>
-      <div class="section-title" data-i18n="cli-title">Headless automation for batch workflows</div>
-      <p class="section-subtitle" data-i18n="cli-subtitle">Render, pack, and inspect layouts from the command line — same quality as the GUI, no display required.</p>
+      <div class="section-title" data-i18n="cli-title">CLI and MCP automation for repeatable workflows</div>
+      <p class="section-subtitle" data-i18n="cli-subtitle">Render, pack, inspect, and connect AI agents through the bundled CLI — same quality as the GUI, plus live MCP control.</p>
       <div class="feature-grid">
         <div class="feature-card">
           <span class="icon">🖥️</span>
@@ -756,6 +755,11 @@
           <h3 data-i18n="cli-inspect-title">Inspect</h3>
           <p data-i18n="cli-inspect-desc">Query page size, DPI, cell counts, and metadata (text or JSON output).</p>
         </div>
+        <div class="feature-card">
+          <span class="icon">🔌</span>
+          <h3 data-i18n="cli-mcp-title">MCP adapter</h3>
+          <p data-i18n="cli-mcp-desc">Run <code>imagelayout-cli.exe mcp</code> so AI hosts can call the app's 36 layout, styling, PiP, scale-bar, text, and export tools.</p>
+        </div>
       </div>
       <div style="margin-top: 32px; padding: 20px; background: var(--gray-100, #f5f5f7); border-radius: 12px; font-family: monospace; font-size: 13px; line-height: 1.6; color: var(--near-black);">
         <div style="margin-bottom: 8px; color: var(--gray-500);"># Pixel-perfect PDF render at project DPI</div>
@@ -764,6 +768,8 @@
         <div>imagelayout-cli.exe render figure_4.figlayout -f png --dpi 150</div>
         <div style="margin-top: 12px; margin-bottom: 8px; color: var(--gray-500);"># Print-ready CMYK TIFF with ICC profile</div>
         <div>imagelayout-cli.exe render figure_4.figpack -f tiff --cmyk --icc-profile "path/to/profile.icc" -o fig.tiff</div>
+        <div style="margin-top: 12px; margin-bottom: 8px; color: var(--gray-500);"># MCP adapter for Claude, Cursor, Windsurf, Cline, etc.</div>
+        <div>imagelayout-cli.exe mcp</div>
       </div>
       <p style="margin-top: 16px; font-size: 13px; color: var(--gray-500);" data-i18n-html="cli-note">Available only in Windows Installer. See <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI docs</a> for full documentation.</p>
     </div>
@@ -845,7 +851,7 @@
         'nav-back': '← Back to Home',
         'hero-badge': 'Open Source · Apache 2.0',
         'hero-h1': 'The ultimate figure composer<br>for researchers',
-        'hero-p': 'Assemble multi-panel layouts with LaTeX support, PiP overlays, and Vector-Sharp PDF export — built for publication-ready figures.',
+        'hero-p': 'Assemble multi-panel layouts with LaTeX support, PiP overlays, MCP-assisted editing, and Vector-Sharp PDF export — built for publication-ready figures.',
         'hero-download-text': '↓ Download',
         'hero-github-btn': '⬡ View on GitHub',
         'features-label': 'Features',
@@ -859,16 +865,16 @@
         'feat3-desc': 'Split cells infinitely in vertical or horizontal stacks to create sophisticated, multi-tiered layouts.',
         'feat4-title': 'Vector-Sharp PDF Export',
         'feat4-desc': 'Export publication-ready PDFs with high-DPI image embedding while keeping text and labels as resolution-independent vector objects.',
-        'feat5-title': 'Smart Drag & Swap',
-        'feat5-desc': 'Reorganize panels with intuitive smartphone-style drag-and-drop, featuring smooth spring-physics animations.',
-        'feat6-title': 'Integrated Scale Bar Tool',
-        'feat6-desc': 'Add and fine-tune professional scale bars—an essential requirement for microscopy and imaging figures.',
-        'feat7-title': 'Nested Layouts',
-        'feat7-desc': 'Import existing .figlayout files into any cell to compose complex figures from modular components.',
-        'feat8-title': 'One-Click Auto Layout',
-        'feat8-desc': 'Automatically optimize cell ratios and page dimensions with a single click to perfectly fit all your images.',
-        'feat9-title': 'Batch Grid Import',
-        'feat9-desc': 'Select a batch of images and instantly generate a perfectly aligned multi-panel grid, ready for further refinement.',
+        'feat5-title': 'Integrated Scale Bar Tool',
+        'feat5-desc': 'Add and fine-tune professional scale bars—an essential requirement for microscopy and imaging figures.',
+        'feat6-title': 'Nested Layouts',
+        'feat6-desc': 'Import existing .figlayout files into any cell to compose complex figures from modular components.',
+        'feat7-title': 'One-Click Auto Layout',
+        'feat7-desc': 'Automatically optimize cell ratios and page dimensions with a single click to perfectly fit all your images.',
+        'feat8-title': 'Batch Grid Import',
+        'feat8-desc': 'Select a batch of images and instantly generate a perfectly aligned multi-panel grid, ready for further refinement.',
+        'feat9-title': 'AI / MCP Assisted Editing',
+        'feat9-desc': 'Connect Claude, Cursor, Windsurf, Cline, or other MCP hosts to build, style, annotate, preview, save, and export figures through the running app.',
         'workflow-label': 'Workflow',
         'workflow-title': 'Six steps to a journal figure',
         'workflow-subtitle': 'A repeatable process from canvas to camera-ready export.',
@@ -879,14 +885,16 @@
         'step5': 'Save <code style="font-size:11px;color:var(--blue)">.figlayout</code>',
         'step6': 'Export PDF / TIFF / JPG',
         'cli-label': 'CLI',
-        'cli-title': 'Headless automation for batch workflows',
-        'cli-subtitle': 'Render, pack, and inspect layouts from the command line — same quality as the GUI, no display required.',
+        'cli-title': 'CLI and MCP automation for repeatable workflows',
+        'cli-subtitle': 'Render, pack, inspect, and connect AI agents through the bundled CLI — same quality as the GUI, plus live MCP control.',
         'cli-render-title': 'Render',
         'cli-render-desc': 'Export .figpack / .figlayout to PDF, TIFF, JPG, or PNG with the same renderer as the GUI.',
         'cli-pack-title': 'Pack / Unpack',
         'cli-pack-desc': 'Bundle layouts with assets into .figpack, or extract .figpack to folders.',
         'cli-inspect-title': 'Inspect',
         'cli-inspect-desc': 'Query page size, DPI, cell counts, and metadata (text or JSON output).',
+        'cli-mcp-title': 'MCP adapter',
+        'cli-mcp-desc': "Run imagelayout-cli.exe mcp so AI hosts can call the app's 36 layout, styling, PiP, scale-bar, text, and export tools.",
         'cli-note': 'Available only in Windows Installer. See <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI docs</a> for full documentation.',
         'technical-label': 'Technical',
         'technical-title': 'Stack & formats',
@@ -906,8 +914,8 @@
         'dl-foot': 'Looking for older versions? <a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer">View all releases</a>',
         'release-latest-prefix': 'Latest Release · ',
         'release-released-prefix': 'Released ',
-        'release-fallback-title': 'v2.1.4 — Customizable Scale Bars',
-        'release-fallback-body': 'Adds customizable scale bars for each panel, making microscopy and imaging figures publication-ready.',
+        'release-fallback-title': 'v3.3.2 — MCP and CLI automation',
+        'release-fallback-body': 'Adds MCP-assisted editing through imagelayout-cli.exe mcp, expanded 36-tool AI control, and Windows version/copyright metadata.',
         'release-notes-fallback': 'See the release page for full notes.',
         'footer-home': '← Home',
         'footer-cli': 'CLI Docs',
@@ -918,7 +926,7 @@
         'nav-back': '← 返回首页',
         'hero-badge': '开源 · Apache 2.0',
         'hero-h1': '学术级图形排版利器',
-        'hero-p': '支持 LaTeX 公式、画中画叠放、矢量化 PDF 导出——专为学术论文排版打造的高效工具。',
+        'hero-p': '支持 LaTeX 公式、子图、MCP 辅助编辑与矢量化 PDF 导出——专为学术论文排版打造的高效工具。',
         'hero-download-text': '↓ 下载',
         'hero-github-btn': '⬡ 在 GitHub 上查看',
         'features-label': '功能特性',
@@ -932,16 +940,16 @@
         'feat3-desc': '水平或垂直无限分割单元格，以创建复杂且专业的多层级布局。',
         'feat4-title': '矢量化 PDF 导出',
         'feat4-desc': '导出符合发表要求的 PDF，在嵌入高分辨率图像的同时，确保所有文字和标签保持矢量清晰。',
-        'feat5-title': '智能拖拽交换',
-        'feat5-desc': '直观拖拽交换面板位置，搭配丝滑的弹性动画效果。',
-        'feat6-title': '集成比例尺工具',
-        'feat6-desc': '为每个面板添加并精细调整专业比例尺——显微镜与成像论文的必备功能。',
-        'feat7-title': '嵌套布局支持',
-        'feat7-desc': '将已有 .figlayout 文件导入任意单元格，以模块化方式构建复杂大图。',
-        'feat8-title': '智能一键排版',
-        'feat8-desc': '只需点击一下，即可根据图片比例自动优化单元格尺寸和页面布局，实现完美对齐。',
-        'feat9-title': '批量网格导入',
-        'feat9-desc': '批量选中图片，一键生成整齐的多面板网格，省去逐个手动放置的繁琐。',
+        'feat5-title': '集成比例尺工具',
+        'feat5-desc': '为每个面板添加并精细调整专业比例尺——显微镜与成像论文的必备功能。',
+        'feat6-title': '嵌套布局支持',
+        'feat6-desc': '将已有 .figlayout 文件导入任意单元格，以模块化方式构建复杂大图。',
+        'feat7-title': '智能一键排版',
+        'feat7-desc': '只需点击一下，即可根据图片比例自动优化单元格尺寸和页面布局，实现完美对齐。',
+        'feat8-title': '批量网格导入',
+        'feat8-desc': '批量选中图片，一键生成整齐的多面板网格，省去逐个手动放置的繁琐。',
+        'feat9-title': 'AI / MCP 辅助编辑',
+        'feat9-desc': '连接 Claude、Cursor、Windsurf、Cline 或其他 MCP 主机，通过正在运行的应用构建、样式化、标注、预览、保存和导出图形。',
         'workflow-label': '工作流程',
         'workflow-title': '六步完成期刊图形',
         'workflow-subtitle': '从创建到投稿，可重复的标准化流程。',
@@ -952,14 +960,16 @@
         'step5': '保存 <code style="font-size:11px;color:var(--blue)">.figlayout</code>',
         'step6': '导出 PDF / TIFF / JPG',
         'cli-label': 'CLI',
-        'cli-title': '命令行自动化，批量处理无压力',
-        'cli-subtitle': '通过命令行渲染、打包和检查布局 —— 无需图形界面，输出质量与 GUI 完全一致。',
+        'cli-title': 'CLI 与 MCP 自动化，工作流可重复',
+        'cli-subtitle': '通过内置 CLI 渲染、打包、检查布局并连接 AI agent —— 输出质量与 GUI 完全一致，同时支持实时 MCP 控制。',
         'cli-render-title': '渲染',
         'cli-render-desc': '使用与 GUI 相同的渲染器将 .figpack / .figlayout 导出为 PDF、TIFF、JPG 或 PNG。',
         'cli-pack-title': '打包 / 解包',
         'cli-pack-desc': '将布局与资源打包为 .figpack，或将 .figpack 解包到文件夹。',
         'cli-inspect-title': '检查',
         'cli-inspect-desc': '查询页面尺寸、DPI、单元格数量和元数据（文本或 JSON 输出）。',
+        'cli-mcp-title': 'MCP 适配器',
+        'cli-mcp-desc': '运行 imagelayout-cli.exe mcp 后，AI 主机即可调用应用的 36 个布局、样式、PiP、比例尺、文本和导出工具。',
         'cli-note': '仅限 Windows 安装版。完整文档请参阅 <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI 文档</a>。',
         'technical-label': '技术栈',
         'technical-title': '技术栈 & 格式',
@@ -979,8 +989,8 @@
         'dl-foot': '想要旧版本？<a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer">查看所有发布</a>',
         'release-latest-prefix': '最新版本 · ',
         'release-released-prefix': '发布于 ',
-        'release-fallback-title': 'v2.1.4 — 可自定义标尺',
-        'release-fallback-body': '为每个面板添加可自定义的标尺，让显微镜和成像图形达到发表标准。',
+        'release-fallback-title': 'v3.3.2 — MCP 与 CLI 自动化',
+        'release-fallback-body': '新增通过 imagelayout-cli.exe mcp 的 MCP 辅助编辑，扩展到 36 个 AI 可调用工具，并补充 Windows 版本与版权元数据。',
         'release-notes-fallback': '请前往发布页面查看完整说明。',
         'footer-home': '← 首页',
         'footer-cli': 'CLI 文档',
@@ -990,7 +1000,7 @@
     };
 
     // ── Local downloads ────────────────────────────────────────────────────────
-    const LATEST_VERSION = 'v2.2.2';
+    const LATEST_VERSION = 'v3.3.2';
 
     const DL_PLATFORMS = [
       {
