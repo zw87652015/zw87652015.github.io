@@ -1,7 +1,7 @@
 {
-  "version": "v3.3.3",
-  "name": "v3.3.3",
+  "version": "v3.3.5",
+  "name": "v3.3.5",
   "url": "https://luojiajiang.uk/image-layout-manager/#download",
-  "notes": "Experience enhanced.",
-  "published_at": "2026-07-30"
+  "notes": "Adding cli tool: edit.",
+  "published_at": "2026-08-21"
 }
