@@ -113,6 +113,17 @@
       text-align: center;
     }
 
+    .hero-logo {
+      margin-bottom: 24px;
+    }
+
+    .hero-logo svg {
+      display: inline-block;
+      vertical-align: middle;
+      max-width: 72vw;
+      height: auto;
+    }
+
     .badge {
       display: inline-block;
       background: var(--badge-bg);
@@ -610,9 +621,31 @@
   <div class="container">
     <div class="hero">
       <span class="badge" data-i18n="hero-badge">Open Source · Apache 2.0</span>
-      <h1 data-i18n-html="hero-h1">The ultimate figure composer<br>for researchers</h1>
+      <div class="hero-logo" aria-hidden="true">
+        <svg viewBox="0 0 1180 416" width="300" height="106" fill="none"
+          style="color: var(--near-black);" font-family="Inter, Helvetica, Arial, sans-serif" font-size="30"
+          stroke-linejoin="round" stroke-width="6" role="img" aria-label="ILM logo">
+          <rect x="10" y="10" width="140" height="177" rx="6" fill="#fff" stroke="currentColor"/>
+          <text x="28" y="50" fill="#615d59">a</text>
+          <rect x="10" y="216" width="140" height="190" rx="6" fill="#e0eefb" stroke="#0075de"/>
+          <text x="28" y="256" fill="#0075de">b</text>
+          <line x1="66" y1="370" x2="128" y2="370" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+          <rect x="267" y="10" width="137" height="258" rx="6" fill="#fff" stroke="currentColor"/>
+          <text x="285" y="50" fill="#615d59">c</text>
+          <rect x="267" y="287" width="353" height="119" rx="6" fill="#fff" stroke="currentColor"/>
+          <text x="285" y="327" fill="#615d59">d</text>
+          <rect x="737" y="10" width="130" height="396" rx="6" fill="#fff" stroke="currentColor"/>
+          <text x="755" y="50" fill="#615d59">e</text>
+          <polygon points="882,10 952,160 952,286 882,141" fill="#e0eefb" stroke="#0075de"/>
+          <polygon points="1022,10 952,160 952,286 1022,141" fill="#fff" stroke="currentColor"/>
+          <text x="928" y="70" fill="#0075de">f</text>
+          <rect x="1040" y="10" width="130" height="396" rx="6" fill="#fff" stroke="currentColor"/>
+          <text x="1058" y="50" fill="#615d59">g</text>
+        </svg>
+      </div>
+      <h1 data-i18n-html="hero-h1">Image Layout Manager</h1>
       <p data-i18n="hero-p">
-        Assemble multi-panel layouts with LaTeX support, PiP overlays,
+        Assemble multi-panel layouts with plot-area alignment, LaTeX support, PiP overlays,
         MCP-assisted editing, and Vector-Sharp PDF export — built for publication-ready figures.
       </p>
       <div class="cta-group">
@@ -638,6 +671,16 @@
       <div class="section-title" data-i18n="features-title">Everything you need for journal figures</div>
       <p class="section-subtitle" data-i18n="features-subtitle">From layout to export, in a single desktop app.</p>
       <div class="feature-grid">
+        <div class="feature-card">
+          <span class="icon">📊</span>
+          <h3 data-i18n="feat10-title">Align Plot Areas</h3>
+          <p data-i18n="feat10-desc">Mark each chart's plotting area, then match plot heights and bottom axes across panels — in grid or freeform layouts, without touching the source files.</p>
+        </div>
+        <div class="feature-card">
+          <span class="icon">🔤</span>
+          <h3 data-i18n="feat11-title">Text Size Matching</h3>
+          <p data-i18n="feat11-desc">Pick text in SVG or raster panels and match its size across the whole figure, leaving the original files untouched.</p>
+        </div>
         <div class="feature-card">
           <span class="icon">Σ</span>
           <h3 data-i18n="feat1-title">LaTeX Support</h3>
@@ -677,12 +720,17 @@
         <div class="feature-card">
           <span class="icon">🪄</span>
           <h3 data-i18n="feat7-title">One-Click Auto Layout</h3>
-          <p data-i18n="feat7-desc">Automatically optimize cell ratios and page dimensions with a single click to perfectly fit all your images.</p>
+          <p data-i18n="feat7-desc">Drop a batch of images or a whole folder to get an arranged multi-panel grid, then optimize cell ratios and page size with a single click.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">📷</span>
-          <h3 data-i18n="feat8-title">Batch Grid Import</h3>
-          <p data-i18n="feat8-desc">Select a batch of images and instantly generate a perfectly aligned multi-panel grid, ready for further refinement.</p>
+          <span class="icon">🗂️</span>
+          <h3 data-i18n="feat12-title">Freeform Layer Stack</h3>
+          <p data-i18n="feat12-desc">Switch to freeform placement and reorder overlapping panels and insets by dragging them in the Layers panel, Photoshop-style.</p>
+        </div>
+        <div class="feature-card">
+          <span class="icon">🎓</span>
+          <h3 data-i18n="feat13-title">Guided Tutorials</h3>
+          <p data-i18n="feat13-desc">Nine built-in lessons walk you through layout, subdivision, plot alignment, labels, text sizes, and export in a disposable practice project.</p>
         </div>
         <div class="feature-card">
           <span class="icon">🤖</span>
@@ -717,7 +765,7 @@
         </div>
         <div class="step">
           <div class="num">4</div>
-          <span data-i18n="step4">Adjust spacing &amp; labels</span>
+          <span data-i18n="step4">Align plots, spacing &amp; labels</span>
         </div>
         <div class="step">
           <div class="num">5</div>
@@ -850,8 +898,8 @@
       en: {
         'nav-back': '← Back to Home',
         'hero-badge': 'Open Source · Apache 2.0',
-        'hero-h1': 'The ultimate figure composer<br>for researchers',
-        'hero-p': 'Assemble multi-panel layouts with LaTeX support, PiP overlays, MCP-assisted editing, and Vector-Sharp PDF export — built for publication-ready figures.',
+        'hero-h1': 'Image Layout Manager',
+        'hero-p': 'Assemble multi-panel layouts with plot-area alignment, LaTeX support, PiP overlays, MCP-assisted editing, and Vector-Sharp PDF export — built for publication-ready figures.',
         'hero-download-text': '↓ Download',
         'hero-github-btn': '⬡ View on GitHub',
         'features-label': 'Features',
@@ -870,18 +918,24 @@
         'feat6-title': 'Shared Group Labels',
         'feat6-desc': 'Span a single label across several cells to mark rows, columns, or conditions — drag the label band outward to adjust its stacking order.',
         'feat7-title': 'One-Click Auto Layout',
-        'feat7-desc': 'Automatically optimize cell ratios and page dimensions with a single click to perfectly fit all your images.',
-        'feat8-title': 'Batch Grid Import',
-        'feat8-desc': 'Select a batch of images and instantly generate a perfectly aligned multi-panel grid, ready for further refinement.',
+        'feat7-desc': 'Drop a batch of images or a whole folder to get an arranged multi-panel grid, then optimize cell ratios and page size with a single click.',
         'feat9-title': 'AI / MCP Assisted Editing',
         'feat9-desc': 'Connect Claude, Cursor, Windsurf, Cline, or other MCP hosts to build, style, annotate, preview, save, and export figures through the running app.',
+        'feat10-title': 'Align Plot Areas',
+        'feat10-desc': "Mark each chart's plotting area, then match plot heights and bottom axes across panels — in grid or freeform layouts, without touching the source files.",
+        'feat11-title': 'Text Size Matching',
+        'feat11-desc': 'Pick text in SVG or raster panels and match its size across the whole figure, leaving the original files untouched.',
+        'feat12-title': 'Freeform Layer Stack',
+        'feat12-desc': 'Switch to freeform placement and reorder overlapping panels and insets by dragging them in the Layers panel, Photoshop-style.',
+        'feat13-title': 'Guided Tutorials',
+        'feat13-desc': 'Nine built-in lessons walk you through layout, subdivision, plot alignment, labels, text sizes, and export in a disposable practice project.',
         'workflow-label': 'Workflow',
         'workflow-title': 'Six steps to a journal figure',
         'workflow-subtitle': 'A repeatable process from canvas to camera-ready export.',
         'step1': 'Create layout',
         'step2': 'Add images',
         'step3': 'Split cells',
-        'step4': 'Adjust spacing & labels',
+        'step4': 'Align plots, spacing & labels',
         'step5': 'Save <code style="font-size:11px;color:var(--blue)">.figlayout</code>',
         'step6': 'Export PDF / TIFF / JPG',
         'cli-label': 'CLI',
@@ -914,8 +968,8 @@
         'dl-foot': 'Looking for older versions? <a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer">View all releases</a>',
         'release-latest-prefix': 'Latest Release · ',
         'release-released-prefix': 'Released ',
-        'release-fallback-title': 'v3.3.3 — Shared labels & UI polish',
-        'release-fallback-body': 'Shared labels now span multiple cells with drag-to-stack ordering, all menus and dialogs follow the chosen language, and theme changes recolour the canvas too.',
+        'release-fallback-title': 'v3.4.1 — Align plot areas across panels',
+        'release-fallback-body': "Mark each chart's plotting area and match plot heights and bottom axes across panels, with saved alignment groups, a guided dialog, and a new tutorial lesson. Interface animations now follow your display's refresh rate.",
         'release-notes-fallback': 'See the release page for full notes.',
         'footer-home': '← Home',
         'footer-cli': 'CLI Docs',
@@ -925,8 +979,8 @@
       zh: {
         'nav-back': '← 返回首页',
         'hero-badge': '开源 · Apache 2.0',
-        'hero-h1': '学术级图形排版利器',
-        'hero-p': '支持 LaTeX 公式、子图、MCP 辅助编辑与矢量化 PDF 导出——专为学术论文排版打造的高效工具。',
+        'hero-h1': 'Image Layout Manager',
+        'hero-p': '支持绘图区对齐、LaTeX 公式、子图、MCP 辅助编辑与矢量化 PDF 导出——专为学术论文排版打造的高效工具。',
         'hero-download-text': '↓ 下载',
         'hero-github-btn': '⬡ 在 GitHub 上查看',
         'features-label': '功能特性',
@@ -945,18 +999,24 @@
         'feat6-title': '跨单元格共享标签',
         'feat6-desc': '用一个标签横跨多个单元格，标记行、列或实验条件——把标签带往外拖即可调整叠放顺序。',
         'feat7-title': '智能一键排版',
-        'feat7-desc': '只需点击一下，即可根据图片比例自动优化单元格尺寸和页面布局，实现完美对齐。',
-        'feat8-title': '批量网格导入',
-        'feat8-desc': '批量选中图片，一键生成整齐的多面板网格，省去逐个手动放置的繁琐。',
+        'feat7-desc': '拖入一批图片或整个文件夹即可生成排好的多面板网格，再一键优化单元格比例与页面尺寸。',
         'feat9-title': 'AI / MCP 辅助编辑',
         'feat9-desc': '连接 Claude、Cursor、Windsurf、Cline 或其他 MCP 主机，通过正在运行的应用构建、样式化、标注、预览、保存和导出图形。',
+        'feat10-title': '绘图区对齐',
+        'feat10-desc': '标记每张图的绘图区，即可统一各面板的绘图高度并对齐底部坐标轴——网格与自由排布皆可，且不修改源文件。',
+        'feat11-title': '文字大小统一',
+        'feat11-desc': '选中 SVG 或位图面板中的文字，统一整张图的字号，源文件保持不变。',
+        'feat12-title': '自由排布图层顺序',
+        'feat12-desc': '切换到自由排布后，可像 Photoshop 图层那样在图层面板中拖动，调整重叠面板与插图的前后顺序。',
+        'feat13-title': '引导教程',
+        'feat13-desc': '内置九节引导教程，在独立的练习工程中带你完成排版、细分、绘图区对齐、标注、字号与导出。',
         'workflow-label': '工作流程',
         'workflow-title': '六步完成期刊图形',
         'workflow-subtitle': '从创建到投稿，可重复的标准化流程。',
         'step1': '创建布局',
         'step2': '添加图片',
         'step3': '分割单元格',
-        'step4': '调整间距与标签',
+        'step4': '对齐绘图区、间距与标注',
         'step5': '保存 <code style="font-size:11px;color:var(--blue)">.figlayout</code>',
         'step6': '导出 PDF / TIFF / JPG',
         'cli-label': 'CLI',
@@ -989,8 +1049,8 @@
         'dl-foot': '想要旧版本？<a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer">查看所有发布</a>',
         'release-latest-prefix': '最新版本 · ',
         'release-released-prefix': '发布于 ',
-        'release-fallback-title': 'v3.3.3 — 共享标签与界面优化',
-        'release-fallback-body': '共享标签现在可以跨多个单元格并拖拽调整叠放顺序；所有菜单和对话框跟随界面语言；切换主题时画布颜色也会一起变化。',
+        'release-fallback-title': 'v3.4.1 — 跨面板对齐绘图区',
+        'release-fallback-body': '标记每张图的绘图区，即可统一绘图高度并对齐底部坐标轴；支持保存对齐组、分步引导对话框与新增教程。界面动画现在跟随显示器刷新率。',
         'release-notes-fallback': '请前往发布页面查看完整说明。',
         'footer-home': '← 首页',
         'footer-cli': 'CLI 文档',
@@ -1000,7 +1060,7 @@
     };
 
     // ── Local downloads ────────────────────────────────────────────────────────
-    const LATEST_VERSION = 'v3.3.3';
+    const LATEST_VERSION = 'v3.4.1';
 
     const DL_PLATFORMS = [
       {

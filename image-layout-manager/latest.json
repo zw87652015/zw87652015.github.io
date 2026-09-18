@@ -1,7 +1,7 @@
 {
-  "version": "v3.4.0",
-  "name": "v3.4.0",
+  "version": "v3.4.1",
+  "name": "v3.4.1",
   "url": "https://luojiajiang.uk/image-layout-manager/#download",
-  "notes": "Tutorial lessons added.",
-  "published_at": "2026-09-11"
+  "notes": "Now support alignment by content.",
+  "published_at": "2026-09-18"
 }
