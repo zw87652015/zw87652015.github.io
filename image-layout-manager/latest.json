@@ -1,7 +1,7 @@
 {
-  "version": "v3.4.1",
-  "name": "v3.4.1",
+  "version": "v3.4.2",
+  "name": "v3.4.2",
   "url": "https://luojiajiang.uk/image-layout-manager/#download",
-  "notes": "Now support alignment by content.",
-  "published_at": "2026-09-18"
+  "notes": "True final-size typography",
+  "published_at": "2026-09-21"
 }
