@@ -620,7 +620,7 @@
   <!-- Hero -->
   <div class="container">
     <div class="hero">
-      <span class="badge" data-i18n="hero-badge">Open Source · Apache 2.0</span>
+      <span class="badge" data-i18n="hero-badge">Open Source · Apache 2.0 source</span>
       <div class="hero-logo" aria-hidden="true">
         <svg viewBox="0 0 1180 416" width="300" height="106" fill="none"
           style="color: var(--near-black);" font-family="Inter, Helvetica, Arial, sans-serif" font-size="30"
@@ -849,7 +849,7 @@
         </div>
         <div class="tech-item">
           <div class="label" data-i18n="tech-license">License</div>
-          <div class="value">Apache 2.0</div>
+          <div class="value" data-i18n="tech-license-value">Apache 2.0 source · GPL-3.0 / AGPL-3.0 builds</div>
         </div>
       </div>
     </div>
@@ -886,6 +886,9 @@
     <a href="/" data-i18n="footer-home">← Home</a>
     <div class="footer-right">
       <a href="./cli.html" rel="noopener noreferrer" data-i18n="footer-cli">CLI Docs</a>
+      <a href="./privacy.html" data-i18n="footer-privacy">Privacy</a>
+      <a href="https://github.com/zw87652015/ImageLayoutManager/blob/main/NOTICE" target="_blank"
+        rel="noopener noreferrer" data-i18n="footer-licenses">Licences &amp; source</a>
       <a href="https://github.com/zw87652015/ImageLayoutManager" target="_blank" rel="noopener noreferrer">GitHub</a>
       <a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer"
         data-i18n="footer-releases">All Releases</a>
@@ -897,7 +900,7 @@
     const translations = {
       en: {
         'nav-back': '← Back to Home',
-        'hero-badge': 'Open Source · Apache 2.0',
+        'hero-badge': 'Open Source · Apache 2.0 source',
         'hero-h1': 'Image Layout Manager',
         'hero-p': 'Assemble multi-panel layouts with plot-area alignment, LaTeX support, PiP overlays, MCP-assisted editing, and Vector-Sharp PDF export — built for publication-ready figures.',
         'hero-download-text': '↓ Download',
@@ -957,6 +960,7 @@
         'tech-formats': 'Formats',
         'tech-layoutfile': 'Layout file',
         'tech-license': 'License',
+        'tech-license-value': 'Apache 2.0 source · GPL-3.0 / AGPL-3.0 builds',
         'release-loading': 'Loading release notes…',
         'release-btn': '↓ Download',
         'dl-win-installer-title': 'Windows Installer',
@@ -968,17 +972,19 @@
         'dl-foot': 'Looking for older versions? <a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer">View all releases</a>',
         'release-latest-prefix': 'Latest Release · ',
         'release-released-prefix': 'Released ',
-        'release-fallback-title': 'v3.4.1 — Align plot areas across panels',
-        'release-fallback-body': "Mark each chart's plotting area and match plot heights and bottom axes across panels, with saved alignment groups, a guided dialog, and a new tutorial lesson. Interface animations now follow your display's refresh rate.",
+        'release-fallback-title': 'v3.4.3 — Licences and source for every bundled component',
+        'release-fallback-body': 'About now opens Licenses and source, which lists this app and all 87 bundled components and reads their licences offline. Every release ships a matching source snapshot. Figures, text sizing and project files are unchanged.',
         'release-notes-fallback': 'See the release page for full notes.',
         'footer-home': '← Home',
         'footer-cli': 'CLI Docs',
+        'footer-privacy': 'Privacy',
+        'footer-licenses': 'Licences & source',
         'footer-releases': 'All Releases',
         'date-locale': 'en-US',
       },
       zh: {
         'nav-back': '← 返回首页',
-        'hero-badge': '开源 · Apache 2.0',
+        'hero-badge': '开源 · 源码 Apache 2.0',
         'hero-h1': 'Image Layout Manager',
         'hero-p': '图表对齐、文字尺寸统一、LaTeX 公式、MCP AI自动编辑... 科研组图绘制，ILM通通帮你搞定',
         'hero-download-text': '↓ 下载',
@@ -1038,6 +1044,7 @@
         'tech-formats': '格式',
         'tech-layoutfile': '布局文件',
         'tech-license': '许可证',
+        'tech-license-value': '源码 Apache 2.0 · 发行版 GPL-3.0 / AGPL-3.0',
         'release-loading': '正在加载发布说明…',
         'release-btn': '↓ 下载',
         'dl-win-installer-title': 'Windows 安装版',
@@ -1049,18 +1056,20 @@
         'dl-foot': '想要旧版本？<a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer">查看所有发布</a>',
         'release-latest-prefix': '最新版本 · ',
         'release-released-prefix': '发布于 ',
-        'release-fallback-title': 'v3.4.1 — 跨面板对齐绘图区',
-        'release-fallback-body': '标记每张图的绘图区，即可统一绘图高度并对齐底部坐标轴；支持保存对齐组、分步引导对话框与新增教程。界面动画现在跟随显示器刷新率。',
+        'release-fallback-title': 'v3.4.3 — 完整的组件许可协议与源码',
+        'release-fallback-body': '“关于”中新增“许可协议与源码”，可离线查看本软件及全部 87 个随附组件的许可协议；每个发行版均附带对应的源码快照。成图、文字大小与工程文件均无变化。',
         'release-notes-fallback': '请前往发布页面查看完整说明。',
         'footer-home': '← 首页',
         'footer-cli': 'CLI 文档',
+        'footer-privacy': '隐私政策',
+        'footer-licenses': '许可协议与源码',
         'footer-releases': '所有版本',
         'date-locale': 'zh-CN',
       }
     };
 
     // ── Local downloads ────────────────────────────────────────────────────────
-    const LATEST_VERSION = 'v3.4.1';
+    const LATEST_VERSION = 'v3.4.3';
 
     const DL_PLATFORMS = [
       {
@@ -1241,7 +1250,7 @@
         const r = await res.json();
 
         latestTag = r.version || r.tag_name || LATEST_VERSION;
-        latestName = r.name || latestTag;
+        latestName = r.name || '';
         latestBody = r.notes || r.body || '';
         latestDate = r.published_at || r.date || '';
 

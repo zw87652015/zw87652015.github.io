@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — ImageLayoutManager</title>
+  <meta name="description" content="Privacy policy for ImageLayoutManager, including its local data handling and automatic update check.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #0075de;
+      --badge-bg: #f2f9ff;
+      --badge-text: #097fe8;
+      --near-black: rgba(0, 0, 0, 0.95);
+      --gray-500: #615d59;
+      --warm-white: #f6f5f4;
+      --border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    body {
+      background: #fff;
+      color: var(--near-black);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      border-bottom: var(--border);
+      padding: 0 clamp(20px, 5vw, 48px);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .nav-brand { font-size: 15px; font-weight: 600; color: var(--near-black); text-decoration: none; }
+    .nav-actions { display: flex; align-items: center; gap: 14px; }
+    .nav-back { font-size: 14px; font-weight: 500; color: var(--gray-500); text-decoration: none; }
+    .nav-back:hover { color: var(--near-black); }
+    .lang-toggle {
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      background: none;
+      border: 1px solid rgba(0, 0, 0, 0.18);
+      border-radius: 4px;
+      padding: 3px 10px;
+      cursor: pointer;
+      color: var(--gray-500);
+    }
+    .lang-toggle:hover { color: var(--near-black); border-color: rgba(0, 0, 0, 0.35); }
+    .container { max-width: 760px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 48px); }
+    .hero { padding: 56px 0 36px; }
+    .badge {
+      display: inline-block;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      margin-bottom: 16px;
+    }
+    h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.15; letter-spacing: -0.7px; margin-bottom: 12px; }
+    .subtitle { color: var(--gray-500); }
+    .summary {
+      background: var(--badge-bg);
+      border-left: 3px solid var(--blue);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 18px;
+      margin-bottom: 36px;
+      font-size: 15px;
+    }
+    article { padding-bottom: 80px; }
+    article h2 {
+      font-size: 23px;
+      line-height: 1.3;
+      margin: 42px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: var(--border);
+    }
+    article h3 { font-size: 17px; margin: 24px 0 8px; }
+    article p { margin-bottom: 14px; }
+    article ul { margin: 0 0 16px 22px; }
+    article li { margin-bottom: 7px; }
+    article a { color: var(--blue); text-decoration: none; }
+    article a:hover { text-decoration: underline; }
+    code {
+      background: var(--warm-white);
+      border: var(--border);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 0.88em;
+    }
+    footer {
+      border-top: var(--border);
+      padding: 24px clamp(20px, 5vw, 48px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    footer a { font-size: 13px; color: var(--gray-500); text-decoration: none; }
+    footer a:hover { color: var(--near-black); text-decoration: underline; }
+    .footer-right { display: flex; flex-wrap: wrap; gap: 20px; }
+    @media (max-width: 600px) {
+      .hero { padding: 36px 0 28px; }
+      footer { justify-content: center; }
+      .nav-back { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="./index.html" class="nav-brand">ImageLayoutManager</a>
+    <div class="nav-actions">
+      <button id="lang-toggle" class="lang-toggle" type="button" aria-label="Switch language">中文</button>
+      <a href="./index.html" class="nav-back" data-i18n="nav-back">← Back to product page</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="hero">
+      <span class="badge" data-i18n="badge">Privacy</span>
+      <h1 data-i18n="title">Privacy Policy</h1>
+      <p class="subtitle" data-i18n="effective">Effective: 22 September 2026 · Last updated: 22 September 2026</p>
+    </header>
+
+    <article>
+      <p class="summary" data-i18n="summary">ImageLayoutManager is a local desktop application. It does not require an account, include advertising or analytics, upload your projects, or send crash reports. Its only automatic Internet request is a version check. The details and local-only exceptions are explained below.</p>
+
+      <h2 data-i18n="scope-title">1. Scope</h2>
+      <p data-i18n="scope-body">This policy applies to the ImageLayoutManager desktop application, its command-line tools, and this product website. It explains what information these services access, store, or transmit.</p>
+
+      <h2 data-i18n="collect-title">2. Information processed by the application</h2>
+      <h3 data-i18n="files-title">Files and projects</h3>
+      <p data-i18n="files-body">The application accesses only the files and folders you choose to open, import, save, export, or reveal. Projects, images, OCR processing, exports, settings, recovery snapshots, and cache files remain on your device. The developer does not receive their contents.</p>
+
+      <h3 data-i18n="update-title">Automatic update check</h3>
+      <p data-i18n="update-body">About 1.5 seconds after startup, the application requests a small version manifest from luojiajiang.uk. The request does not include your name, email address, project data, a device identifier, or an advertising identifier. As with any web request, the web server and its hosting or network providers receive your IP address, request time, requested URL, and technical request headers. This information is used only to deliver the manifest and maintain the security and reliability of the service.</p>
+
+      <h3 data-i18n="lock-title">Project lock files</h3>
+      <p data-i18n="lock-body">While a project is open, the application may create a temporary lock file beside it. The lock file contains the operating-system user name, computer name, and process ID so another local session can identify that the project is in use. It is removed after a normal close and is never sent to the developer. If the project folder is synchronized or shared by another service, that service may copy the lock file.</p>
+
+      <h3 data-i18n="logs-title">Local logs and recovery data</h3>
+      <p data-i18n="logs-body">Crash logs, recovery snapshots, preferences, and caches are stored locally. They are not uploaded automatically. If you choose to send a log or project when requesting support, it will be processed only to respond to your request.</p>
+
+      <h3 data-i18n="mcp-title">Optional MCP connection</h3>
+      <p data-i18n="mcp-body">The optional MCP server is disabled unless you enable it. It listens only on your device (localhost) and uses a session token. A client you configure may request project information, screenshots, file operations, or exports. Information sent to that client is governed by the client provider's privacy terms; it is not sent to the ImageLayoutManager developer.</p>
+
+      <h2 data-i18n="not-title">3. What the application does not do</h2>
+      <ul>
+        <li data-i18n="not-account">No user account or sign-in.</li>
+        <li data-i18n="not-analytics">No advertising, analytics SDK, behavioural profiling, or cross-app tracking.</li>
+        <li data-i18n="not-upload">No automatic upload of projects, images, exports, OCR content, crash reports, or usage history.</li>
+        <li data-i18n="not-sale">No sale or rental of personal information.</li>
+      </ul>
+
+      <h2 data-i18n="website-title">4. Product website</h2>
+      <p data-i18n="website-body">When you visit this website or download a release, the hosting and delivery services receive ordinary web-request information such as IP address, time, URL, browser headers, and download status. The website uses local storage only to remember your English or Chinese language choice. It does not use advertising cookies or analytics. The product page may load the Inter web font from Google Fonts; that request is subject to Google's privacy terms. Links to GitHub and other sites are governed by those sites' own policies.</p>
+
+      <h2 data-i18n="sharing-title">5. Sharing and disclosure</h2>
+      <p data-i18n="sharing-body">The developer does not sell personal information. Limited technical request data may be processed by website hosting, content-delivery, and network providers as necessary to operate the update endpoint, website, and downloads. Information may also be disclosed where required by law or necessary to protect the service and its users.</p>
+
+      <h2 data-i18n="retention-title">6. Retention and control</h2>
+      <p data-i18n="retention-body">Local application data remains under your control and can be removed by deleting the relevant projects, exports, caches, logs, settings, or the application itself. Temporary lock files are normally removed when a project closes. Web-server security and access logs may be retained for a limited period according to operational needs and the policies of the relevant hosting provider.</p>
+
+      <h2 data-i18n="security-title">7. Security</h2>
+      <p data-i18n="security-body">Reasonable technical measures are used to limit collection and protect the services, but no storage or transmission system can be guaranteed completely secure.</p>
+
+      <h2 data-i18n="children-title">8. Children</h2>
+      <p data-i18n="children-body">ImageLayoutManager is a general-purpose scientific figure tool and is not directed to children. The developer does not knowingly collect personal information from children.</p>
+
+      <h2 data-i18n="changes-title">9. Changes to this policy</h2>
+      <p data-i18n="changes-body">This policy may be updated when application or website behaviour changes. The effective and last-updated dates at the top of this page will identify the current version.</p>
+
+      <h2 data-i18n="contact-title">10. Contact</h2>
+      <p><span data-i18n="contact-body">For privacy questions or requests, contact:</span> <a href="mailto:me@luojiajiang.uk">me@luojiajiang.uk</a></p>
+    </article>
+  </main>
+
+  <footer>
+    <a href="./index.html" data-i18n="footer-home">← ImageLayoutManager</a>
+    <div class="footer-right">
+      <a href="./cli.html" data-i18n="footer-cli">CLI Docs</a>
+      <a href="https://github.com/zw87652015/ImageLayoutManager" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        'nav-back': '← Back to product page',
+        'badge': 'Privacy',
+        'title': 'Privacy Policy',
+        'effective': 'Effective: 22 September 2026 · Last updated: 22 September 2026',
+        'summary': 'ImageLayoutManager is a local desktop application. It does not require an account, include advertising or analytics, upload your projects, or send crash reports. Its only automatic Internet request is a version check. The details and local-only exceptions are explained below.',
+        'scope-title': '1. Scope',
+        'scope-body': 'This policy applies to the ImageLayoutManager desktop application, its command-line tools, and this product website. It explains what information these services access, store, or transmit.',
+        'collect-title': '2. Information processed by the application',
+        'files-title': 'Files and projects',
+        'files-body': 'The application accesses only the files and folders you choose to open, import, save, export, or reveal. Projects, images, OCR processing, exports, settings, recovery snapshots, and cache files remain on your device. The developer does not receive their contents.',
+        'update-title': 'Automatic update check',
+        'update-body': 'About 1.5 seconds after startup, the application requests a small version manifest from luojiajiang.uk. The request does not include your name, email address, project data, a device identifier, or an advertising identifier. As with any web request, the web server and its hosting or network providers receive your IP address, request time, requested URL, and technical request headers. This information is used only to deliver the manifest and maintain the security and reliability of the service.',
+        'lock-title': 'Project lock files',
+        'lock-body': 'While a project is open, the application may create a temporary lock file beside it. The lock file contains the operating-system user name, computer name, and process ID so another local session can identify that the project is in use. It is removed after a normal close and is never sent to the developer. If the project folder is synchronized or shared by another service, that service may copy the lock file.',
+        'logs-title': 'Local logs and recovery data',
+        'logs-body': 'Crash logs, recovery snapshots, preferences, and caches are stored locally. They are not uploaded automatically. If you choose to send a log or project when requesting support, it will be processed only to respond to your request.',
+        'mcp-title': 'Optional MCP connection',
+        'mcp-body': "The optional MCP server is disabled unless you enable it. It listens only on your device (localhost) and uses a session token. A client you configure may request project information, screenshots, file operations, or exports. Information sent to that client is governed by the client provider's privacy terms; it is not sent to the ImageLayoutManager developer.",
+        'not-title': '3. What the application does not do',
+        'not-account': 'No user account or sign-in.',
+        'not-analytics': 'No advertising, analytics SDK, behavioural profiling, or cross-app tracking.',
+        'not-upload': 'No automatic upload of projects, images, exports, OCR content, crash reports, or usage history.',
+        'not-sale': 'No sale or rental of personal information.',
+        'website-title': '4. Product website',
+        'website-body': "When you visit this website or download a release, the hosting and delivery services receive ordinary web-request information such as IP address, time, URL, browser headers, and download status. The website uses local storage only to remember your English or Chinese language choice. It does not use advertising cookies or analytics. The product page may load the Inter web font from Google Fonts; that request is subject to Google's privacy terms. Links to GitHub and other sites are governed by those sites' own policies.",
+        'sharing-title': '5. Sharing and disclosure',
+        'sharing-body': 'The developer does not sell personal information. Limited technical request data may be processed by website hosting, content-delivery, and network providers as necessary to operate the update endpoint, website, and downloads. Information may also be disclosed where required by law or necessary to protect the service and its users.',
+        'retention-title': '6. Retention and control',
+        'retention-body': 'Local application data remains under your control and can be removed by deleting the relevant projects, exports, caches, logs, settings, or the application itself. Temporary lock files are normally removed when a project closes. Web-server security and access logs may be retained for a limited period according to operational needs and the policies of the relevant hosting provider.',
+        'security-title': '7. Security',
+        'security-body': 'Reasonable technical measures are used to limit collection and protect the services, but no storage or transmission system can be guaranteed completely secure.',
+        'children-title': '8. Children',
+        'children-body': 'ImageLayoutManager is a general-purpose scientific figure tool and is not directed to children. The developer does not knowingly collect personal information from children.',
+        'changes-title': '9. Changes to this policy',
+        'changes-body': 'This policy may be updated when application or website behaviour changes. The effective and last-updated dates at the top of this page will identify the current version.',
+        'contact-title': '10. Contact',
+        'contact-body': 'For privacy questions or requests, contact:',
+        'footer-home': '← ImageLayoutManager',
+        'footer-cli': 'CLI Docs'
+      },
+      zh: {
+        'nav-back': '← 返回产品页面',
+        'badge': '隐私',
+        'title': '隐私政策',
+        'effective': '生效日期：2026 年 9 月 22 日 · 最近更新：2026 年 9 月 22 日',
+        'summary': 'ImageLayoutManager 是一款主要在本机运行的桌面应用。它不要求注册账户，不含广告或分析功能，不上传您的项目，也不会发送崩溃报告。应用唯一自动发起的互联网请求是版本检查。详情及仅在本地处理的例外情况如下。',
+        'scope-title': '1. 适用范围',
+        'scope-body': '本政策适用于 ImageLayoutManager 桌面应用、命令行工具及其产品网站，并说明这些服务会访问、存储或传输哪些信息。',
+        'collect-title': '2. 应用处理的信息',
+        'files-title': '文件与项目',
+        'files-body': '应用仅访问您主动选择打开、导入、保存、导出或在文件管理器中显示的文件和文件夹。项目、图像、OCR 处理、导出文件、设置、恢复快照及缓存均保留在您的设备上，开发者不会收到其中的内容。',
+        'update-title': '自动检查更新',
+        'update-body': '应用启动约 1.5 秒后，会从 luojiajiang.uk 请求一个很小的版本清单。该请求不包含您的姓名、电子邮件地址、项目数据、设备标识符或广告标识符。与普通网络请求一样，网站服务器及其托管或网络服务商会收到您的 IP 地址、请求时间、请求网址和技术请求标头。这些信息仅用于提供版本清单以及维护服务的安全性和可靠性。',
+        'lock-title': '项目锁定文件',
+        'lock-body': '项目打开期间，应用可能在项目旁创建一个临时锁定文件。该文件包含操作系统用户名、计算机名称及进程 ID，以便其他本地会话识别该项目正在使用。应用正常关闭项目后会删除该文件，且绝不会将其发送给开发者。如果项目文件夹由其他服务同步或共享，该服务可能会复制此锁定文件。',
+        'logs-title': '本地日志与恢复数据',
+        'logs-body': '崩溃日志、恢复快照、首选项和缓存均保存在本地，不会自动上传。如果您在寻求支持时主动发送日志或项目，相关信息将仅用于回复并处理您的请求。',
+        'mcp-title': '可选的 MCP 连接',
+        'mcp-body': '除非您主动启用，否则 MCP 服务器处于关闭状态。它只监听本机（localhost），并使用会话令牌。您配置的客户端可以请求项目信息、截图、文件操作或导出。发送给该客户端的信息受其提供商隐私条款约束，不会发送给 ImageLayoutManager 开发者。',
+        'not-title': '3. 应用不会进行的活动',
+        'not-account': '不设用户账户，也无需登录。',
+        'not-analytics': '不含广告、分析 SDK、行为画像或跨应用追踪。',
+        'not-upload': '不会自动上传项目、图像、导出文件、OCR 内容、崩溃报告或使用记录。',
+        'not-sale': '不会出售或出租个人信息。',
+        'website-title': '4. 产品网站',
+        'website-body': '当您访问本网站或下载发行版时，托管及分发服务会收到普通网络请求信息，例如 IP 地址、时间、网址、浏览器标头和下载状态。网站仅使用本地存储来记住您的中英文语言选择，不使用广告 Cookie 或分析功能。产品页面可能会从 Google Fonts 加载 Inter 网络字体；该请求受 Google 隐私条款约束。GitHub 及其他网站链接受相应网站自身政策约束。',
+        'sharing-title': '5. 共享与披露',
+        'sharing-body': '开发者不会出售个人信息。网站托管、内容分发及网络服务商可能会在运行更新端点、网站和下载服务所必需的范围内处理有限的技术请求数据。在法律要求或为保护服务及用户而确有必要时，也可能披露相关信息。',
+        'retention-title': '6. 保留与控制',
+        'retention-body': '本地应用数据由您控制；您可以删除相应项目、导出文件、缓存、日志、设置或应用本身。项目关闭时通常会删除临时锁定文件。出于运行和安全需要，网络服务器访问及安全日志可能会在有限期限内保留，具体取决于相关托管服务商的政策。',
+        'security-title': '7. 安全',
+        'security-body': '我们采取合理的技术措施以减少信息处理并保护服务，但任何存储或传输系统都无法保证绝对安全。',
+        'children-title': '8. 儿童',
+        'children-body': 'ImageLayoutManager 是通用科研组图工具，并非面向儿童。开发者不会故意收集儿童的个人信息。',
+        'changes-title': '9. 政策变更',
+        'changes-body': '应用或网站行为发生变化时，本政策可能相应更新。页面顶部的生效日期及最近更新日期用于标识当前版本。',
+        'contact-title': '10. 联系方式',
+        'contact-body': '如有隐私问题或相关请求，请联系：',
+        'footer-home': '← ImageLayoutManager',
+        'footer-cli': 'CLI 文档'
+      }
+    };
+
+    function detectLang() {
+      const stored = localStorage.getItem('ilm-lang');
+      if (stored === 'zh' || stored === 'en') return stored;
+      const langs = navigator.languages && navigator.languages.length
+        ? navigator.languages : [navigator.language || 'en'];
+      return langs.some(lang => lang.toLowerCase().startsWith('zh')) ? 'zh' : 'en';
+    }
+
+    let currentLang = detectLang();
+
+    function applyLang(lang) {
+      const t = translations[lang];
+      document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+      document.title = lang === 'zh'
+        ? '隐私政策 — ImageLayoutManager'
+        : 'Privacy Policy — ImageLayoutManager';
+      document.querySelectorAll('[data-i18n]').forEach(element => {
+        const value = t[element.getAttribute('data-i18n')];
+        if (value !== undefined) element.textContent = value;
+      });
+      document.getElementById('lang-toggle').textContent = lang === 'zh' ? 'EN' : '中文';
+    }
+
+    applyLang(currentLang);
+    document.getElementById('lang-toggle').addEventListener('click', () => {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      localStorage.setItem('ilm-lang', currentLang);
+      applyLang(currentLang);
+    });
+  </script>
+</body>
+</html>
