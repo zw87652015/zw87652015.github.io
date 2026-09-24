@@ -1,18 +1,19 @@
 # `imagelayout-cli`
 
 Headless driver and MCP adapter for ImageLayoutManager. Render, pack,
-inspect, and let AI hosts control the running GUI through
+inspect, **edit**, and let AI hosts control the running GUI through
 `imagelayout-cli.exe mcp`.
 
 ## Verbs
 
 | Verb      | Purpose                                                         |
 | --------- | --------------------------------------------------------------- |
-| `render`  | `.figpack` / `.figlayout` → `pdf` / `tiff` / `jpg` / `png`      |
-| `pack`    | `.figlayout` → `.figpack` (bundle layout + referenced assets)   |
+| `render`  | `.figpack` / `.figlayout` / `.json` → `pdf` / `tiff` / `jpg` / `png` (writes the output path to stdout) |
+| `pack`    | `.figlayout` / `.json` → `.figpack` (bundle layout + referenced assets)   |
 | `unpack`  | `.figpack` → folder containing assets + sidecar `.figlayout`    |
-| `inspect` | Print page size, DPI, cell counts, etc. (text or `--json`)      |
-| `mcp`     | Stdio MCP adapter for AI hosts; proxies 36 layout/styling/export tools to the running GUI |
+| `inspect` | Print page, DPI, layout mode, cells, labels, group labels, size groups, export region (text or `--json`) |
+| `edit`    | Apply agent tool operations headlessly — the same 39 tools as the MCP adapter |
+| `mcp`     | Stdio MCP adapter for AI hosts; proxies 39 layout/styling/export tools to the running GUI |
 
 ## Examples
 
@@ -37,19 +38,87 @@ imagelayout-cli.exe unpack figure_4.figpack -o ./extracted/
 imagelayout-cli.exe inspect figure_4.figpack
 imagelayout-cli.exe inspect figure_4.figpack --json
 
+# Headless edit — auto-label cells in place
+imagelayout-cli.exe edit figure_4.figlayout --in-place --call auto_label_cells '{"scheme": "(a)"}'
+
+# Apply a script of steps, pack the result, get a JSON report
+imagelayout-cli.exe edit figure_4.figlayout -o out.figpack --script ops.json --json
+
+# Start from a blank project and add a row of three cells
+imagelayout-cli.exe edit --new -o blank.figlayout --call row_add '{"position": 2, "column_count": 3}'
+
+# Pipe a script on stdin, stream the edited .figlayout JSON to stdout
+cat ops.json | imagelayout-cli.exe edit figure_4.figlayout -o - --script -
+
 # MCP adapter used by Claude, Cursor, Windsurf, Cline, etc.
 imagelayout-cli.exe mcp
 ```
 
+## Headless editing (`edit`)
+
+`edit` runs the same 39 agent tools an MCP host drives — against a
+project file, with no GUI running at all. Steps are applied in order:
+`--script` first, then each `--call`. Nothing is written unless every
+step succeeds; use `--keep-going` to continue past a failing step and
+still write the result (the exit code stays 1).
+
+| Option              | Purpose                                                          |
+| ------------------- | ---------------------------------------------------------------- |
+| `INPUT`             | `.figlayout` or `.json` — omit when using `--new`                 |
+| `--new`             | Start from a blank project instead of `INPUT`                    |
+| `--call TOOL`       | Run `TOOL`, optionally followed by a JSON object of params. Repeatable; applied in order. |
+| `--script FILE`     | JSON array of `{"tool": ..., "params": {...}}` steps (`-` reads stdin) |
+| `-o`, `--output`    | Write the result: `.figlayout`, `.json` or `.figpack` (`-` streams `.figlayout` JSON to stdout) |
+| `-i`, `--in-place`  | Overwrite `INPUT` (written atomically)                           |
+| `--dry-run`         | Apply every step in memory but write nothing                     |
+| `--keep-going`     | Continue past a failing step and still write the result          |
+| `--json`            | Emit one JSON object containing every step envelope              |
+| `--list-tools`      | Print the available tool names and exit                          |
+
+Notes:
+
+- `.figpack` is **not** accepted as `edit` input — run
+  `imagelayout-cli unpack in.figpack -o dir` first, edit
+  `dir/<name>.figlayout`, then `pack` it back. Re-packing straight from
+  a `.figpack`'s temp working dir would silently drop assets whose
+  original source is missing on this machine.
+- `--script` accepts a bare JSON array or `{"steps": [...]}`; each step
+  may use `tool`/`name` and `params`/`args` as aliases, so hand-written
+  scripts and tool-call logs both work. A UTF-8 BOM is tolerated
+  (PowerShell's `Out-File` writes one by default).
+- Like `render`, stdout carries only the output path (or the `--json`
+  report) so the verb stays pipeable; per-step progress goes to stderr.
+
+### The 39 agent tools
+
+| Category              | Tools |
+| --------------------- | ----- |
+| Project lifecycle     | `project_describe` `project_new` `project_open` `project_save` `project_export` |
+| Layout topology       | `row_add` `row_remove` `row_set` `cell_add` `cell_remove` `cell_swap` `cell_split` `cell_set_split_ratios` `layout_set_mode` |
+| Image content         | `image_import` `cell_set_geometry` `cell_set_properties` `cell_set_scale_bar` `cell_set_z_index` |
+| PiP insets            | `pip_add` `pip_remove` `pip_set_properties` |
+| Text & labels         | `text_add` `text_remove` `text_set_style` `labels_set_style` `project_set_label_style` `auto_label_cells` |
+| Group labels          | `group_label_add` `group_label_remove` `group_label_set` |
+| Size groups           | `size_group_create` `size_group_delete` `size_group_set` `size_group_assign` |
+| Export region         | `export_region_set` `export_region_clear` |
+| Algorithmic + vision  | `auto_layout` `view_screenshot` |
+
+Run `imagelayout-cli edit --list-tools` to print the current list at any
+time.
+
 ## MCP automation
 
 The `mcp` verb is a stdio adapter for MCP-compatible AI hosts. It connects
-to the running ImageLayoutManager GUI over localhost WebSocket, so the AI
-can create layouts, import images, style labels/text, crop/rotate/pad
-panels, add scale bars, add PiP insets, manage size groups, set export
-regions, request screenshots, and save/export projects.
+to the running ImageLayoutManager GUI over localhost WebSocket (reading
+port + token from a local discovery file), so the AI can drive the same
+39 tools `edit` exposes: create layouts, import images, style
+labels/text, crop/rotate/pad panels, add scale bars, add PiP insets,
+manage size groups, set export regions, request screenshots, and
+save/export projects.
 
-In the GUI, enable **Tools → Enable MCP Server**. Then configure your AI
+In the GUI, enable **Tools → Enable MCP Server** (or tick
+**Auto-start MCP Server on launch** in Preferences, or launch with
+`ImageLayoutManager.exe --agent-server`). Then configure your AI
 host to run:
 
 ```json
@@ -73,7 +142,7 @@ again.
 | Code | Meaning                                            |
 | ---- | -------------------------------------------------- |
 | 0    | Success                                            |
-| 1    | User-facing error (bad path, unknown format, etc.) |
+| 1    | User-facing error (bad path, unknown format, a failed `edit` step, etc.) |
 | 2    | Argparse usage error                               |
 | 3    | Bundle integrity / security failure                |
 | 4    | Unexpected internal error                          |

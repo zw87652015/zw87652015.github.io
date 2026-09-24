@@ -107,7 +107,7 @@
     <div class="hero">
       <span class="badge">CLI</span>
       <h1>imagelayout-cli</h1>
-      <p data-i18n="cli-hero-desc">Headless driver and MCP adapter for ImageLayoutManager. Render, pack, inspect, and let AI hosts control the running GUI through <strong>imagelayout-cli.exe mcp</strong>.</p>
+      <p data-i18n="cli-hero-desc">Headless driver and MCP adapter for ImageLayoutManager. Render, pack, inspect, edit, and let AI hosts control the running GUI through <strong>imagelayout-cli.exe mcp</strong>.</p>
     </div>
 
     <article>
@@ -121,11 +121,11 @@
           <tbody>
             <tr>
               <td><code>render</code></td>
-              <td><code>.figpack</code> / <code>.figlayout</code> → <code>pdf</code> / <code>tiff</code> / <code>jpg</code> / <code>png</code></td>
+              <td><code>.figpack</code> / <code>.figlayout</code> / <code>.json</code> → <code>pdf</code> / <code>tiff</code> / <code>jpg</code> / <code>png</code></td>
             </tr>
             <tr>
               <td><code>pack</code></td>
-              <td><code>.figlayout</code> → <code>.figpack</code> <span data-i18n="td-pack">(bundle layout + referenced assets)</span></td>
+              <td><code>.figlayout</code> / <code>.json</code> → <code>.figpack</code> <span data-i18n="td-pack">(bundle layout + referenced assets)</span></td>
             </tr>
             <tr>
               <td><code>unpack</code></td>
@@ -133,11 +133,15 @@
             </tr>
             <tr>
               <td><code>inspect</code></td>
-              <td data-i18n="td-inspect">Print page size, DPI, cell counts, etc. (text or <code>--json</code>)</td>
+              <td data-i18n="td-inspect">Print page, DPI, layout mode, cells, labels, group labels, size groups, export region (text or <code>--json</code>)</td>
+            </tr>
+            <tr>
+              <td><code>edit</code></td>
+              <td data-i18n="td-edit">Apply agent tool operations headlessly — the same 39 tools as the MCP adapter</td>
             </tr>
             <tr>
               <td><code>mcp</code></td>
-              <td data-i18n="td-mcp">Stdio MCP adapter for AI hosts; proxies 36 layout, styling, PiP, scale-bar, text, and export tools to the running GUI</td>
+              <td data-i18n="td-mcp">Stdio MCP adapter for AI hosts; proxies 39 layout, styling, PiP, scale-bar, text, and export tools to the running GUI</td>
             </tr>
           </tbody>
         </table>
@@ -164,12 +168,68 @@ imagelayout-cli.exe unpack figure_4.figpack -o ./extracted/
 imagelayout-cli.exe inspect figure_4.figpack
 imagelayout-cli.exe inspect figure_4.figpack --json
 
+<span class="comment"># Headless edit — auto-label cells in place</span>
+imagelayout-cli.exe edit figure_4.figlayout --in-place --call auto_label_cells '{"scheme": "(a)"}'
+
+<span class="comment"># Apply a script of steps, pack the result, get a JSON report</span>
+imagelayout-cli.exe edit figure_4.figlayout -o out.figpack --script ops.json --json
+
+<span class="comment"># Start from a blank project and add a row of three cells</span>
+imagelayout-cli.exe edit --new -o blank.figlayout --call row_add '{"position": 2, "column_count": 3}'
+
+<span class="comment"># Pipe a script on stdin, stream the edited .figlayout JSON to stdout</span>
+cat ops.json | imagelayout-cli.exe edit figure_4.figlayout -o - --script -
+
 <span class="comment"># MCP adapter used by Claude, Cursor, Windsurf, Cline, etc.</span>
 imagelayout-cli.exe mcp</code></pre>
 
+      <h2 data-i18n="h-edit">Headless editing (edit)</h2>
+      <p data-i18n="p-edit-intro">The edit verb runs the same 39 agent tools an MCP host drives — against a project file, with no GUI running at all. Steps are applied in order: --script first, then each --call. Nothing is written unless every step succeeds; use --keep-going to continue past a failing step and still write the result (the exit code stays 1).</p>
+      <p data-i18n="p-edit-notes">.figpack is not accepted as edit input — unpack it first, edit the sidecar .figlayout, then pack it back. --script accepts a bare JSON array or {"steps": [...]} with tool/name and params/args aliases, and tolerates a UTF-8 BOM (PowerShell Out-File writes one by default). Like render, stdout carries only the output path (or the --json report) so the verb stays pipeable; per-step progress goes to stderr.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th data-i18n="th-option">Option</th><th data-i18n="th-purpose">Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>INPUT</code></td><td data-i18n="td-edit-input">.figlayout or .json — omit when using --new (.figpack is not accepted; unpack first)</td></tr>
+            <tr><td><code>--new</code></td><td data-i18n="td-edit-new">Start from a blank project instead of INPUT</td></tr>
+            <tr><td><code>--call TOOL</code></td><td data-i18n="td-edit-call">Run TOOL, optionally followed by a JSON object of params. Repeatable; applied in order</td></tr>
+            <tr><td><code>--script FILE</code></td><td data-i18n="td-edit-script">JSON array of {"tool": ..., "params": {...}} steps ('-' reads stdin)</td></tr>
+            <tr><td><code>-o, --output</code></td><td data-i18n="td-edit-out">Write the result: .figlayout, .json or .figpack ('-' streams .figlayout JSON to stdout)</td></tr>
+            <tr><td><code>-i, --in-place</code></td><td data-i18n="td-edit-inplace">Overwrite INPUT (written atomically)</td></tr>
+            <tr><td><code>--dry-run</code></td><td data-i18n="td-edit-dry">Apply every step in memory but write nothing</td></tr>
+            <tr><td><code>--keep-going</code></td><td data-i18n="td-edit-keep">Continue past a failing step and still write the result (exit code stays 1)</td></tr>
+            <tr><td><code>--json</code></td><td data-i18n="td-edit-json">Emit one JSON object containing every step envelope</td></tr>
+            <tr><td><code>--list-tools</code></td><td data-i18n="td-edit-list">Print the available tool names and exit</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 data-i18n="h-tools">The 39 agent tools</h3>
+      <p data-i18n="p-tools-note">Run imagelayout-cli edit --list-tools to print the current list at any time. The same registry backs the mcp verb.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th data-i18n="th-category">Category</th><th data-i18n="th-tools">Tools</th></tr>
+          </thead>
+          <tbody>
+            <tr><td data-i18n="tc-project">Project lifecycle</td><td><code>project_describe</code> <code>project_new</code> <code>project_open</code> <code>project_save</code> <code>project_export</code></td></tr>
+            <tr><td data-i18n="tc-layout">Layout topology</td><td><code>row_add</code> <code>row_remove</code> <code>row_set</code> <code>cell_add</code> <code>cell_remove</code> <code>cell_swap</code> <code>cell_split</code> <code>cell_set_split_ratios</code> <code>layout_set_mode</code></td></tr>
+            <tr><td data-i18n="tc-image">Image content</td><td><code>image_import</code> <code>cell_set_geometry</code> <code>cell_set_properties</code> <code>cell_set_scale_bar</code> <code>cell_set_z_index</code></td></tr>
+            <tr><td data-i18n="tc-pip">PiP insets</td><td><code>pip_add</code> <code>pip_remove</code> <code>pip_set_properties</code></td></tr>
+            <tr><td data-i18n="tc-text">Text & labels</td><td><code>text_add</code> <code>text_remove</code> <code>text_set_style</code> <code>labels_set_style</code> <code>project_set_label_style</code> <code>auto_label_cells</code></td></tr>
+            <tr><td data-i18n="tc-group">Group labels</td><td><code>group_label_add</code> <code>group_label_remove</code> <code>group_label_set</code></td></tr>
+            <tr><td data-i18n="tc-size">Size groups</td><td><code>size_group_create</code> <code>size_group_delete</code> <code>size_group_set</code> <code>size_group_assign</code></td></tr>
+            <tr><td data-i18n="tc-export">Export region</td><td><code>export_region_set</code> <code>export_region_clear</code></td></tr>
+            <tr><td data-i18n="tc-algo">Algorithmic + vision</td><td><code>auto_layout</code> <code>view_screenshot</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
       <h2 data-i18n="h-mcp">MCP automation</h2>
-      <p data-i18n="p-mcp">The mcp verb is a stdio adapter for MCP-compatible AI hosts. It connects to the running ImageLayoutManager GUI over localhost WebSocket, so the AI can create layouts, import images, style labels/text, crop/rotate/pad panels, add scale bars, add PiP insets, manage size groups, set export regions, request screenshots, and save/export projects.</p>
-      <p data-i18n="p-mcp-setup">In the GUI, enable Tools → Enable MCP Server. Then configure your AI host to run:</p>
+      <p data-i18n="p-mcp">The mcp verb is a stdio adapter for MCP-compatible AI hosts. It connects to the running ImageLayoutManager GUI over localhost WebSocket (reading port + token from a local discovery file), so the AI can drive the same 39 tools edit exposes: create layouts, import images, style labels/text, crop/rotate/pad panels, add scale bars, add PiP insets, manage size groups, set export regions, request screenshots, and save/export projects.</p>
+      <p data-i18n="p-mcp-setup">In the GUI, enable Tools → Enable MCP Server (or tick Auto-start MCP Server on launch in Preferences, or launch with ImageLayoutManager.exe --agent-server). Then configure your AI host to run:</p>
       <pre><code>{
   "mcpServers": {
     "imagelayout": {
@@ -190,7 +250,7 @@ imagelayout-cli.exe mcp</code></pre>
           </thead>
           <tbody>
             <tr><td><code>0</code></td><td data-i18n="td-success">Success</td></tr>
-            <tr><td><code>1</code></td><td data-i18n="td-user-err">User-facing error (bad path, unknown format, etc.)</td></tr>
+            <tr><td><code>1</code></td><td data-i18n="td-user-err">User-facing error (bad path, unknown format, a failed edit step, etc.)</td></tr>
             <tr><td><code>2</code></td><td data-i18n="td-usage-err">Argparse usage error</td></tr>
             <tr><td><code>3</code></td><td data-i18n="td-integrity">Bundle integrity / security failure</td></tr>
             <tr><td><code>4</code></td><td data-i18n="td-internal">Unexpected internal error</td></tr>
@@ -243,23 +303,51 @@ imagelayout-cli.exe mcp</code></pre>
     const translations = {
       en: {
         'nav-back': '← Back to Home',
-        'cli-hero-desc': "Headless driver and MCP adapter for ImageLayoutManager. Render, pack, inspect, and let AI hosts control the running GUI through imagelayout-cli.exe mcp.",
+        'cli-hero-desc': "Headless driver and MCP adapter for ImageLayoutManager. Render, pack, inspect, edit, and let AI hosts control the running GUI through imagelayout-cli.exe mcp.",
         'h-verbs': 'Verbs',
         'th-purpose': 'Purpose',
         'td-pack': '(bundle layout + referenced assets)',
         'td-unpack': 'folder containing assets + sidecar',
-        'td-inspect': 'Print page size, DPI, cell counts, etc. (text or --json)',
-        'td-mcp': 'Stdio MCP adapter for AI hosts; proxies 36 layout, styling, PiP, scale-bar, text, and export tools to the running GUI',
+        'td-inspect': 'Print page, DPI, layout mode, cells, labels, group labels, size groups, export region (text or --json)',
+        'td-edit': 'Apply agent tool operations headlessly — the same 39 tools as the MCP adapter',
+        'td-mcp': 'Stdio MCP adapter for AI hosts; proxies 39 layout, styling, PiP, scale-bar, text, and export tools to the running GUI',
         'h-examples': 'Examples',
+        'h-edit': 'Headless editing (edit)',
+        'p-edit-intro': 'The edit verb runs the same 39 agent tools an MCP host drives — against a project file, with no GUI running at all. Steps are applied in order: --script first, then each --call. Nothing is written unless every step succeeds; use --keep-going to continue past a failing step and still write the result (the exit code stays 1).',
+        'p-edit-notes': '.figpack is not accepted as edit input — unpack it first, edit the sidecar .figlayout, then pack it back. --script accepts a bare JSON array or {"steps": [...]} with tool/name and params/args aliases, and tolerates a UTF-8 BOM (PowerShell Out-File writes one by default). Like render, stdout carries only the output path (or the --json report) so the verb stays pipeable; per-step progress goes to stderr.',
+        'th-option': 'Option',
+        'td-edit-input': '.figlayout or .json — omit when using --new (.figpack is not accepted; unpack first)',
+        'td-edit-new': 'Start from a blank project instead of INPUT',
+        'td-edit-call': 'Run TOOL, optionally followed by a JSON object of params. Repeatable; applied in order',
+        'td-edit-script': 'JSON array of {"tool": ..., "params": {...}} steps (\'-\' reads stdin)',
+        'td-edit-out': 'Write the result: .figlayout, .json or .figpack (\'-\' streams .figlayout JSON to stdout)',
+        'td-edit-inplace': 'Overwrite INPUT (written atomically)',
+        'td-edit-dry': 'Apply every step in memory but write nothing',
+        'td-edit-keep': 'Continue past a failing step and still write the result (exit code stays 1)',
+        'td-edit-json': 'Emit one JSON object containing every step envelope',
+        'td-edit-list': 'Print the available tool names and exit',
+        'h-tools': 'The 39 agent tools',
+        'p-tools-note': 'Run imagelayout-cli edit --list-tools to print the current list at any time. The same registry backs the mcp verb.',
+        'th-category': 'Category',
+        'th-tools': 'Tools',
+        'tc-project': 'Project lifecycle',
+        'tc-layout': 'Layout topology',
+        'tc-image': 'Image content',
+        'tc-pip': 'PiP insets',
+        'tc-text': 'Text & labels',
+        'tc-group': 'Group labels',
+        'tc-size': 'Size groups',
+        'tc-export': 'Export region',
+        'tc-algo': 'Algorithmic + vision',
         'h-mcp': 'MCP automation',
-        'p-mcp': 'The mcp verb is a stdio adapter for MCP-compatible AI hosts. It connects to the running ImageLayoutManager GUI over localhost WebSocket, so the AI can create layouts, import images, style labels/text, crop/rotate/pad panels, add scale bars, add PiP insets, manage size groups, set export regions, request screenshots, and save/export projects.',
-        'p-mcp-setup': 'In the GUI, enable Tools → Enable MCP Server. Then configure your AI host to run:',
+        'p-mcp': 'The mcp verb is a stdio adapter for MCP-compatible AI hosts. It connects to the running ImageLayoutManager GUI over localhost WebSocket (reading port + token from a local discovery file), so the AI can drive the same 39 tools edit exposes: create layouts, import images, style labels/text, crop/rotate/pad panels, add scale bars, add PiP insets, manage size groups, set export regions, request screenshots, and save/export projects.',
+        'p-mcp-setup': 'In the GUI, enable Tools → Enable MCP Server (or tick Auto-start MCP Server on launch in Preferences, or launch with ImageLayoutManager.exe --agent-server). Then configure your AI host to run:',
         'p-mcp-upgrade': 'After upgrading ImageLayoutManager, restart both the app and your AI host. If the installer reports a locked .pyd file, fully quit the AI host or stop any remaining imagelayout-cli.exe process, then run the installer again.',
         'h-exit': 'Exit codes',
         'th-code': 'Code',
         'th-meaning': 'Meaning',
         'td-success': 'Success',
-        'td-user-err': 'User-facing error (bad path, unknown format, etc.)',
+        'td-user-err': 'User-facing error (bad path, unknown format, a failed edit step, etc.)',
         'td-usage-err': 'Argparse usage error',
         'td-integrity': 'Bundle integrity / security failure',
         'td-internal': 'Unexpected internal error',
@@ -286,23 +374,51 @@ imagelayout-cli.exe mcp</code></pre>
       },
       zh: {
         'nav-back': '← 返回首页',
-        'cli-hero-desc': 'ImageLayoutManager 的命令行工具与 MCP 适配器。可用于渲染、打包、检查项目，也可通过 imagelayout-cli.exe mcp 让 AI 工具连接并控制正在运行的 GUI。',
+        'cli-hero-desc': 'ImageLayoutManager 的命令行工具与 MCP 适配器。可用于渲染、打包、检查、编辑项目，也可通过 imagelayout-cli.exe mcp 让 AI 工具连接并控制正在运行的 GUI。',
         'h-verbs': '命令',
         'th-purpose': '用途',
         'td-pack': '（将布局与引用资源打包）',
         'td-unpack': '包含资源文件和配套',
-        'td-inspect': '输出页面尺寸、DPI、单元格数量等信息（支持文本或 --json 格式）',
-        'td-mcp': '面向 AI 工具的 stdio MCP 适配器；将 36 个布局、样式、PiP、比例尺、文本和导出工具转发到正在运行的 GUI',
+        'td-inspect': '输出页面、DPI、布局模式、单元格、标签、跨单元格标签、尺寸组、导出区域（文本或 --json）',
+        'td-edit': '以无 GUI 方式应用 agent 工具操作——与 MCP 适配器共享同一套 39 个工具',
+        'td-mcp': '面向 AI 工具的 stdio MCP 适配器；将 39 个布局、样式、PiP、比例尺、文本和导出工具转发到正在运行的 GUI',
         'h-examples': '示例',
+        'h-edit': '无界面编辑（edit）',
+        'p-edit-intro': 'edit 命令以无 GUI 方式运行与 MCP 相同的 39 个 agent 工具，直接作用于项目文件。步骤按顺序执行：先 --script，再依次 --call。默认只有全部步骤成功才会写入文件；使用 --keep-going 可在步骤失败后继续并仍写出结果（退出码保持 1）。',
+        'p-edit-notes': '.figpack 不能直接作为 edit 的输入——请先 unpack 解包，编辑解出的 .figlayout，再 pack 打包回去。--script 接受 JSON 数组或 {"steps": [...]}，支持 tool/name 与 params/args 别名，并兼容 UTF-8 BOM（PowerShell 的 Out-File 默认会写入 BOM）。与 render 一致，stdout 只输出结果路径（或 --json 报告），可以安全接管道；每步进度写入 stderr。',
+        'th-option': '选项',
+        'td-edit-input': '.figlayout 或 .json——使用 --new 时可省略（不接受 .figpack，请先 unpack）',
+        'td-edit-new': '从空白项目开始，而不是读取 INPUT',
+        'td-edit-call': '运行 TOOL，后跟可选的 JSON 参数对象；可重复，按顺序执行',
+        'td-edit-script': 'JSON 数组形式的 {"tool": ..., "params": {...}} 步骤（"-" 从 stdin 读取）',
+        'td-edit-out': '写入结果：.figlayout、.json 或 .figpack（"-" 将 .figlayout JSON 输出到 stdout）',
+        'td-edit-inplace': '覆盖 INPUT（原子写入）',
+        'td-edit-dry': '在内存中应用所有步骤，但不写入任何文件',
+        'td-edit-keep': '某步失败后继续执行并仍写出结果（退出码保持 1）',
+        'td-edit-json': '输出一个包含所有步骤结果的 JSON 对象',
+        'td-edit-list': '打印可用工具名并退出',
+        'h-tools': '39 个 agent 工具',
+        'p-tools-note': '随时运行 imagelayout-cli edit --list-tools 查看最新列表。mcp 命令使用的是同一套工具注册表。',
+        'th-category': '类别',
+        'th-tools': '工具',
+        'tc-project': '项目生命周期',
+        'tc-layout': '布局结构',
+        'tc-image': '图片内容',
+        'tc-pip': 'PiP 嵌图',
+        'tc-text': '文本与标签',
+        'tc-group': '跨单元格标签',
+        'tc-size': '尺寸组',
+        'tc-export': '导出区域',
+        'tc-algo': '算法与视觉',
         'h-mcp': 'MCP 自动化',
-        'p-mcp': 'mcp 命令是面向 MCP 兼容 AI 工具的 stdio 适配器。它会通过本机 WebSocket 连接到正在运行的 ImageLayoutManager GUI，使 AI 能够创建布局、导入图片、调整标签与文本样式、裁剪/旋转/留白面板、添加比例尺和 PiP 嵌图、管理尺寸组、设置导出区域、请求截图，并保存或导出项目。',
-        'p-mcp-setup': '先在 GUI 中启用 Tools → Enable MCP Server，然后将你的 AI 工具配置为运行：',
+        'p-mcp': 'mcp 命令是面向 MCP 兼容 AI 工具的 stdio 适配器。它会通过本机 WebSocket 连接到正在运行的 ImageLayoutManager GUI（端口和令牌从本地发现文件读取），使 AI 能够调用与 edit 相同的 39 个工具：创建布局、导入图片、调整标签与文本样式、裁剪/旋转/留白面板、添加比例尺和 PiP 嵌图、管理尺寸组、设置导出区域、请求截图，并保存或导出项目。',
+        'p-mcp-setup': '先在 GUI 中启用 Tools → Enable MCP Server（或在首选项中勾选“启动时自动开启 MCP 服务”，或使用 ImageLayoutManager.exe --agent-server 启动），然后将你的 AI 工具配置为运行：',
         'p-mcp-upgrade': '升级 ImageLayoutManager 后，请同时重启应用和 AI 工具。如果安装器提示 .pyd 文件被锁定，请完全退出 AI 工具，或结束残留的 imagelayout-cli.exe 进程后再重新安装。',
         'h-exit': '退出码',
         'th-code': '代码',
         'th-meaning': '含义',
         'td-success': '成功',
-        'td-user-err': '用户可修正的错误（如路径错误、格式不支持等）',
+        'td-user-err': '用户可修正的错误（如路径错误、格式不支持、edit 步骤失败等）',
         'td-usage-err': '命令行参数使用错误',
         'td-integrity': '项目包完整性或安全校验失败',
         'td-internal': '未预期的内部错误',
