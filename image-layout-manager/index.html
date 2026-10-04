@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ImageLayoutManager</title>
   <meta name="description"
-    content="A PyQt6 desktop app for creating publication-ready multi-panel figures with repeatable spacing, alignment, labels, and export.">
+    content="Create editable scientific plots, arrange multi-panel figures, and export PDF, SVG and raster images for publication.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -109,12 +109,12 @@
 
     /* ── Hero ── */
     .hero {
-      padding: 80px 0 72px;
+      padding: 48px 0 40px;
       text-align: center;
     }
 
     .hero-logo {
-      margin-bottom: 24px;
+      margin-bottom: 16px;
     }
 
     .hero-logo svg {
@@ -124,25 +124,13 @@
       height: auto;
     }
 
-    .badge {
-      display: inline-block;
-      background: var(--badge-bg);
-      color: var(--badge-text);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.125px;
-      padding: 4px 10px;
-      border-radius: 9999px;
-      margin-bottom: 24px;
-    }
-
     .hero h1 {
       font-size: clamp(36px, 6vw, 54px);
       font-weight: 700;
       line-height: 1.04;
       letter-spacing: clamp(-1.2px, -0.03em, -1.875px);
       color: var(--near-black);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       font-variant-numeric: lining-nums;
     }
 
@@ -150,8 +138,8 @@
       font-size: 18px;
       font-weight: 400;
       color: var(--gray-500);
-      max-width: 540px;
-      margin: 0 auto 36px;
+      max-width: 640px;
+      margin: 0 auto 24px;
       line-height: 1.6;
     }
 
@@ -382,18 +370,12 @@
       color: var(--near-black);
     }
 
-    /* ── Release callout ── */
+    /* ── Release notes ── */
     .release-card {
-      border: var(--border);
-      border-radius: 16px;
-      padding: 40px 32px;
-      text-align: center;
-      background: #fff;
-      box-shadow: rgba(0, 0, 0, 0.01) 0px 1px 3px,
-        rgba(0, 0, 0, 0.02) 0px 3px 7px,
-        rgba(0, 0, 0, 0.02) 0px 7px 15px,
-        rgba(0, 0, 0, 0.04) 0px 14px 28px,
-        rgba(0, 0, 0, 0.05) 0px 23px 52px;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: var(--border);
+      text-align: left;
     }
 
     .release-card .version-badge {
@@ -409,7 +391,7 @@
     }
 
     .release-card h3 {
-      font-size: 26px;
+      font-size: 20px;
       font-weight: 700;
       letter-spacing: -0.625px;
       color: var(--near-black);
@@ -419,14 +401,120 @@
     .release-card p {
       font-size: 15px;
       color: var(--gray-500);
-      margin-bottom: 28px;
+      margin-bottom: 0;
       line-height: 1.6;
     }
 
     .release-meta {
       font-size: 13px;
-      color: var(--gray-300);
-      margin-top: 16px;
+      color: var(--gray-500);
+      margin-top: 12px;
+    }
+
+    /* ── Hero motto ── */
+    .hero .hero-motto {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--gray-500);
+      max-width: none;
+      margin: 8px auto 0;
+    }
+
+    .hero .hero-motto strong {
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .hero .hero-meta {
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 14px auto 0;
+    }
+
+    /* ── Product showcase ── */
+    .showcase-wide { max-width: 1120px; }
+    .showcase-copy { max-width: 680px; }
+    .export-flow {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: center;
+      gap: 16px;
+    }
+    .flow-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 32px;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .flow-arrow svg { display: block; width: 56px; height: 24px; }
+    .product-shot { margin: 0; min-width: 0; }
+    .shot-link {
+      display: block;
+      overflow: hidden;
+      border: var(--border);
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: var(--shadow-card);
+      cursor: zoom-in;
+    }
+    .shot-link img { display: block; width: 100%; height: auto; }
+    .product-shot figcaption {
+      margin-top: 12px;
+      color: var(--gray-500);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 860px) {
+      .export-flow { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+      .flow-arrow { flex-direction: row; justify-content: center; margin-bottom: 0; }
+      .flow-arrow svg { width: 24px; height: 40px; transform: rotate(90deg); }
+    }
+    .section-label.reflow-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--blue);
+    }
+    .reflow-label svg { display: block; flex: none; }
+    .reflow-switch {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      margin-bottom: 20px;
+      border: var(--border);
+      border-radius: 10px;
+      background: var(--warm-white);
+    }
+    .reflow-switch button {
+      min-height: 44px;
+      padding: 8px 18px;
+      border: 1px solid transparent;
+      border-radius: 7px;
+      background: transparent;
+      color: var(--gray-500);
+      font: inherit;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .reflow-switch button[aria-pressed="true"] { background: var(--blue); color: #fff; }
+    .reflow-switch button:focus-visible, .shot-link:focus-visible {
+      outline: 3px solid var(--blue-focus);
+      outline-offset: 4px;
+    }
+    .reflow-views { max-width: 904px; }
+
+    .hl-note {
+      font-size: 13px;
+      color: var(--gray-500);
+      margin-top: 20px;
+      max-width: 660px;
+      line-height: 1.55;
     }
 
     /* Screen-reader only */
@@ -487,10 +575,16 @@
 
     .footer-right {
       display: flex;
+      flex-wrap: wrap;
       gap: 20px;
     }
 
     @media (max-width: 600px) {
+      .footer-right {
+        justify-content: center;
+        gap: 12px 18px;
+      }
+
       .step:not(:last-child)::after {
         display: none;
       }
@@ -508,101 +602,39 @@
         border-bottom: none;
       }
 
-      .release-card {
-        padding: 28px 20px;
-      }
-
       footer {
         justify-content: center;
       }
     }
 
-    /* ── Download picker ── */
-    .dl-wrap {
-      position: relative;
-      display: inline-block;
+    /* ── Downloads ── */
+    #download { scroll-margin-top: 76px; }
+    .download-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .platform-card { min-width: 0; padding: 28px; border: var(--border); border-radius: 14px; background: #fff; }
+    .platform-card h3 { font-size: 22px; margin-bottom: 12px; }
+    .platform-card p { margin: 0 0 20px; color: var(--gray-500); font-size: 14px; line-height: 1.6; }
+    .download-actions { display: flex; flex-direction: column; gap: 12px; align-items: stretch; }
+    .download-actions a { justify-content: center; text-align: center; }
+    .download-more { margin-top: 20px; font-size: 14px; }
+    .download-more summary { cursor: pointer; color: var(--gray-500); padding: 8px 0; }
+    .download-file { display: inline-block; margin: 8px 0; color: var(--blue); text-underline-offset: 3px; }
+    .platform-card .download-more p { margin-bottom: 0; font-size: 13px; }
+    .mac-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .mac-options a { min-width: 0; flex-direction: column; align-items: flex-start; justify-content: center; }
+    .download-sub { color: var(--gray-500); font-size: 12px; font-weight: 400; }
+    .download-foot { margin-top: 20px; color: var(--gray-500); font-size: 13px; }
+    .download-foot a { color: var(--blue); text-underline-offset: 3px; }
+    .btn-primary, .btn-secondary { min-height: 44px; }
+    .btn-primary:focus-visible, .btn-secondary:focus-visible, .download-more summary:focus-visible,
+    .download-file:focus-visible, .download-foot a:focus-visible, .lang-toggle:focus-visible {
+      outline: 3px solid var(--blue-focus); outline-offset: 4px;
     }
-
-    .dl-menu {
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 50%;
-      transform: translateX(-50%) translateY(-4px);
-      min-width: 280px;
-      background: #fff;
-      border: var(--border);
-      border-radius: 14px;
-      box-shadow: rgba(0, 0, 0, 0.08) 0px 10px 30px, rgba(0, 0, 0, 0.06) 0px 4px 10px;
-      padding: 8px;
-      z-index: 50;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition: opacity .15s ease, transform .15s ease, visibility .15s;
-      text-align: left;
+    @media (max-width: 780px) {
+      .download-grid { grid-template-columns: minmax(0, 1fr); }
     }
-
-    .dl-wrap.open .dl-menu {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .dl-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
-      border-radius: 10px;
-      text-decoration: none;
-      color: var(--near-black);
-      font-size: 14px;
-      line-height: 1.3;
-      transition: background .12s ease;
-    }
-
-    .dl-item:hover {
-      background: var(--gray-100, #f5f5f7);
-    }
-
-    .dl-item .dl-ico {
-      font-size: 20px;
-      width: 24px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .dl-item .dl-title {
-      font-weight: 600;
-    }
-
-    .dl-item .dl-sub {
-      font-size: 12px;
-      color: var(--gray-500);
-      margin-top: 2px;
-    }
-
-    .dl-sep {
-      height: 1px;
-      background: var(--border-color, #e5e5e7);
-      margin: 4px 6px;
-      border: 0;
-    }
-
-    .dl-foot {
-      padding: 8px 14px 6px;
-      font-size: 12px;
-      color: var(--gray-500);
-    }
-
-    .dl-foot a {
-      color: var(--gray-500);
-      text-decoration: underline;
-    }
-
-    .dl-foot a:hover {
-      color: var(--near-black);
+    @media (max-width: 420px) {
+      .platform-card { padding: 20px; }
+      .mac-options { grid-template-columns: minmax(0, 1fr); }
     }
   </style>
 </head>
@@ -620,9 +652,8 @@
   <!-- Hero -->
   <div class="container">
     <div class="hero">
-      <span class="badge" data-i18n="hero-badge">Open Source · Apache 2.0 source</span>
       <div class="hero-logo" aria-hidden="true">
-        <svg viewBox="0 0 1180 416" width="300" height="106" fill="none"
+        <svg viewBox="0 0 1180 416" width="180" height="64" fill="none"
           style="color: var(--near-black);" font-family="Inter, Helvetica, Arial, sans-serif" font-size="30"
           stroke-linejoin="round" stroke-width="6" role="img" aria-label="ILM logo">
           <rect x="10" y="10" width="140" height="177" rx="6" fill="#fff" stroke="currentColor"/>
@@ -644,33 +675,111 @@
         </svg>
       </div>
       <h1 data-i18n-html="hero-h1">Image Layout Manager</h1>
-      <p data-i18n="hero-p">
-        Assemble multi-panel layouts with plot-area alignment, LaTeX support, PiP overlays,
-        MCP-assisted editing, and Vector-Sharp PDF export — built for publication-ready figures.
-      </p>
+      <p data-i18n="hero-p">Create scientific plots, arrange multi-panel figures, and export for publication.</p>
       <div class="cta-group">
-        <div class="dl-wrap" id="hero-dl-wrap">
-          <button type="button" id="hero-download-btn" class="btn-primary" aria-haspopup="menu" aria-expanded="false">
-            <span data-i18n="hero-download-text">↓ Download</span> <span id="hero-version"
-              class="skeleton">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          </button>
-          <div class="dl-menu" role="menu" data-dl-menu></div>
-        </div>
-        <a href="https://apps.microsoft.com/detail/9NGNW4D8L5QH" class="btn-secondary" target="_blank"
-          rel="noopener noreferrer">
-          <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" style="display:block;flex-shrink:0">
-            <path fill="currentColor" fill-rule="evenodd"
-              d="M8.6 7.4V5.5a3.4 3.4 0 0 1 6.8 0v1.9h3.9v13.4a2.2 2.2 0 0 1-2.2 2.2H6.9a2.2 2.2 0 0 1-2.2-2.2V7.4h3.9zm1.5 0h3.8V5.5a1.9 1.9 0 0 0-3.8 0v1.9z" />
-            <path fill="#fff"
-              d="M9 12.2h2.75v2.75H9zM12.25 12.2H15v2.75h-2.75zM9 15.45h2.75v2.75H9zM12.25 15.45H15v2.75h-2.75z" />
-          </svg>
-          <span data-i18n="hero-msstore-btn">Get it from Microsoft Store</span>
+        <a href="#download" id="hero-download-btn" class="btn-primary">
+          <span data-i18n="hero-download-text">↓ Download</span> <span id="hero-version">v3.5.1</span>
         </a>
-        <a href="https://github.com/zw87652015/ImageLayoutManager" class="btn-secondary" target="_blank"
-          rel="noopener noreferrer" data-i18n="hero-github-btn">⬡ View on GitHub</a>
       </div>
+      <p class="hero-meta"><span data-i18n="tech-platforms-value">Windows · macOS (Apple Silicon / Intel)</span><br><span data-i18n="hero-badge">Open Source · Apache 2.0 source</span></p>
+      <p class="hero-motto" data-i18n-html="hero-motto"><strong>I</strong>nspired by <strong>L</strong>aziness. <strong>M</strong>ade for research.</p>
     </div>
   </div>
+
+  <!-- Figure showcase: editing UI → exported figure -->
+  <section class="alt" aria-labelledby="figure-showcase-title">
+    <div class="container showcase-wide">
+      <div class="section-label" data-i18n="showcase-export-label">From canvas to figure</div>
+      <h2 class="section-title" id="figure-showcase-title" data-i18n="showcase-export-title">Bring every panel together</h2>
+      <p class="section-subtitle showcase-copy" data-i18n="showcase-export-desc">Arrange images and editable plots, add labels, insets and scale bars, then export a complete figure for your paper.</p>
+      <div class="export-flow">
+        <figure class="product-shot">
+          <a class="shot-link" href="assets/ILM-GUI.png" target="_blank" rel="noopener noreferrer">
+            <picture>
+              <source srcset="assets/ILM-GUI.webp" type="image/webp">
+              <img src="assets/ILM-GUI.png" width="2100" height="1318" fetchpriority="high" decoding="async"
+                alt="Image Layout Manager with aerial photographs, editable plots, panel labels and a zoom inset on the canvas."
+                data-i18n-alt="showcase-ui-alt">
+            </picture>
+          </a>
+          <figcaption><span data-i18n="showcase-ui-caption">Images, plots and annotations together in one editable figure.</span></figcaption>
+        </figure>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 56 24" aria-hidden="true">
+            <path d="M3 12h48m-10-9 10 9-10 9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span data-i18n="showcase-flow-export">Export</span>
+        </div>
+        <figure class="product-shot">
+          <a class="shot-link" href="assets/Sample-exported.png" target="_blank" rel="noopener noreferrer">
+            <picture>
+              <source srcset="assets/Sample-exported.webp" type="image/webp">
+              <img src="assets/Sample-exported.png" width="2480" height="1572" loading="lazy" decoding="async"
+                alt="Exported multi-panel figure with aerial photographs, a zoom inset, a scale bar, a line plot and a column plot."
+                data-i18n-alt="showcase-export-alt">
+            </picture>
+          </a>
+          <figcaption><span data-i18n="showcase-export-caption">Exported from ILM. The charts use illustrative data.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+  <section aria-labelledby="plot-editor-showcase-title">
+    <div class="container showcase-wide">
+      <div class="section-label" data-i18n="showcase-editor-label">Plot Editor</div>
+      <h2 class="section-title" id="plot-editor-showcase-title" data-i18n="showcase-editor-title">Start with your data</h2>
+      <p class="section-subtitle showcase-copy" data-i18n="showcase-editor-desc">Import Excel or CSV data, add error bars, and adjust styles and figure size. Save an editable SVG to use in your layout.</p>
+      <figure class="product-shot">
+        <a class="shot-link" href="assets/PlotEditor-GUI.png" target="_blank" rel="noopener noreferrer">
+          <picture>
+            <source srcset="assets/PlotEditor-GUI.webp" type="image/webp">
+            <img src="assets/PlotEditor-GUI.png" width="1440" height="1003" loading="lazy" decoding="async"
+              alt="Plot Editor showing a data worksheet beside three response curves with error bars." data-i18n-alt="showcase-editor-alt">
+          </picture>
+        </a>
+        <figcaption><span data-i18n="showcase-editor-caption">Worksheet and plot preview side by side. Illustrative data.</span></figcaption>
+      </figure>
+    </div>
+  </section>
+  <section class="alt" aria-labelledby="reflow-showcase-title">
+    <div class="container showcase-wide">
+      <div class="section-label reflow-label">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 20 20" width="28" height="28"
+          fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+          aria-hidden="true" focusable="false">
+          <path d="M3.5 5H1v9h2.5M12.5 5H15v9h-2.5"/>
+          <path d="M4 2h8M6 0 4 2l2 2M10 0l2 2-2 2"/>
+          <path d="m4.5 11 3-3 2 2 2-3.5"/>
+        </svg>
+        <span>REFLOW</span>
+      </div>
+      <h2 class="section-title" id="reflow-showcase-title" data-i18n="showcase-reflow-title">Fit the plot to the panel</h2>
+      <p class="section-subtitle showcase-copy" data-i18n="showcase-reflow-desc">Turn on Reflow to adapt native plots to their panels while preserving text and line widths in real points. Plots in the same row align their plotting areas automatically.</p>
+      <div class="reflow-switch" role="group" aria-label="Compare Reflow off and on" data-i18n-aria="showcase-reflow-aria">
+        <button type="button" data-reflow="off" aria-pressed="false" aria-controls="reflow-off-view">Reflow OFF</button>
+        <button type="button" data-reflow="on" aria-pressed="true" aria-controls="reflow-on-view">Reflow ON</button>
+      </div>
+      <div class="reflow-views">
+        <figure class="product-shot" id="reflow-off-view" hidden>
+          <a class="shot-link" href="assets/Reflow-off.png" target="_blank" rel="noopener noreferrer">
+            <img src="assets/Reflow-off.png" width="898" height="338" loading="lazy" decoding="async"
+              alt="Reflow off: the plots retain their saved appearance and their bottom axes sit at different heights."
+              data-i18n-alt="showcase-reflow-off-alt">
+          </a>
+          <figcaption><span data-i18n="showcase-reflow-off-caption">OFF · Keep the saved SVG appearance.</span></figcaption>
+        </figure>
+        <figure class="product-shot" id="reflow-on-view">
+          <a class="shot-link" href="assets/Reflow-on.png" target="_blank" rel="noopener noreferrer">
+            <img src="assets/Reflow-on.png" width="903" height="339" loading="lazy" decoding="async"
+              alt="Reflow on: both plots fill their panels with aligned plotting areas and bottom axes."
+              data-i18n-alt="showcase-reflow-on-alt">
+          </a>
+          <figcaption><span data-i18n="showcase-reflow-on-caption">ON · Adapt the plots and align their plotting areas.</span></figcaption>
+        </figure>
+      </div>
+      <p class="hl-note" data-i18n="hl-note">Reflow works with native .ilmplot.svg files. Ordinary images and SVGs keep their original geometry. Locking the cell aspect ratio or using plot-area alignment pauses Reflow.</p>
+    </div>
+  </section>
 
   <hr class="divider">
 
@@ -678,9 +787,14 @@
   <section>
     <div class="container">
       <div class="section-label" data-i18n="features-label">Features</div>
-      <div class="section-title" data-i18n="features-title">Everything you need for journal figures</div>
-      <p class="section-subtitle" data-i18n="features-subtitle">From layout to export, in a single desktop app.</p>
+      <div class="section-title" data-i18n="features-title">Tools for the whole figure</div>
+      <p class="section-subtitle" data-i18n="features-subtitle">Create plots, align panels, match text sizes, and add the finishing annotations before export.</p>
       <div class="feature-grid">
+        <div class="feature-card">
+          <span class="icon">📈</span>
+          <h3 data-i18n="feat14-title">Editable Plot Editor</h3>
+          <p data-i18n="feat14-desc">Create line, scatter, column and distribution plots from Excel or CSV data. Add error bars and significance annotations, reuse styles, and save editable .ilmplot.svg files.</p>
+        </div>
         <div class="feature-card">
           <span class="icon">📊</span>
           <h3 data-i18n="feat10-title">Align Plot Areas</h3>
@@ -728,11 +842,6 @@
             conditions — drag the label band outward to adjust its stacking order.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">🪄</span>
-          <h3 data-i18n="feat7-title">One-Click Auto Layout</h3>
-          <p data-i18n="feat7-desc">Drop a batch of images or a whole folder to get an arranged multi-panel grid, then optimize cell ratios and page size with a single click.</p>
-        </div>
-        <div class="feature-card">
           <span class="icon">🗂️</span>
           <h3 data-i18n="feat12-title">Freeform Layer Stack</h3>
           <p data-i18n="feat12-desc">Switch to freeform placement and reorder overlapping panels and insets by dragging them in the Layers panel, Photoshop-style.</p>
@@ -740,7 +849,7 @@
         <div class="feature-card">
           <span class="icon">🎓</span>
           <h3 data-i18n="feat13-title">Guided Tutorials</h3>
-          <p data-i18n="feat13-desc">Nine built-in lessons walk you through layout, subdivision, plot alignment, labels, text sizes, and export in a disposable practice project.</p>
+          <p data-i18n="feat13-desc">Learn plotting, layout and export with guided practice projects in ILM and the Plot Editor.</p>
         </div>
         <div class="feature-card">
           <span class="icon">🤖</span>
@@ -757,7 +866,7 @@
   <section class="alt">
     <div class="container">
       <div class="section-label" data-i18n="workflow-label">Workflow</div>
-      <div class="section-title" data-i18n="workflow-title">Six steps to a journal figure</div>
+      <div class="section-title" data-i18n="workflow-title">From panels to a finished figure</div>
       <p class="section-subtitle" style="margin-bottom: 40px;" data-i18n="workflow-subtitle">A repeatable process from
         canvas to camera-ready export.</p>
       <div class="workflow-steps">
@@ -767,19 +876,19 @@
         </div>
         <div class="step">
           <div class="num">2</div>
-          <span data-i18n="step2">Add images</span>
+          <span data-i18n="step2">Add images or plots</span>
         </div>
         <div class="step">
           <div class="num">3</div>
-          <span data-i18n="step3">Split cells</span>
+          <span data-i18n="step3">Auto-layout panels</span>
         </div>
         <div class="step">
           <div class="num">4</div>
-          <span data-i18n="step4">Align plots, spacing &amp; labels</span>
+          <span data-i18n="step4">Refine spacing &amp; labels</span>
         </div>
         <div class="step">
           <div class="num">5</div>
-          <span data-i18n-html="step5">Save <code style="font-size:11px;color:var(--blue)">.figlayout</code></span>
+          <span data-i18n="step5">Save your project</span>
         </div>
         <div class="step">
           <div class="num">6</div>
@@ -816,7 +925,7 @@
         <div class="feature-card">
           <span class="icon">🔌</span>
           <h3 data-i18n="cli-mcp-title">MCP adapter</h3>
-          <p data-i18n="cli-mcp-desc">Run <code>imagelayout-cli.exe mcp</code> so AI hosts can call the app's 39 layout, styling, PiP, scale-bar, text, and export tools.</p>
+          <p data-i18n="cli-mcp-desc">Connect an AI assistant to the running app to arrange panels, adjust styles, add annotations, and save or export the figure.</p>
         </div>
       </div>
       <div style="margin-top: 32px; padding: 20px; background: var(--gray-100, #f5f5f7); border-radius: 12px; font-family: monospace; font-size: 13px; line-height: 1.6; color: var(--near-black);">
@@ -829,7 +938,7 @@
         <div style="margin-top: 12px; margin-bottom: 8px; color: var(--gray-500);"># MCP adapter for Claude, Cursor, Windsurf, Cline, etc.</div>
         <div>imagelayout-cli.exe mcp</div>
       </div>
-      <p style="margin-top: 16px; font-size: 13px; color: var(--gray-500);" data-i18n-html="cli-note">Available only in Windows Installer. See <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI docs</a> for full documentation.</p>
+      <p style="margin-top: 16px; font-size: 13px; color: var(--gray-500);" data-i18n-html="cli-note">Included with the Windows installer and macOS app bundles (Apple Silicon and Intel), or run from source. See <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI docs</a> for setup and commands.</p>
     </div>
   </section>
 
@@ -838,16 +947,12 @@
   <!-- Tech -->
   <section>
     <div class="container">
-      <div class="section-label" data-i18n="technical-label">Technical</div>
-      <div class="section-title" style="margin-bottom: 24px;" data-i18n="technical-title">Stack &amp; formats</div>
+      <div class="section-label" data-i18n="technical-label">Compatibility</div>
+      <div class="section-title" style="margin-bottom: 24px;" data-i18n="technical-title">Platforms &amp; formats</div>
       <div class="tech-row">
         <div class="tech-item">
-          <div class="label" data-i18n="tech-lang">Language</div>
-          <div class="value">Python 3.9+</div>
-        </div>
-        <div class="tech-item">
-          <div class="label" data-i18n="tech-framework">Framework</div>
-          <div class="value">PyQt6</div>
+          <div class="label" data-i18n="tech-platforms">Platforms</div>
+          <div class="value" data-i18n="tech-platforms-value">Windows · macOS (Apple Silicon / Intel)</div>
         </div>
         <div class="tech-item">
           <div class="label" data-i18n="tech-formats">Formats</div>
@@ -855,7 +960,7 @@
         </div>
         <div class="tech-item">
           <div class="label" data-i18n="tech-layoutfile">Layout file</div>
-          <div class="value">.figlayout AND .figpack</div>
+          <div class="value">.figlayout · .figpack</div>
         </div>
         <div class="tech-item">
           <div class="label" data-i18n="tech-license">License</div>
@@ -867,28 +972,46 @@
 
   <hr class="divider">
 
-  <!-- Release -->
-  <section class="alt">
-    <div class="container" style="max-width: 560px;">
-      <div class="release-card">
-        <div class="version-badge" id="release-badge">
-          <span class="skeleton">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        </div>
-        <h3 id="release-title" aria-live="polite">
-          <span class="skeleton" aria-hidden="true"
-            style="display:block;height:1.2em;width:70%;margin:0 auto 8px;"></span>
-          <span class="sr-only">Loading…</span>
-        </h3>
+  <!-- Downloads and release notes -->
+  <section class="alt" id="download" aria-labelledby="download-title" tabindex="-1">
+    <div class="container showcase-wide">
+      <div class="section-label" data-i18n="download-label">Download</div>
+      <h2 class="section-title" id="download-title" data-i18n="download-title">Choose your version</h2>
+      <p class="section-subtitle showcase-copy" data-i18n="download-desc">Available for Windows and macOS. Choose the build for your computer.</p>
+      <div class="download-grid">
+        <article class="platform-card" aria-labelledby="download-windows-title">
+          <h3 id="download-windows-title">Windows</h3>
+          <p data-i18n="download-windows-desc">Install from Microsoft Store for automatic updates, or download the installer directly.</p>
+          <div class="download-actions">
+            <a class="btn-primary" href="https://apps.microsoft.com/detail/9NGNW4D8L5QH" target="_blank" rel="noopener noreferrer" data-i18n="download-store">Get it from Microsoft Store</a>
+            <a class="btn-secondary" data-download-suffix="_Windows_Setup.exe" href="https://downloads.luojiajiang.uk/ImageLayoutManager_v3.5.1_Windows_Setup.exe" data-i18n="dl-win-installer-title">Windows Installer (.exe)</a>
+          </div>
+          <details class="download-more">
+            <summary data-i18n="download-other">Other Windows downloads</summary>
+            <a class="download-file" data-download-suffix="_Windows.exe" href="https://downloads.luojiajiang.uk/ImageLayoutManager_v3.5.1_Windows.exe" data-i18n="dl-win-portable-title">Windows Portable (.exe)</a>
+            <p data-i18n="dl-win-portable-sub">No installation required.</p>
+          </details>
+        </article>
+        <article class="platform-card" aria-labelledby="download-mac-title">
+          <h3 id="download-mac-title">macOS</h3>
+          <p data-i18n="download-mac-hint">Choose your chip: Apple Silicon (M-series) or Intel. Check Apple menu → About This Mac to find yours.</p>
+          <div class="mac-options">
+            <a class="btn-secondary" data-download-suffix="_macOS.zip" href="https://downloads.luojiajiang.uk/ImageLayoutManager_v3.5.1_macOS.zip">
+              <span data-i18n="dl-mac-title">Apple Silicon</span><span class="download-sub" data-i18n="dl-mac-sub">M-series chips · .zip</span>
+            </a>
+            <a class="btn-secondary" data-download-suffix="_macOS_Intel.zip" href="https://downloads.luojiajiang.uk/ImageLayoutManager_v3.5.1_macOS_Intel.zip">
+              <span data-i18n="dl-mac-intel-title">Intel</span><span class="download-sub" data-i18n="dl-mac-intel-sub">Intel processors · .zip</span>
+            </a>
+          </div>
+        </article>
+      </div>
+      <div class="release-card" aria-labelledby="release-title">
+        <div class="version-badge" id="release-badge">Latest Release · v3.5.1</div>
+        <h3 id="release-title" aria-live="polite">v3.5.1 — Editable plots for your figures</h3>
         <p id="release-body" data-i18n="release-loading">Loading release notes…</p>
-        <div class="dl-wrap" id="release-dl-wrap" style="display:inline-block;">
-          <button type="button" id="release-btn" class="btn-primary" style="display:inline-flex;" aria-haspopup="menu"
-            aria-expanded="false">
-            <span data-i18n="release-btn">↓ Download</span>
-          </button>
-          <div class="dl-menu" role="menu" data-dl-menu></div>
-        </div>
         <div class="release-meta" id="release-meta"></div>
       </div>
+      <p class="download-foot" data-i18n-html="dl-foot">Looking for older versions? <a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer">View all releases</a></p>
     </div>
   </section>
 
@@ -898,7 +1021,9 @@
       <a href="./cli.html" rel="noopener noreferrer" data-i18n="footer-cli">CLI Docs</a>
       <a href="./privacy.html" data-i18n="footer-privacy">Privacy</a>
       <a href="https://github.com/zw87652015/ImageLayoutManager/blob/main/NOTICE" target="_blank"
-        rel="noopener noreferrer" data-i18n="footer-licenses">Licences &amp; source</a>
+        rel="noopener noreferrer" data-i18n="footer-licenses">Licences</a>
+      <a href="https://github.com/zw87652015/ImageLayoutManager/blob/main/SOURCES.md" target="_blank"
+        rel="noopener noreferrer" data-i18n="footer-sources">Source index</a>
       <a href="https://github.com/zw87652015/ImageLayoutManager" target="_blank" rel="noopener noreferrer">GitHub</a>
       <a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer"
         data-i18n="footer-releases">All Releases</a>
@@ -912,13 +1037,33 @@
         'nav-back': '← Back to Home',
         'hero-badge': 'Open Source · Apache 2.0 source',
         'hero-h1': 'Image Layout Manager',
-        'hero-p': 'Assemble multi-panel layouts with plot-area alignment, LaTeX support, PiP overlays, MCP-assisted editing, and Vector-Sharp PDF export — built for publication-ready figures.',
+        'hero-p': 'Create scientific plots, arrange multi-panel figures, and export for publication.',
+        'hero-motto': '<strong>I</strong>nspired by <strong>L</strong>aziness. <strong>M</strong>ade for research.',
         'hero-download-text': '↓ Download',
-        'hero-msstore-btn': 'Get it from Microsoft Store',
-        'hero-github-btn': '⬡ View on GitHub',
+        'showcase-ui-alt': 'Image Layout Manager with aerial photographs, editable plots, panel labels and a zoom inset on the canvas.',
+        'showcase-ui-caption': 'Images, plots and annotations together in one editable figure.',
+        'showcase-export-label': 'From canvas to figure',
+        'showcase-export-title': 'Bring every panel together',
+        'showcase-export-desc': 'Arrange images and editable plots, add labels, insets and scale bars, then export a complete figure for your paper.',
+        'showcase-export-alt': 'Exported multi-panel figure with aerial photographs, a zoom inset, a scale bar, a line plot and a column plot.',
+        'showcase-export-caption': 'Exported from ILM. The charts use illustrative data.',
+        'showcase-flow-export': 'Export',
+        'showcase-editor-label': 'Plot Editor',
+        'showcase-editor-title': 'Start with your data',
+        'showcase-editor-desc': 'Import Excel or CSV data, add error bars, and adjust styles and figure size. Save an editable SVG to use in your layout.',
+        'showcase-editor-alt': 'Plot Editor showing a data worksheet beside three response curves with error bars.',
+        'showcase-editor-caption': 'Worksheet and plot preview side by side. Illustrative data.',
+        'showcase-reflow-title': 'Fit the plot to the panel',
+        'showcase-reflow-desc': 'Turn on Reflow to adapt native plots to their panels while preserving text and line widths in real points. Plots in the same row align their plotting areas automatically.',
+        'showcase-reflow-aria': 'Compare Reflow off and on',
+        'showcase-reflow-off-alt': 'Reflow off: the plots retain their saved appearance and their bottom axes sit at different heights.',
+        'showcase-reflow-on-alt': 'Reflow on: both plots fill their panels with aligned plotting areas and bottom axes.',
+        'showcase-reflow-off-caption': 'OFF · Keep the saved SVG appearance.',
+        'showcase-reflow-on-caption': 'ON · Adapt the plots and align their plotting areas.',
+        'hl-note': 'Reflow works with native .ilmplot.svg files. Ordinary images and SVGs keep their original geometry. Locking the cell aspect ratio or using plot-area alignment pauses Reflow.',
         'features-label': 'Features',
-        'features-title': 'Everything you need for journal figures',
-        'features-subtitle': 'From layout to export, in a single desktop app.',
+        'features-title': 'Tools for the whole figure',
+        'features-subtitle': 'Create plots, align panels, match text sizes, and add the finishing annotations before export.',
         'feat1-title': 'LaTeX Support',
         'feat1-desc': 'Render complex formulas, symbols, and chemical notations directly on panels using standard LaTeX syntax.',
         'feat2-title': 'Picture-in-Picture (PiP)',
@@ -931,8 +1076,6 @@
         'feat5-desc': 'Add and fine-tune professional scale bars—an essential requirement for microscopy and imaging figures.',
         'feat6-title': 'Shared Group Labels',
         'feat6-desc': 'Span a single label across several cells to mark rows, columns, or conditions — drag the label band outward to adjust its stacking order.',
-        'feat7-title': 'One-Click Auto Layout',
-        'feat7-desc': 'Drop a batch of images or a whole folder to get an arranged multi-panel grid, then optimize cell ratios and page size with a single click.',
         'feat9-title': 'AI / MCP Assisted Editing',
         'feat9-desc': 'Connect Claude, Cursor, Windsurf, Cline, or other MCP hosts to build, style, annotate, preview, save, and export figures through the running app.',
         'feat10-title': 'Align Plot Areas',
@@ -942,15 +1085,17 @@
         'feat12-title': 'Freeform Layer Stack',
         'feat12-desc': 'Switch to freeform placement and reorder overlapping panels and insets by dragging them in the Layers panel, Photoshop-style.',
         'feat13-title': 'Guided Tutorials',
-        'feat13-desc': 'Nine built-in lessons walk you through layout, subdivision, plot alignment, labels, text sizes, and export in a disposable practice project.',
+        'feat13-desc': 'Learn plotting, layout and export with guided practice projects in ILM and the Plot Editor.',
+        'feat14-title': 'Editable Plot Editor',
+        'feat14-desc': 'Create line, scatter, column and distribution plots from Excel or CSV data. Add error bars and significance annotations, reuse styles, and save editable .ilmplot.svg files.',
         'workflow-label': 'Workflow',
-        'workflow-title': 'Six steps to a journal figure',
+        'workflow-title': 'From panels to a finished figure',
         'workflow-subtitle': 'A repeatable process from canvas to camera-ready export.',
         'step1': 'Create layout',
-        'step2': 'Add images',
-        'step3': 'Split cells',
-        'step4': 'Align plots, spacing & labels',
-        'step5': 'Save <code style="font-size:11px;color:var(--blue)">.figlayout</code>',
+        'step2': 'Add images or plots',
+        'step3': 'Auto-layout panels',
+        'step4': 'Refine spacing & labels',
+        'step5': 'Save your project',
         'step6': 'Export PDF / TIFF / JPG / PNG / SVG',
         'cli-label': 'CLI',
         'cli-title': 'CLI and MCP automation for repeatable workflows',
@@ -962,34 +1107,42 @@
         'cli-inspect-title': 'Inspect',
         'cli-inspect-desc': 'Query page size, DPI, cell counts, and metadata (text or JSON output).',
         'cli-mcp-title': 'MCP adapter',
-        'cli-mcp-desc': "Run imagelayout-cli.exe mcp so AI hosts can call the app's 39 layout, styling, PiP, scale-bar, text, and export tools.",
-        'cli-note': 'Available only in Windows Installer. See <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI docs</a> for full documentation.',
-        'technical-label': 'Technical',
-        'technical-title': 'Stack & formats',
-        'tech-lang': 'Language',
-        'tech-framework': 'Framework',
+        'cli-mcp-desc': 'Connect an AI assistant to the running app to arrange panels, adjust styles, add annotations, and save or export the figure.',
+        'cli-note': 'Included with the Windows installer and macOS app bundles (Apple Silicon and Intel), or run from source. See <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI docs</a> for setup and commands.',
+        'technical-label': 'Compatibility',
+        'technical-title': 'Platforms & formats',
+        'tech-platforms': 'Platforms',
+        'tech-platforms-value': 'Windows · macOS (Apple Silicon / Intel)',
         'tech-formats': 'Formats',
         'tech-layoutfile': 'Layout file',
         'tech-license': 'License',
         'tech-license-value': 'Apache 2.0 source · GPL-3.0 / AGPL-3.0 builds',
         'release-loading': 'Loading release notes…',
-        'release-btn': '↓ Download',
-        'dl-win-installer-title': 'Windows Installer',
-        'dl-win-installer-sub': 'Recommended · .exe Setup · Includes CLI',
-        'dl-win-portable-title': 'Windows Portable',
-        'dl-win-portable-sub': 'Standalone .exe · no install',
-        'dl-mac-title': 'macOS',
-        'dl-mac-sub': '.zip · Apple Silicon',
+        'download-label': 'Download',
+        'download-title': 'Choose your version',
+        'download-desc': 'Available for Windows and macOS. Choose the build for your computer.',
+        'download-windows-desc': 'Install from Microsoft Store for automatic updates, or download the installer directly.',
+        'download-store': 'Get it from Microsoft Store',
+        'download-other': 'Other Windows downloads',
+        'download-mac-hint': 'Choose your chip: Apple Silicon (M-series) or Intel. Check Apple menu → About This Mac to find yours.',
+        'dl-win-installer-title': 'Windows Installer (.exe)',
+        'dl-win-portable-title': 'Windows Portable (.exe)',
+        'dl-win-portable-sub': 'No installation required.',
+        'dl-mac-title': 'Apple Silicon',
+        'dl-mac-sub': 'M-series chips · .zip',
+        'dl-mac-intel-title': 'Intel',
+        'dl-mac-intel-sub': 'Intel processors · .zip',
         'dl-foot': 'Looking for older versions? <a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer">View all releases</a>',
         'release-latest-prefix': 'Latest Release · ',
         'release-released-prefix': 'Released ',
-        'release-fallback-title': 'v3.4.3 — Licences and source for every bundled component',
-        'release-fallback-body': 'About now opens Licenses and source, which lists this app and all 87 bundled components and reads their licences offline. Every release ships a matching source snapshot. Figures, text sizing and project files are unchanged.',
+        'release-fallback-title': 'v3.5.1 — Editable plots for your figures',
+        'release-fallback-body': 'Create plots from spreadsheet data, refine styles and annotations, and save them as editable SVGs. Enable Reflow when a plot needs to fit its panel. Projects saved in this version need ILM 3.5.1 or later.',
         'release-notes-fallback': 'See the release page for full notes.',
         'footer-home': '← Home',
         'footer-cli': 'CLI Docs',
         'footer-privacy': 'Privacy',
-        'footer-licenses': 'Licences & source',
+        'footer-licenses': 'Licences',
+        'footer-sources': 'Source index',
         'footer-releases': 'All Releases',
         'date-locale': 'en-US',
       },
@@ -997,13 +1150,33 @@
         'nav-back': '← 返回首页',
         'hero-badge': '开源 · 源码 Apache 2.0',
         'hero-h1': 'Image Layout Manager',
-        'hero-p': '图表对齐、文字尺寸统一、LaTeX 公式、MCP AI自动编辑... 科研组图绘制，ILM通通帮你搞定',
+        'hero-p': '创建科学图表，排好多面板图，导出论文成图。',
+        'hero-motto': '<strong>I</strong>nspired by <strong>L</strong>aziness. <strong>M</strong>ade for research.',
         'hero-download-text': '↓ 下载',
-        'hero-msstore-btn': '从 Microsoft Store 获取',
-        'hero-github-btn': '⬡ 在 GitHub 上查看',
+        'showcase-ui-alt': 'Image Layout Manager 主界面，画布中包含航拍照片、可编辑图表、面板编号和局部放大插图。',
+        'showcase-ui-caption': '图片、图表与标注，在同一份工程中排好。',
+        'showcase-export-label': '从画布到成图',
+        'showcase-export-title': '把每个面板组合成完整图版',
+        'showcase-export-desc': '排列图片与可编辑图表，添加编号、插图和比例尺，再导出用于论文的完整成图。',
+        'showcase-export-alt': '从 ILM 导出的多面板图，包含航拍照片、局部放大插图、比例尺、折线图与柱状图。',
+        'showcase-export-caption': '由 ILM 导出；图表使用示例数据。',
+        'showcase-flow-export': '导出',
+        'showcase-editor-label': '图表编辑器',
+        'showcase-editor-title': '从数据开始绘图',
+        'showcase-editor-desc': '导入 Excel 或 CSV 数据，添加误差线，调整样式与图表尺寸，再保存为可编辑 SVG 用于组图。',
+        'showcase-editor-alt': '图表编辑器中，数据工作表与三组带误差线的响应曲线并排显示。',
+        'showcase-editor-caption': '工作表与图表预览并排显示；使用示例数据。',
+        'showcase-reflow-title': '让图表适应面板',
+        'showcase-reflow-desc': '开启 Reflow，原生图表会适应面板尺寸，同时保持文字与线宽的真实磅值。同一行图表的绘图区也会自动对齐。',
+        'showcase-reflow-aria': '对比关闭与开启 Reflow 的效果',
+        'showcase-reflow-off-alt': '关闭 Reflow：图表保持保存时的外观，底部坐标轴位于不同高度。',
+        'showcase-reflow-on-alt': '开启 Reflow：两张图表适应面板，绘图区与底部坐标轴对齐。',
+        'showcase-reflow-off-caption': '关闭 · 保持保存时的 SVG 外观。',
+        'showcase-reflow-on-caption': '开启 · 适应面板，并对齐绘图区。',
+        'hl-note': 'Reflow 适用于原生 .ilmplot.svg 文件。普通图片与 SVG 保持原有图形结构；锁定单元格宽高比或使用绘图区对齐时，Reflow 暂停。',
         'features-label': '功能特性',
-        'features-title': '期刊图表一站式解决方案',
-        'features-subtitle': '从布局到导出，一站式桌面应用。',
+        'features-title': '从绘图到成图',
+        'features-subtitle': '创建图表、对齐面板、统一字号，再添加标注并导出。',
         'feat1-title': 'LaTeX 公式支持',
         'feat1-desc': '使用标准 LaTeX 语法直接在面板上渲染数学公式、化学符号等复杂内容。',
         'feat2-title': '画中画 (PiP)',
@@ -1016,8 +1189,6 @@
         'feat5-desc': '为每个图片添加并精细调整专业比例尺——显微镜与成像论文的必备功能。',
         'feat6-title': '跨单元格共享标签',
         'feat6-desc': '用一个标签横跨多个单元格，标记行、列或实验条件。',
-        'feat7-title': '智能一键排版',
-        'feat7-desc': '拖入文件，即刻生成排好的组图。',
         'feat9-title': 'AI / MCP 辅助编辑',
         'feat9-desc': '连接 Claude、Cursor、Windsurf、Cline 或其他 MCP Agent，通过正在运行的应用构建、样式化、标注、预览、保存和导出图形。',
         'feat10-title': '绘图区对齐',
@@ -1027,15 +1198,17 @@
         'feat12-title': '自由排布图层顺序',
         'feat12-desc': '切换到自由排布后，可像 Photoshop 图层那样在图层面板中拖动，调整重叠面板与插图的前后顺序。',
         'feat13-title': '引导教程',
-        'feat13-desc': '内置引导教程，在独立的练习工程中带你完成排版、细分、绘图区对齐、标注、字号与导出。',
+        'feat13-desc': '通过 ILM 与图表编辑器中的引导练习，学习绘图、排版与导出。',
+        'feat14-title': '可编辑图表编辑器',
+        'feat14-desc': '从 Excel 或 CSV 数据创建折线图、散点图、柱状图与分布图，添加误差线和显著性标注，复用样式，并保存为可编辑的 .ilmplot.svg。',
         'workflow-label': '工作流程',
-        'workflow-title': '六步完成期刊图形',
+        'workflow-title': '从面板到完整成图',
         'workflow-subtitle': '从创建到投稿，可重复的标准化流程。',
         'step1': '创建布局',
-        'step2': '添加图片',
-        'step3': '分割单元格',
-        'step4': '对齐绘图区、间距与标注',
-        'step5': '保存 <code style="font-size:11px;color:var(--blue)">.figlayout</code>',
+        'step2': '添加图片或图表',
+        'step3': '自动排版',
+        'step4': '微调间距与标注',
+        'step5': '保存工程',
         'step6': '导出 PDF / TIFF / JPG / PNG / SVG',
         'cli-label': 'CLI',
         'cli-title': 'CLI 与 MCP 自动化，工作流可重复',
@@ -1047,138 +1220,58 @@
         'cli-inspect-title': '检查',
         'cli-inspect-desc': '查询页面尺寸、DPI、单元格数量和元数据（文本或 JSON 输出）。',
         'cli-mcp-title': 'MCP 适配器',
-        'cli-mcp-desc': '运行 imagelayout-cli.exe mcp 后，AI 主机即可调用应用的 39 个布局、样式、PiP、比例尺、文本和导出工具。',
-        'cli-note': '仅限 Windows 安装版。完整文档请参阅 <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI 文档</a>。',
-        'technical-label': '技术栈',
-        'technical-title': '技术栈 & 格式',
-        'tech-lang': '语言',
-        'tech-framework': '框架',
+        'cli-mcp-desc': '将 AI 助手连接到正在运行的应用，完成面板排布、样式调整、标注与保存导出。',
+        'cli-note': 'Windows 安装版与 macOS 应用包（Apple Silicon 和 Intel）均包含 CLI，也可从源码运行。配置与命令见 <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI 文档</a>。',
+        'technical-label': '运行与文件',
+        'technical-title': '平台与格式',
+        'tech-platforms': '平台',
+        'tech-platforms-value': 'Windows · macOS（Apple Silicon / Intel）',
         'tech-formats': '格式',
         'tech-layoutfile': '布局文件',
         'tech-license': '许可证',
         'tech-license-value': '源码 Apache 2.0 · 发行版 GPL-3.0 / AGPL-3.0',
         'release-loading': '正在加载发布说明…',
-        'release-btn': '↓ 下载',
-        'dl-win-installer-title': 'Windows 安装版',
-        'dl-win-installer-sub': '推荐 · 安装程序 .exe · 包含 CLI',
-        'dl-win-portable-title': 'Windows 便携版',
-        'dl-win-portable-sub': '免安装 · 独立 .exe',
-        'dl-mac-title': 'macOS',
-        'dl-mac-sub': '.zip · Apple Silicon',
+        'download-label': '下载',
+        'download-title': '选择适合你的版本',
+        'download-desc': '支持 Windows 与 macOS，请按电脑系统选择下载。',
+        'download-windows-desc': '通过 Microsoft Store 安装并自动更新，也可以直接下载安装包。',
+        'download-store': '从 Microsoft Store 获取',
+        'download-other': '其他 Windows 下载',
+        'download-mac-hint': '选择 Apple Silicon（M 系列）或 Intel。在苹果菜单 →“关于本机”中查看芯片类型。',
+        'dl-win-installer-title': 'Windows 安装版（.exe）',
+        'dl-win-portable-title': 'Windows 便携版（.exe）',
+        'dl-win-portable-sub': '无需安装。',
+        'dl-mac-title': 'Apple Silicon',
+        'dl-mac-sub': 'M 系列芯片 · .zip',
+        'dl-mac-intel-title': 'Intel',
+        'dl-mac-intel-sub': 'Intel 处理器 · .zip',
         'dl-foot': '想要旧版本？<a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer">查看所有发布</a>',
         'release-latest-prefix': '最新版本 · ',
         'release-released-prefix': '发布于 ',
-        'release-fallback-title': 'v3.4.3 — 完整的组件许可协议与源码',
-        'release-fallback-body': '“关于”中新增“许可协议与源码”，可离线查看本软件及全部 87 个随附组件的许可协议；每个发行版均附带对应的源码快照。成图、文字大小与工程文件均无变化。',
+        'release-fallback-title': 'v3.5.1 — 为成图创建可编辑图表',
+        'release-fallback-body': '从表格数据创建图表，调整样式与标注，并保存为可编辑 SVG。需要图表适应面板时，可开启 Reflow。本版本保存的工程需要 ILM 3.5.1 或更高版本打开。',
         'release-notes-fallback': '请前往发布页面查看完整说明。',
         'footer-home': '← 首页',
         'footer-cli': 'CLI 文档',
         'footer-privacy': '隐私政策',
-        'footer-licenses': '许可协议与源码',
+        'footer-licenses': '许可协议',
+        'footer-sources': '源码索引',
         'footer-releases': '所有版本',
         'date-locale': 'zh-CN',
       }
     };
 
     // ── Local downloads ────────────────────────────────────────────────────────
-    const LATEST_VERSION = 'v3.4.3';
-
-    const DL_PLATFORMS = [
-      {
-        key: 'win-installer',
-        ico: '<svg viewBox="0 0 100 100" width="16" height="16" style="display:block;"><path d="M0 12.402l42.445-5.772v40.54H0V12.402zM0 52.829h42.445v40.54L0 87.598V52.829zM47.555 5.829L100 0v47.171H47.555V5.829zM47.555 52.829H100v47.171l-52.445-5.829V52.829z" fill="currentColor"/></svg>',
-        suffix: '_Windows_Setup.exe',
-        match: ua => /windows/i.test(ua),
-      },
-      {
-        key: 'win-portable',
-        ico: '<svg viewBox="0 0 100 100" width="16" height="16" style="display:block;"><path d="M0 12.402l42.445-5.772v40.54H0V12.402zM0 52.829h42.445v40.54L0 87.598V52.829zM47.555 5.829L100 0v47.171H47.555V5.829zM47.555 52.829H100v47.171l-52.445-5.829V52.829z" fill="currentColor"/></svg>',
-        suffix: '_Windows.exe',
-        match: () => false,
-      },
-      {
-        key: 'mac',
-        ico: '<svg viewBox="0 0 170 170" width="16" height="16" style="display:block;margin-top:-2px;"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.36-3.18-5.22-2.13-9.94-3.18-14.19-3.18-4.32 0-9.16 1.05-14.52 3.18-5.36 2.13-9.5 3.24-12.43 3.35-5.11.21-10.02-1.93-14.74-6.41-3-2.71-6.81-7.29-11.43-13.72-4.62-6.43-8.24-13.68-10.84-21.75-2.61-8.08-3.91-15.68-3.91-22.82 0-11.51 2.37-21.13 7.11-28.86 4.73-7.72 11.2-12.28 19.42-13.67 4.2-.7 9.17-.06 14.92 1.93 5.75 1.99 9.87 2.99 12.37 2.99 2.1 0 6.64-1.24 13.62-3.72 6.98-2.48 12.34-3.41 16.07-2.79 10.58 1.48 18.72 5.56 24.43 12.23-9.35 5.68-14.04 13.7-14.04 24.06 0 8.04 2.87 14.81 8.6 20.3 3.1 2.97 6.8 5.25 11.11 6.84-.71 2.05-1.46 4.09-2.26 6.13zM105.79 31.42c0-8.08 2.89-15.42 8.67-22.02 6.81-7.71 14.89-11.38 23.36-11.38.16 8.5-2.84 16.14-9.01 22.92-3.11 3.44-6.93 6.13-11.45 8.06-4.52 1.94-8.85 2.76-13.01 2.45.14-1.12.18-2.22.18-3.32z" fill="currentColor"/></svg>',
-        suffix: '_macOS.zip',
-        match: ua => /mac os x|macintosh/i.test(ua),
-      },
-    ];
+    const LATEST_VERSION = 'v3.5.1';
 
     const dlFileName = (v, suffix) => `ImageLayoutManager_${v}${suffix}`;
     const dlHref = (v, suffix) => `https://downloads.luojiajiang.uk/${dlFileName(v, suffix)}`;
 
-    function buildDlMenus(version) {
-      const ua = navigator.userAgent || '';
-      const preferredKey =
-        (DL_PLATFORMS.find(p => p.match(ua)) || DL_PLATFORMS[0]).key;
-
-      document.querySelectorAll('[data-dl-menu]').forEach(menu => {
-        menu.innerHTML = '';
-        DL_PLATFORMS.forEach(p => {
-          const a = document.createElement('a');
-          a.className = 'dl-item';
-          a.role = 'menuitem';
-          a.href = dlHref(version, p.suffix);
-          a.setAttribute('download', '');
-          a.innerHTML =
-            `<span class="dl-ico">${p.ico}</span>` +
-            `<span>` +
-            `<div class="dl-title">${t['dl-' + p.key + '-title']}` +
-            (p.key === preferredKey
-              ? ` <span style="font-size:11px;color:var(--gray-500);font-weight:500;">· ${version}</span>`
-              : '') +
-            `</div>` +
-            `<div class="dl-sub">${t['dl-' + p.key + '-sub']}</div>` +
-            `</span>`;
-          menu.appendChild(a);
-        });
-        const sep = document.createElement('hr');
-        sep.className = 'dl-sep';
-        menu.appendChild(sep);
-        const foot = document.createElement('div');
-        foot.className = 'dl-foot';
-        foot.innerHTML = t['dl-foot'];
-        menu.appendChild(foot);
+    function updateDownloadLinks(version) {
+      document.querySelectorAll('[data-download-suffix]').forEach(link => {
+        link.href = dlHref(version, link.getAttribute('data-download-suffix'));
       });
     }
-
-    function wireDlDropdown(wrapId) {
-      const wrap = document.getElementById(wrapId);
-      if (!wrap) return;
-      const btn = wrap.querySelector('button');
-      btn.addEventListener('click', e => {
-        e.stopPropagation();
-        const willOpen = !wrap.classList.contains('open');
-        document.querySelectorAll('.dl-wrap.open').forEach(w => {
-          w.classList.remove('open');
-          const b = w.querySelector('button');
-          if (b) b.setAttribute('aria-expanded', 'false');
-        });
-        wrap.classList.toggle('open', willOpen);
-        btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-      });
-      wrap.querySelector('.dl-menu').addEventListener('click', e => {
-        // Let the link navigate, then close.
-        if (e.target.closest('.dl-item')) {
-          setTimeout(() => wrap.classList.remove('open'), 50);
-        }
-      });
-    }
-
-    document.addEventListener('click', e => {
-      if (!e.target.closest('.dl-wrap')) {
-        document.querySelectorAll('.dl-wrap.open').forEach(w => {
-          w.classList.remove('open');
-          const b = w.querySelector('button');
-          if (b) b.setAttribute('aria-expanded', 'false');
-        });
-      }
-    });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        document.querySelectorAll('.dl-wrap.open').forEach(w => w.classList.remove('open'));
-      }
-    });
 
     function detectLang() {
       const stored = localStorage.getItem('ilm-lang');
@@ -1212,6 +1305,14 @@
         const key = el.getAttribute('data-i18n-html');
         if (t[key] !== undefined) el.innerHTML = t[key];
       });
+      document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+        const key = el.getAttribute('data-i18n-alt');
+        if (t[key] !== undefined) el.alt = t[key];
+      });
+      document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+        const key = el.getAttribute('data-i18n-aria');
+        if (t[key] !== undefined) el.setAttribute('aria-label', t[key]);
+      });
       const btn = document.getElementById('lang-toggle');
       if (btn) btn.textContent = lang === 'zh' ? 'EN' : '中文';
 
@@ -1219,23 +1320,28 @@
         document.getElementById('hero-version').textContent = latestTag;
         document.getElementById('hero-version').className = '';
         document.getElementById('release-badge').textContent = t['release-latest-prefix'] + latestTag;
-        buildDlMenus(latestTag);
+        updateDownloadLinks(latestTag);
       }
-      if (latestName) {
-        document.getElementById('release-title').textContent = latestName;
-      } else if (latestTag === LATEST_VERSION) {
-        document.getElementById('release-title').textContent = t['release-fallback-title'];
-      }
-      if (latestCleanedBody) {
-        document.getElementById('release-body').textContent = latestCleanedBody;
-      } else if (latestTag === LATEST_VERSION) {
-        document.getElementById('release-body').textContent = t['release-fallback-body'];
-      }
+      document.getElementById('release-title').textContent = latestName ||
+        (latestTag === LATEST_VERSION ? t['release-fallback-title'] : latestTag);
+      document.getElementById('release-body').textContent = latestCleanedBody ||
+        (latestTag === LATEST_VERSION ? t['release-fallback-body'] : t['release-notes-fallback']);
       if (latestDate) {
         const d = new Date(latestDate).toLocaleDateString(t['date-locale'], { year: 'numeric', month: 'long', day: 'numeric' });
         document.getElementById('release-meta').textContent = t['release-released-prefix'] + d;
       }
     }
+
+    document.querySelectorAll('[data-reflow]').forEach(button => {
+      button.addEventListener('click', () => {
+        const state = button.getAttribute('data-reflow');
+        document.querySelectorAll('[data-reflow]').forEach(control => {
+          control.setAttribute('aria-pressed', String(control === button));
+        });
+        document.getElementById('reflow-off-view').hidden = state !== 'off';
+        document.getElementById('reflow-on-view').hidden = state !== 'on';
+      });
+    });
 
     // Initialize
     applyLang(currentLang);
@@ -1245,10 +1351,6 @@
       localStorage.setItem('ilm-lang', currentLang);
       applyLang(currentLang);
     });
-
-    // Wire dropdowns first (menus are empty until version is known).
-    wireDlDropdown('hero-dl-wrap');
-    wireDlDropdown('release-dl-wrap');
 
     (async () => {
       // Self-hosted manifest — avoids api.github.com which is often

@@ -12,8 +12,8 @@ inspect, **edit**, and let AI hosts control the running GUI through
 | `pack`    | `.figlayout` / `.json` → `.figpack` (bundle layout + referenced assets)   |
 | `unpack`  | `.figpack` → folder containing assets + sidecar `.figlayout`    |
 | `inspect` | Print page, DPI, layout mode, cells, labels, group labels, size groups, export region (text or `--json`) |
-| `edit`    | Apply agent tool operations headlessly — the same 39 tools as the MCP adapter |
-| `mcp`     | Stdio MCP adapter for AI hosts; proxies 39 layout/styling/export tools to the running GUI |
+| `edit`    | Apply agent tool operations headlessly — the same tools as the MCP adapter |
+| `mcp`     | Stdio MCP adapter for AI hosts; proxies layout/styling/export tools to the running GUI |
 
 ## Examples
 
@@ -56,7 +56,7 @@ imagelayout-cli.exe mcp
 
 ## Headless editing (`edit`)
 
-`edit` runs the same 39 agent tools an MCP host drives — against a
+`edit` runs the same agent tools an MCP host drives — against a
 project file, with no GUI running at all. Steps are applied in order:
 `--script` first, then each `--call`. Nothing is written unless every
 step succeeds; use `--keep-going` to continue past a failing step and
@@ -89,7 +89,7 @@ Notes:
 - Like `render`, stdout carries only the output path (or the `--json`
   report) so the verb stays pipeable; per-step progress goes to stderr.
 
-### The 39 agent tools
+### Agent tools
 
 | Category              | Tools |
 | --------------------- | ----- |
@@ -111,7 +111,7 @@ time.
 The `mcp` verb is a stdio adapter for MCP-compatible AI hosts. It connects
 to the running ImageLayoutManager GUI over localhost WebSocket (reading
 port + token from a local discovery file), so the AI can drive the same
-39 tools `edit` exposes: create layouts, import images, style
+tools `edit` exposes: create layouts, import images, style
 labels/text, crop/rotate/pad panels, add scale bars, add PiP insets,
 manage size groups, set export regions, request screenshots, and
 save/export projects.
@@ -194,6 +194,17 @@ To call `imagelayout-cli` from any shell, add the install directory to
 `PATH` manually (System Properties → Environment Variables) — the
 installer deliberately does **not** modify `PATH` to avoid surprising
 existing user customisations.
+
+On macOS (Apple Silicon or Intel), the CLI is inside the app bundle. If
+the app is in Applications, run:
+
+```bash
+"/Applications/ImageLayoutManager.app/Contents/MacOS/imagelayout-cli" --help
+```
+
+From the source checkout with dependencies installed, run
+`python cli_main.py --help`. Replace `imagelayout-cli.exe` in the
+examples with the macOS executable path or `python cli_main.py`.
 
 ## Building
 
