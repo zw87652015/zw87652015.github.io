@@ -579,6 +579,21 @@
       gap: 20px;
     }
 
+    .footer-views {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-basis: 100%;
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--gray-500);
+    }
+
+    .footer-views img {
+      display: block;
+    }
+
     @media (max-width: 600px) {
       .footer-right {
         justify-content: center;
@@ -1028,6 +1043,13 @@
       <a href="https://github.com/zw87652015/ImageLayoutManager/releases" target="_blank" rel="noopener noreferrer"
         data-i18n="footer-releases">All Releases</a>
     </div>
+    <div class="footer-views">
+      <span data-i18n="footer-views">Page views</span>
+      <a href="https://hits.sh/zw87652015.github.io/image-layout-manager/" target="_blank"
+        rel="noopener noreferrer"><img src="https://hits.sh/zw87652015.github.io/image-layout-manager.svg"
+          height="20" alt="Page view count powered by Hits.sh" data-i18n-alt="footer-views-alt"
+          referrerpolicy="no-referrer"></a>
+    </div>
   </footer>
 
   <script>
@@ -1144,6 +1166,8 @@
         'footer-licenses': 'Licences',
         'footer-sources': 'Source index',
         'footer-releases': 'All Releases',
+        'footer-views': 'Page views',
+        'footer-views-alt': 'Page view count powered by Hits.sh',
         'date-locale': 'en-US',
       },
       zh: {
@@ -1257,6 +1281,8 @@
         'footer-licenses': '许可协议',
         'footer-sources': '源码索引',
         'footer-releases': '所有版本',
+        'footer-views': '页面浏览量',
+        'footer-views-alt': '由 Hits.sh 提供的页面浏览量',
         'date-locale': 'zh-CN',
       }
     };
