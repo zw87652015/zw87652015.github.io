@@ -1,6 +1,6 @@
 # `imagelayout-cli`
 
-Headless driver and MCP adapter for ImageLayoutManager. Render, pack,
+Headless driver and MCP adapter for Image Layout Manager (ILM). Render, pack,
 inspect, **edit**, and let AI hosts control the running GUI through
 `imagelayout-cli.exe mcp`.
 
@@ -109,7 +109,7 @@ time.
 ## MCP automation
 
 The `mcp` verb is a stdio adapter for MCP-compatible AI hosts. It connects
-to the running ImageLayoutManager GUI over localhost WebSocket (reading
+to the running ILM GUI over localhost WebSocket (reading
 port + token from a local discovery file), so the AI can drive the same
 tools `edit` exposes: create layouts, import images, style
 labels/text, crop/rotate/pad panels, add scale bars, add PiP insets,
@@ -132,7 +132,7 @@ host to run:
 }
 ```
 
-After upgrading ImageLayoutManager, restart both the app and your AI host.
+After upgrading ILM, restart both the app and your AI host.
 If the installer reports a locked `.pyd` file, fully quit the AI host or
 stop any remaining `imagelayout-cli.exe` process, then run the installer
 again.

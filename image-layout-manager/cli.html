@@ -3,16 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ImageLayoutManager — CLI</title>
-  <meta name="description" content="Headless CLI and MCP adapter for ImageLayoutManager. Render, pack, inspect, and connect AI hosts to the running app.">
+  <title>Image Layout Manager — CLI</title>
+  <meta name="description" content="Headless CLI and MCP adapter for Image Layout Manager (ILM). Render, pack, inspect, and connect AI hosts to the running app.">
+  <link rel="icon" href="../wp-content/uploads/2025/02/江无背景黑字-150x150.png" sizes="32x32">
+  <link rel="icon" href="../wp-content/uploads/2025/02/江无背景黑字.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../wp-content/uploads/2025/02/江无背景黑字.png">
+  <meta name="msapplication-TileImage" content="../wp-content/uploads/2025/02/江无背景黑字.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --blue: #0075de; --blue-active: #005bab; --blue-focus: #097fe8;
-      --badge-bg: #f2f9ff; --badge-text: #097fe8;
+      --blue: #4f5bd5; --blue-active: #3e49b8; --blue-focus: #5d69df;
+      --badge-bg: #f2f3fd; --badge-text: #4f5bd5;
       --near-black: rgba(0,0,0,0.95);
       --gray-500: #615d59; --gray-300: #a39e98;
       --warm-white: #f6f5f4;
@@ -75,7 +79,7 @@
 
     /* ── Callout ── */
     .callout { background: var(--badge-bg); border-left: 3px solid var(--blue); border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 16px 0; font-size: 14px; color: var(--near-black); }
-    .callout code { font-family: "JetBrains Mono", monospace; font-size: 12px; background: rgba(9,127,232,0.08); border: none; padding: 2px 5px; border-radius: 3px; }
+    .callout code { font-family: "JetBrains Mono", monospace; font-size: 12px; background: rgba(79,91,213,0.08); border: none; padding: 2px 5px; border-radius: 3px; }
 
     /* ── Back to top ── */
     .back-to-top { display: inline-flex; align-items: center; gap: 6px; color: var(--gray-500); font-size: 14px; text-decoration: none; margin-top: 48px; }
@@ -96,7 +100,7 @@
 <body>
 
   <nav>
-    <a href="./index.html" class="nav-brand">ImageLayoutManager</a>
+    <a href="./index.html" class="nav-brand">Image Layout Manager</a>
     <div style="display:flex;align-items:center;gap:14px">
       <button id="lang-toggle" class="lang-toggle">中文</button>
       <a href="./index.html" class="nav-back" data-i18n="nav-back">← Back to Home</a>
@@ -107,7 +111,7 @@
     <div class="hero">
       <span class="badge">CLI</span>
       <h1>imagelayout-cli</h1>
-      <p data-i18n="cli-hero-desc">Headless driver and MCP adapter for ImageLayoutManager. Render, pack, inspect, edit, and let AI hosts control the running GUI through <strong>imagelayout-cli.exe mcp</strong>.</p>
+      <p data-i18n="cli-hero-desc">Headless driver and MCP adapter for Image Layout Manager. Render, pack, inspect, edit, and let AI hosts control the running GUI through <strong>imagelayout-cli.exe mcp</strong>.</p>
     </div>
 
     <article>
@@ -228,7 +232,7 @@ imagelayout-cli.exe mcp</code></pre>
       </div>
 
       <h2 data-i18n="h-mcp">MCP automation</h2>
-      <p data-i18n="p-mcp">The mcp verb is a stdio adapter for MCP-compatible AI hosts. It connects to the running ImageLayoutManager GUI over localhost WebSocket (reading port + token from a local discovery file), so the AI can drive the same tools edit exposes: create layouts, import images, style labels/text, crop/rotate/pad panels, add scale bars, add PiP insets, manage size groups, set export regions, request screenshots, and save/export projects.</p>
+      <p data-i18n="p-mcp">The mcp verb is a stdio adapter for MCP-compatible AI hosts. It connects to the running ILM GUI over localhost WebSocket (reading port + token from a local discovery file), so the AI can drive the same tools edit exposes: create layouts, import images, style labels/text, crop/rotate/pad panels, add scale bars, add PiP insets, manage size groups, set export regions, request screenshots, and save/export projects.</p>
       <p data-i18n="p-mcp-setup">In the GUI, enable Tools → Enable MCP Server (or tick Auto-start MCP Server on launch in Preferences, or launch with ImageLayoutManager.exe --agent-server). Then configure your AI host to run:</p>
       <pre><code>{
   "mcpServers": {
@@ -239,7 +243,7 @@ imagelayout-cli.exe mcp</code></pre>
   }
 }</code></pre>
       <div class="callout">
-        <p data-i18n="p-mcp-upgrade">After upgrading ImageLayoutManager, restart both the app and your AI host. If the installer reports a locked .pyd file, fully quit the AI host or stop any remaining imagelayout-cli.exe process, then run the installer again.</p>
+        <p data-i18n="p-mcp-upgrade">After upgrading ILM, restart both the app and your AI host. If the installer reports a locked .pyd file, fully quit the AI host or stop any remaining imagelayout-cli.exe process, then run the installer again.</p>
       </div>
 
       <h2 data-i18n="h-exit">Exit codes</h2>
@@ -306,7 +310,7 @@ imagelayout-cli.exe mcp</code></pre>
     const translations = {
       en: {
         'nav-back': '← Back to Home',
-        'cli-hero-desc': "Headless driver and MCP adapter for ImageLayoutManager. Render, pack, inspect, edit, and let AI hosts control the running GUI through imagelayout-cli.exe mcp.",
+        'cli-hero-desc': "Headless driver and MCP adapter for Image Layout Manager. Render, pack, inspect, edit, and let AI hosts control the running GUI through imagelayout-cli.exe mcp.",
         'h-verbs': 'Verbs',
         'th-purpose': 'Purpose',
         'td-pack': '(bundle layout + referenced assets)',
@@ -343,9 +347,9 @@ imagelayout-cli.exe mcp</code></pre>
         'tc-export': 'Export region',
         'tc-algo': 'Algorithmic + vision',
         'h-mcp': 'MCP automation',
-        'p-mcp': 'The mcp verb is a stdio adapter for MCP-compatible AI hosts. It connects to the running ImageLayoutManager GUI over localhost WebSocket (reading port + token from a local discovery file), so the AI can drive the same tools edit exposes: create layouts, import images, style labels/text, crop/rotate/pad panels, add scale bars, add PiP insets, manage size groups, set export regions, request screenshots, and save/export projects.',
+        'p-mcp': 'The mcp verb is a stdio adapter for MCP-compatible AI hosts. It connects to the running ILM GUI over localhost WebSocket (reading port + token from a local discovery file), so the AI can drive the same tools edit exposes: create layouts, import images, style labels/text, crop/rotate/pad panels, add scale bars, add PiP insets, manage size groups, set export regions, request screenshots, and save/export projects.',
         'p-mcp-setup': 'In the GUI, enable Tools → Enable MCP Server (or tick Auto-start MCP Server on launch in Preferences, or launch with ImageLayoutManager.exe --agent-server). Then configure your AI host to run:',
-        'p-mcp-upgrade': 'After upgrading ImageLayoutManager, restart both the app and your AI host. If the installer reports a locked .pyd file, fully quit the AI host or stop any remaining imagelayout-cli.exe process, then run the installer again.',
+        'p-mcp-upgrade': 'After upgrading ILM, restart both the app and your AI host. If the installer reports a locked .pyd file, fully quit the AI host or stop any remaining imagelayout-cli.exe process, then run the installer again.',
         'h-exit': 'Exit codes',
         'th-code': 'Code',
         'th-meaning': 'Meaning',
@@ -379,7 +383,7 @@ imagelayout-cli.exe mcp</code></pre>
       },
       zh: {
         'nav-back': '← 返回首页',
-        'cli-hero-desc': 'ImageLayoutManager 的命令行工具与 MCP 适配器。可用于渲染、打包、检查、编辑项目，也可通过 imagelayout-cli.exe mcp 让 AI 工具连接并控制正在运行的 GUI。',
+        'cli-hero-desc': 'Image Layout Manager（ILM）的命令行工具与 MCP 适配器。可用于渲染、打包、检查、编辑项目，也可通过 imagelayout-cli.exe mcp 让 AI 工具连接并控制正在运行的 GUI。',
         'h-verbs': '命令',
         'th-purpose': '用途',
         'td-pack': '（将布局与引用资源打包）',
@@ -416,9 +420,9 @@ imagelayout-cli.exe mcp</code></pre>
         'tc-export': '导出区域',
         'tc-algo': '算法与视觉',
         'h-mcp': 'MCP 自动化',
-        'p-mcp': 'mcp 命令是面向 MCP 兼容 AI 工具的 stdio 适配器。它会通过本机 WebSocket 连接到正在运行的 ImageLayoutManager GUI（端口和令牌从本地发现文件读取），使 AI 能够调用与 edit 相同的工具：创建布局、导入图片、调整标签与文本样式、裁剪/旋转/留白面板、添加比例尺和 PiP 嵌图、管理尺寸组、设置导出区域、请求截图，并保存或导出项目。',
+        'p-mcp': 'mcp 命令是面向 MCP 兼容 AI 工具的 stdio 适配器。它会通过本机 WebSocket 连接到正在运行的 ILM GUI（端口和令牌从本地发现文件读取），使 AI 能够调用与 edit 相同的工具：创建布局、导入图片、调整标签与文本样式、裁剪/旋转/留白面板、添加比例尺和 PiP 嵌图、管理尺寸组、设置导出区域、请求截图，并保存或导出项目。',
         'p-mcp-setup': '先在 GUI 中启用 Tools → Enable MCP Server（或在首选项中勾选“启动时自动开启 MCP 服务”，或使用 ImageLayoutManager.exe --agent-server 启动），然后将你的 AI 工具配置为运行：',
-        'p-mcp-upgrade': '升级 ImageLayoutManager 后，请同时重启应用和 AI 工具。如果安装器提示 .pyd 文件被锁定，请完全退出 AI 工具，或结束残留的 imagelayout-cli.exe 进程后再重新安装。',
+        'p-mcp-upgrade': '升级 ILM 后，请同时重启应用和 AI 工具。如果安装器提示 .pyd 文件被锁定，请完全退出 AI 工具，或结束残留的 imagelayout-cli.exe 进程后再重新安装。',
         'h-exit': '退出码',
         'th-code': '代码',
         'th-meaning': '含义',

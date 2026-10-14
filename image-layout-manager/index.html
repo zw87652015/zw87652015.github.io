@@ -4,9 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ImageLayoutManager</title>
+  <title>Image Layout Manager</title>
   <meta name="description"
     content="Create editable scientific plots, arrange multi-panel figures, and export PDF, SVG and raster images for publication.">
+  <link rel="icon" href="../wp-content/uploads/2025/02/江无背景黑字-150x150.png" sizes="32x32">
+  <link rel="icon" href="../wp-content/uploads/2025/02/江无背景黑字.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../wp-content/uploads/2025/02/江无背景黑字.png">
+  <meta name="msapplication-TileImage" content="../wp-content/uploads/2025/02/江无背景黑字.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -20,11 +24,11 @@
     }
 
     :root {
-      --blue: #0075de;
-      --blue-active: #005bab;
-      --blue-focus: #097fe8;
-      --badge-bg: #f2f9ff;
-      --badge-text: #097fe8;
+      --blue: #4f5bd5;
+      --blue-active: #3e49b8;
+      --blue-focus: #5d69df;
+      --badge-bg: #f2f3fd;
+      --badge-text: #4f5bd5;
       --near-black: rgba(0, 0, 0, 0.95);
       --gray-500: #615d59;
       --gray-300: #a39e98;
@@ -263,8 +267,18 @@
     }
 
     .feature-card .icon {
-      font-size: 20px;
-      margin-bottom: 10px;
+      width: 28px;
+      height: 28px;
+      margin-bottom: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--near-black);
+    }
+
+    .feature-card .icon svg {
+      width: 100%;
+      height: 100%;
       display: block;
     }
 
@@ -657,7 +671,7 @@
 <body>
 
   <nav>
-    <a href="/" class="nav-brand">ImageLayoutManager</a>
+    <a href="/" class="nav-brand">Image Layout Manager</a>
     <div style="display:flex;align-items:center;gap:14px">
       <button id="lang-toggle" class="lang-toggle">中文</button>
       <a href="/" class="nav-back" data-i18n="nav-back">← Back to Home</a>
@@ -673,8 +687,8 @@
           stroke-linejoin="round" stroke-width="6" role="img" aria-label="ILM logo">
           <rect x="10" y="10" width="140" height="177" rx="6" fill="#fff" stroke="currentColor"/>
           <text x="28" y="50" fill="#615d59">a</text>
-          <rect x="10" y="216" width="140" height="190" rx="6" fill="#e0eefb" stroke="#0075de"/>
-          <text x="28" y="256" fill="#0075de">b</text>
+          <rect x="10" y="216" width="140" height="190" rx="6" fill="#e6e8fa" stroke="#4f5bd5"/>
+          <text x="28" y="256" fill="#4f5bd5">b</text>
           <line x1="66" y1="370" x2="128" y2="370" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
           <rect x="267" y="10" width="137" height="258" rx="6" fill="#fff" stroke="currentColor"/>
           <text x="285" y="50" fill="#615d59">c</text>
@@ -682,15 +696,15 @@
           <text x="285" y="327" fill="#615d59">d</text>
           <rect x="737" y="10" width="130" height="396" rx="6" fill="#fff" stroke="currentColor"/>
           <text x="755" y="50" fill="#615d59">e</text>
-          <polygon points="882,10 952,160 952,286 882,141" fill="#e0eefb" stroke="#0075de"/>
+          <polygon points="882,10 952,160 952,286 882,141" fill="#e6e8fa" stroke="#4f5bd5"/>
           <polygon points="1022,10 952,160 952,286 1022,141" fill="#fff" stroke="currentColor"/>
-          <text x="928" y="70" fill="#0075de">f</text>
+          <text x="928" y="70" fill="#4f5bd5">f</text>
           <rect x="1040" y="10" width="130" height="396" rx="6" fill="#fff" stroke="currentColor"/>
           <text x="1058" y="50" fill="#615d59">g</text>
         </svg>
       </div>
       <h1 data-i18n-html="hero-h1">Image Layout Manager</h1>
-      <p data-i18n="hero-p">Create scientific plots, arrange multi-panel figures, and export for publication.</p>
+      <p data-i18n="hero-p">Plot data, arrange multi-panel figures, and export for publication.</p>
       <div class="cta-group">
         <a href="#download" id="hero-download-btn" class="btn-primary">
           <span data-i18n="hero-download-text">↓ Download</span> <span id="hero-version">v3.6.1</span>
@@ -698,7 +712,7 @@
         <a href="https://github.com/zw87652015/ImageLayoutManager" target="_blank" rel="noopener noreferrer"
           class="btn-secondary" data-i18n="hero-github-btn">View on GitHub</a>
       </div>
-      <p class="hero-meta"><span data-i18n="tech-platforms-value">Windows · macOS (Apple Silicon / Intel)</span><br><span data-i18n="hero-badge">Open Source · Apache 2.0 source</span></p>
+      <p class="hero-meta"><span data-i18n="tech-platforms-value">Windows · macOS (Apple Silicon / Intel)</span><br><span data-i18n="hero-badge">Open source · Apache 2.0</span></p>
       <p class="hero-motto" data-i18n-html="hero-motto"><strong>I</strong>nspired by <strong>L</strong>aziness. <strong>M</strong>ade for research.</p>
     </div>
   </div>
@@ -708,7 +722,7 @@
     <div class="container showcase-wide">
       <div class="section-label" data-i18n="showcase-export-label">From canvas to figure</div>
       <h2 class="section-title" id="figure-showcase-title" data-i18n="showcase-export-title">Bring every panel together</h2>
-      <p class="section-subtitle showcase-copy" data-i18n="showcase-export-desc">Arrange images and editable plots, add labels, insets and scale bars, then export a complete figure for your paper.</p>
+      <p class="section-subtitle showcase-copy" data-i18n="showcase-export-desc">Combine images and editable plots, add labels, insets, and scale bars, and export a publication-ready figure.</p>
       <div class="export-flow">
         <figure class="product-shot">
           <a class="shot-link" href="assets/ILM-GUI.png" target="_blank" rel="noopener noreferrer">
@@ -719,7 +733,7 @@
                 data-i18n-alt="showcase-ui-alt">
             </picture>
           </a>
-          <figcaption><span data-i18n="showcase-ui-caption">Images, plots and annotations together in one editable figure.</span></figcaption>
+          <figcaption><span data-i18n="showcase-ui-caption">Images, plots, and annotations in one project.</span></figcaption>
         </figure>
         <div class="flow-arrow">
           <svg viewBox="0 0 56 24" aria-hidden="true">
@@ -736,7 +750,7 @@
                 data-i18n-alt="showcase-export-alt">
             </picture>
           </a>
-          <figcaption><span data-i18n="showcase-export-caption">Exported from ILM. The charts use illustrative data.</span></figcaption>
+          <figcaption><span data-i18n="showcase-export-caption">Exported directly from ILM (sample data).</span></figcaption>
         </figure>
       </div>
     </div>
@@ -745,7 +759,7 @@
     <div class="container showcase-wide">
       <div class="section-label" data-i18n="showcase-editor-label">Plot Editor</div>
       <h2 class="section-title" id="plot-editor-showcase-title" data-i18n="showcase-editor-title">Start with your data</h2>
-      <p class="section-subtitle showcase-copy" data-i18n="showcase-editor-desc">Import Excel or CSV data, add error bars, and adjust styles and figure size. Save an editable SVG to use in your layout.</p>
+      <p class="section-subtitle showcase-copy" data-i18n="showcase-editor-desc">Paste or import Excel/CSV data, add error bars and significance markers, and save as an editable SVG.</p>
       <figure class="product-shot">
         <a class="shot-link" href="assets/PlotEditor-GUI.png" target="_blank" rel="noopener noreferrer">
           <picture>
@@ -754,7 +768,7 @@
               alt="Plot Editor showing a data worksheet beside three response curves with error bars." data-i18n-alt="showcase-editor-alt">
           </picture>
         </a>
-        <figcaption><span data-i18n="showcase-editor-caption">Worksheet and plot preview side by side. Illustrative data.</span></figcaption>
+        <figcaption><span data-i18n="showcase-editor-caption">Side-by-side data table and live plot preview (sample data).</span></figcaption>
       </figure>
     </div>
   </section>
@@ -770,8 +784,8 @@
         </svg>
         <span>REFLOW</span>
       </div>
-      <h2 class="section-title" id="reflow-showcase-title" data-i18n="showcase-reflow-title">Fit the plot to the panel</h2>
-      <p class="section-subtitle showcase-copy" data-i18n="showcase-reflow-desc">Turn on Reflow to adapt native plots to their panels while preserving text and line widths in real points. Plots in the same row align their plotting areas automatically.</p>
+      <h2 class="section-title" id="reflow-showcase-title" data-i18n="showcase-reflow-title">Plots that fit their panels</h2>
+      <p class="section-subtitle showcase-copy" data-i18n="showcase-reflow-desc">Reflow resizes native plots to fit their panels while keeping font sizes and line widths at exact point values. Plots on the same row align axes automatically.</p>
       <div class="reflow-switch" role="group" aria-label="Compare Reflow off and on" data-i18n-aria="showcase-reflow-aria">
         <button type="button" data-reflow="off" aria-pressed="false" aria-controls="reflow-off-view">Reflow OFF</button>
         <button type="button" data-reflow="on" aria-pressed="true" aria-controls="reflow-on-view">Reflow ON</button>
@@ -783,7 +797,7 @@
               alt="Reflow off: the plots retain their saved appearance and their bottom axes sit at different heights."
               data-i18n-alt="showcase-reflow-off-alt">
           </a>
-          <figcaption><span data-i18n="showcase-reflow-off-caption">OFF · Keep the saved SVG appearance.</span></figcaption>
+          <figcaption><span data-i18n="showcase-reflow-off-caption">OFF · Fixed SVG aspect ratio.</span></figcaption>
         </figure>
         <figure class="product-shot" id="reflow-on-view">
           <a class="shot-link" href="assets/Reflow-on.png" target="_blank" rel="noopener noreferrer">
@@ -791,10 +805,10 @@
               alt="Reflow on: both plots fill their panels with aligned plotting areas and bottom axes."
               data-i18n-alt="showcase-reflow-on-alt">
           </a>
-          <figcaption><span data-i18n="showcase-reflow-on-caption">ON · Adapt the plots and align their plotting areas.</span></figcaption>
+          <figcaption><span data-i18n="showcase-reflow-on-caption">ON · Plots fill their panels with aligned axes.</span></figcaption>
         </figure>
       </div>
-      <p class="hl-note" data-i18n="hl-note">Reflow works with native .ilmplot.svg files. Ordinary images and SVGs keep their original geometry. Locking the cell aspect ratio or using plot-area alignment pauses Reflow.</p>
+      <p class="hl-note" data-i18n="hl-note">Works with native .ilmplot.svg files. Standard images and SVGs keep their original proportions. Paused when cell aspect ratio is locked or manual plot-area alignment is active.</p>
     </div>
   </section>
 
@@ -804,74 +818,153 @@
   <section>
     <div class="container">
       <div class="section-label" data-i18n="features-label">Features</div>
-      <div class="section-title" data-i18n="features-title">Tools for the whole figure</div>
-      <p class="section-subtitle" data-i18n="features-subtitle">Create plots, align panels, match text sizes, and add the finishing annotations before export.</p>
+      <div class="section-title" data-i18n="features-title">Built for scientific figures</div>
+      <p class="section-subtitle" data-i18n="features-subtitle">Everything needed to take raw plots and microscopy images to journal standards.</p>
       <div class="feature-grid">
         <div class="feature-card">
-          <span class="icon">📈</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3.5 3.5v17h17"/>
+              <rect x="6.5" y="13" width="3" height="7.5" rx="0.6" fill="#e6e8fa" stroke="var(--blue)"/>
+              <rect x="12" y="9.5" width="3" height="11" rx="0.6" fill="#fff"/>
+              <path d="M13.5 7v2.5M12.3 7h2.4" stroke="var(--blue)"/>
+              <path d="M6.5 10.5 11.5 6l4 2.5 4.5-4" stroke="var(--blue)"/>
+            </svg>
+          </span>
           <h3 data-i18n="feat14-title">Editable Plot Editor</h3>
-          <p data-i18n="feat14-desc">Create line, scatter, column and distribution plots from Excel or CSV data. Add error bars and significance annotations, reuse styles, and save editable .ilmplot.svg files.</p>
+          <p data-i18n="feat14-desc">Build line, scatter, bar, and distribution plots from Excel/CSV. Add error bars and p-values, and reopen saved .ilmplot.svg files anytime.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">📊</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.5" y="6" width="8" height="11" rx="1.2" fill="#fff"/>
+              <rect x="13.5" y="6" width="8" height="11" rx="1.2" fill="#e6e8fa" stroke="var(--blue)"/>
+              <path d="M1.5 6h21M1.5 17h21" stroke="var(--blue)" stroke-dasharray="2 2"/>
+              <path d="M4.5 14l2-3 2 1.5M15.5 14l2.2-4 1.8 2" stroke="var(--blue)"/>
+            </svg>
+          </span>
           <h3 data-i18n="feat10-title">Align Plot Areas</h3>
-          <p data-i18n="feat10-desc">Mark each chart's plotting area, then match plot heights and bottom axes across panels — in grid or freeform layouts, without touching the source files.</p>
+          <p data-i18n="feat10-desc">Align axis boxes across different charts so plot heights and baselines match, even when tick labels or legends differ in size.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">🔤</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.5" y="4.5" width="8.5" height="15" rx="1.4" fill="#fff"/>
+              <rect x="13" y="4.5" width="8.5" height="15" rx="1.4" fill="#e6e8fa" stroke="var(--blue)"/>
+              <path d="M4.8 9.5h4M6.8 9.5v5.5"/>
+              <path d="M15.3 9.5h4M17.3 9.5v5.5" stroke="var(--blue)"/>
+              <path d="M2 9.5h20M2 15h20" stroke="var(--blue)" stroke-width="1.2" stroke-dasharray="1.5 2"/>
+            </svg>
+          </span>
           <h3 data-i18n="feat11-title">Text Size Matching</h3>
-          <p data-i18n="feat11-desc">Pick text in SVG or raster panels and match its size across the whole figure, leaving the original files untouched.</p>
+          <p data-i18n="feat11-desc">Sample text in any SVG or bitmap panel and scale panels to match font sizes across the figure.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">Σ</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.5" y="3" width="19" height="18" rx="2" fill="#fff"/>
+              <path d="M13.5 7H6.5l4.2 5-4.2 5h7"/>
+              <rect x="14.8" y="6.2" width="4.2" height="4.2" rx="0.8" fill="#e6e8fa" stroke="var(--blue)" stroke-width="1.4"/>
+            </svg>
+          </span>
           <h3 data-i18n="feat1-title">LaTeX Support</h3>
-          <p data-i18n="feat1-desc">Render complex formulas, symbols, and chemical notations directly on panels using
-            standard LaTeX syntax.</p>
+          <p data-i18n="feat1-desc">Write math, Greek letters, and chemical formulas directly in labels using standard LaTeX syntax.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">🖼️</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.5" y="3.5" width="19" height="17" rx="2" fill="#fff"/>
+              <rect x="5" y="13" width="4.5" height="4" rx="0.7" stroke="var(--blue)"/>
+              <path d="M9.5 13 12 6.5M9.5 17l9.5-4" stroke="var(--blue)" stroke-width="1.3"/>
+              <rect x="12" y="6.5" width="7" height="6.5" rx="1" fill="#e6e8fa" stroke="var(--blue)"/>
+            </svg>
+          </span>
           <h3 data-i18n="feat2-title">Picture-in-Picture (PiP)</h3>
-          <p data-i18n="feat2-desc">Create insets and magnified views with ease. Overlay sub-images with customizable
-            borders to highlight key details.</p>
+          <p data-i18n="feat2-desc">Add zoom insets or overlay sub-images with custom borders and leader lines.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">📐</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3.5" width="7.5" height="17" rx="1.4" fill="#fff"/>
+              <rect x="13" y="3.5" width="8" height="7.5" rx="1.4" fill="#e6e8fa" stroke="var(--blue)"/>
+              <rect x="13" y="13.5" width="3.2" height="7" rx="1" fill="#fff"/>
+              <rect x="17.8" y="13.5" width="3.2" height="7" rx="1" fill="#fff"/>
+            </svg>
+          </span>
           <h3 data-i18n="feat3-title">Hierarchical Splitting</h3>
-          <p data-i18n="feat3-desc">Split cells infinitely in vertical or horizontal stacks to create sophisticated,
-            multi-tiered layouts.</p>
+          <p data-i18n="feat3-desc">Split any cell horizontally or vertically as many times as needed for nested layouts.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">📤</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 3H6.5A1.5 1.5 0 0 0 5 4.5v15A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V8L14 3Z" fill="#fff"/>
+              <path d="M14 3v5h5"/>
+              <path d="M8 15.5c1.5-4 4.5-4 6 0" stroke="var(--blue)"/>
+              <rect x="7" y="14.5" width="2.2" height="2.2" rx="0.4" fill="#e6e8fa" stroke="var(--blue)" stroke-width="1.3"/>
+              <rect x="12.8" y="14.5" width="2.2" height="2.2" rx="0.4" fill="#e6e8fa" stroke="var(--blue)" stroke-width="1.3"/>
+            </svg>
+          </span>
           <h3 data-i18n="feat4-title">Vector-Sharp PDF Export</h3>
-          <p data-i18n="feat4-desc">Export publication-ready PDFs with high-DPI image embedding while keeping text and
-            labels as resolution-independent vector objects.</p>
+          <p data-i18n="feat4-desc">Export PDFs and SVGs with high-DPI bitmaps and vector text, or CMYK TIFFs with ICC profiles.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">📏</span>
-          <h3 data-i18n="feat5-title">Integrated Scale Bar Tool</h3>
-          <p data-i18n="feat5-desc">Add and fine-tune professional scale bars—an essential requirement for microscopy
-            and imaging figures.</p>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.5" y="4" width="19" height="16" rx="2" fill="#fff"/>
+              <rect x="9" y="12.5" width="9.5" height="4.5" rx="1" fill="#e6e8fa" stroke="var(--blue)"/>
+              <path d="M11 14.8h5.5M11 13.8v2M16.5 13.8v2" stroke="var(--blue)"/>
+            </svg>
+          </span>
+          <h3 data-i18n="feat5-title">Scale Bars</h3>
+          <p data-i18n="feat5-desc">Add calibrated scale bars to microscopy and imaging panels with custom units, lengths, and placement.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">🏷️</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="4.2" rx="1.2" fill="#e6e8fa" stroke="var(--blue)"/>
+              <rect x="3" y="10.5" width="5" height="9.5" rx="1.2" fill="#fff"/>
+              <rect x="9.5" y="10.5" width="5" height="9.5" rx="1.2" fill="#fff"/>
+              <rect x="16" y="10.5" width="5" height="9.5" rx="1.2" fill="#fff"/>
+            </svg>
+          </span>
           <h3 data-i18n="feat6-title">Shared Group Labels</h3>
-          <p data-i18n="feat6-desc">Span a single label across several cells to mark rows, columns, or
-            conditions — drag the label band outward to adjust its stacking order.</p>
+          <p data-i18n="feat6-desc">Span headers across multiple rows or columns to label experimental conditions, and drag to reorder nested bands.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">🗂️</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="9.5" width="11" height="10" rx="1.5" fill="#fff"/>
+              <rect x="6.5" y="6.8" width="11" height="10" rx="1.5" fill="#fff"/>
+              <rect x="10" y="4" width="11" height="10" rx="1.5" fill="#e6e8fa" stroke="var(--blue)"/>
+            </svg>
+          </span>
           <h3 data-i18n="feat12-title">Freeform Layer Stack</h3>
-          <p data-i18n="feat12-desc">Switch to freeform placement and reorder overlapping panels and insets by dragging them in the Layers panel, Photoshop-style.</p>
+          <p data-i18n="feat12-desc">Switch from grid to freeform mode anytime and reorder overlapping panels in the Layers list.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">🎓</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3.5" width="18" height="17" rx="2" fill="#fff"/>
+              <rect x="6" y="7" width="5" height="4.5" rx="1" fill="#e6e8fa" stroke="var(--blue)"/>
+              <path d="M13.5 8h4.5M13.5 10.5h3"/>
+              <path d="m6.5 16 1.5 1.5 3-3" stroke="var(--blue)"/>
+              <path d="M13.5 16h4.5"/>
+            </svg>
+          </span>
           <h3 data-i18n="feat13-title">Guided Tutorials</h3>
-          <p data-i18n="feat13-desc">Learn plotting, layout and export with guided practice projects in ILM and the Plot Editor.</p>
+          <p data-i18n="feat13-desc">Step-by-step interactive projects built into both ILM and the Plot Editor.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">🤖</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="11" height="16" rx="1.5" fill="#fff"/>
+              <rect x="12" y="7.5" width="9" height="9" rx="1.5" fill="#e6e8fa" stroke="var(--blue)"/>
+              <path d="M16.5 10v4M14.5 12h4" stroke="var(--blue)"/>
+              <path d="M6 8h4M6 11.5h3"/>
+            </svg>
+          </span>
           <h3 data-i18n="feat9-title">AI / MCP Assisted Editing</h3>
-          <p data-i18n="feat9-desc">Connect Claude, Cursor, Windsurf, Cline, or other MCP hosts to build, style, annotate, preview, save, and export figures through the running app.</p>
+          <p data-i18n="feat9-desc">Connect Claude, Cursor, Windsurf, or any MCP client to arrange panels, style labels, and export figures live.</p>
         </div>
       </div>
     </div>
@@ -883,33 +976,32 @@
   <section class="alt">
     <div class="container">
       <div class="section-label" data-i18n="workflow-label">Workflow</div>
-      <div class="section-title" data-i18n="workflow-title">From panels to a finished figure</div>
-      <p class="section-subtitle" style="margin-bottom: 40px;" data-i18n="workflow-subtitle">A repeatable process from
-        canvas to camera-ready export.</p>
+      <div class="section-title" data-i18n="workflow-title">How it works</div>
+      <p class="section-subtitle" style="margin-bottom: 40px;" data-i18n="workflow-subtitle">Set your journal page width once, drop in your panels, and export.</p>
       <div class="workflow-steps">
         <div class="step">
           <div class="num">1</div>
-          <span data-i18n="step1">Create layout</span>
+          <span data-i18n="step1">Set page size &amp; grid</span>
         </div>
         <div class="step">
           <div class="num">2</div>
-          <span data-i18n="step2">Add images or plots</span>
+          <span data-i18n="step2">Drop in images &amp; plots</span>
         </div>
         <div class="step">
           <div class="num">3</div>
-          <span data-i18n="step3">Auto-layout panels</span>
+          <span data-i18n="step3">Auto-fit &amp; align axes</span>
         </div>
         <div class="step">
           <div class="num">4</div>
-          <span data-i18n="step4">Refine spacing &amp; labels</span>
+          <span data-i18n="step4">Add labels &amp; scale bars</span>
         </div>
         <div class="step">
           <div class="num">5</div>
-          <span data-i18n="step5">Save your project</span>
+          <span data-i18n="step5">Save .figpack bundle</span>
         </div>
         <div class="step">
           <div class="num">6</div>
-          <span data-i18n="step6">Export PDF / TIFF / JPG / PNG / SVG</span>
+          <span data-i18n="step6">Export PDF / TIFF / SVG / PNG</span>
         </div>
       </div>
     </div>
@@ -920,29 +1012,54 @@
   <!-- CLI -->
   <section>
     <div class="container">
-      <div class="section-label" data-i18n="cli-label">CLI</div>
-      <div class="section-title" data-i18n="cli-title">CLI and MCP automation for repeatable workflows</div>
-      <p class="section-subtitle" data-i18n="cli-subtitle">Render, pack, inspect, edit, and connect AI agents through the bundled CLI — same quality as the GUI, plus live MCP control.</p>
+      <div class="section-label" data-i18n="cli-label">CLI &amp; MCP</div>
+      <div class="section-title" data-i18n="cli-title">Automate from the terminal or AI agents</div>
+      <p class="section-subtitle" data-i18n="cli-subtitle">Use imagelayout-cli for headless rendering in scripts, or run it as an MCP server for AI assistants.</p>
       <div class="feature-grid">
         <div class="feature-card">
-          <span class="icon">🖥️</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.5" y="4" width="15" height="12" rx="1.6" fill="#fff"/>
+              <path d="m6 8.5 2.2 2L6 12.5M9.8 12.5h2.5"/>
+              <rect x="13" y="11.5" width="8.5" height="8.5" rx="1.4" fill="#e6e8fa" stroke="var(--blue)"/>
+            </svg>
+          </span>
           <h3 data-i18n="cli-render-title">Render</h3>
-          <p data-i18n="cli-render-desc">Export .figpack / .figlayout to PDF, TIFF, JPG, or PNG with the same renderer as the GUI.</p>
+          <p data-i18n="cli-render-desc">Render .figpack or .figlayout files to PDF, TIFF, JPG, or PNG with the exact same engine as the GUI.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">📦</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="8" width="18" height="12.5" rx="1.6" fill="#fff"/>
+              <path d="M3 8 6 4h12l3 4"/>
+              <rect x="8.5" y="11.5" width="7" height="5.5" rx="1" fill="#e6e8fa" stroke="var(--blue)"/>
+            </svg>
+          </span>
           <h3 data-i18n="cli-pack-title">Pack / Unpack</h3>
-          <p data-i18n="cli-pack-desc">Bundle layouts with assets into .figpack, or extract .figpack to folders.</p>
+          <p data-i18n="cli-pack-desc">Bundle a layout and all linked images into a single portable .figpack archive, or unpack it back to a folder.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">🔍</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3.5" width="13.5" height="15" rx="1.6" fill="#fff"/>
+              <path d="M6.5 7.5h6.5M6.5 11h4"/>
+              <circle cx="15.5" cy="15.5" r="4" fill="#e6e8fa" stroke="var(--blue)"/>
+              <path d="m18.5 18.5 2.5 2.5" stroke="var(--blue)"/>
+            </svg>
+          </span>
           <h3 data-i18n="cli-inspect-title">Inspect</h3>
-          <p data-i18n="cli-inspect-desc">Query page size, DPI, cell counts, and metadata (text or JSON output).</p>
+          <p data-i18n="cli-inspect-desc">Print page dimensions, DPI, cell counts, and layout metadata as plain text or JSON.</p>
         </div>
         <div class="feature-card">
-          <span class="icon">🔌</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.5" y="5" width="7.5" height="14" rx="1.5" fill="#fff"/>
+              <rect x="14" y="5" width="7.5" height="14" rx="1.5" fill="#e6e8fa" stroke="var(--blue)"/>
+              <path d="M10 9.5h4M10 14.5h4" stroke="var(--blue)"/>
+            </svg>
+          </span>
           <h3 data-i18n="cli-mcp-title">MCP adapter</h3>
-          <p data-i18n="cli-mcp-desc">Connect an AI assistant to the running app to arrange panels, adjust styles, add annotations, and save or export the figure.</p>
+          <p data-i18n="cli-mcp-desc">Expose layout, styling, and export tools over stdio so MCP clients can drive the live app or edit files headlessly.</p>
         </div>
       </div>
       <div style="margin-top: 32px; padding: 20px; background: var(--gray-100, #f5f5f7); border-radius: 12px; font-family: monospace; font-size: 13px; line-height: 1.6; color: var(--near-black);">
@@ -955,7 +1072,7 @@
         <div style="margin-top: 12px; margin-bottom: 8px; color: var(--gray-500);"># MCP adapter for Claude, Cursor, Windsurf, Cline, etc.</div>
         <div>imagelayout-cli.exe mcp</div>
       </div>
-      <p style="margin-top: 16px; font-size: 13px; color: var(--gray-500);" data-i18n-html="cli-note">Included with the Windows installer and macOS app bundles (Apple Silicon and Intel), or run from source. See <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI docs</a> for setup and commands.</p>
+      <p style="margin-top: 16px; font-size: 13px; color: var(--gray-500);" data-i18n-html="cli-note">Bundled with the Windows and macOS apps. See the <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI docs</a> for all commands and MCP setup.</p>
     </div>
   </section>
 
@@ -993,12 +1110,12 @@
   <section class="alt" id="download" aria-labelledby="download-title" tabindex="-1">
     <div class="container showcase-wide">
       <div class="section-label" data-i18n="download-label">Download</div>
-      <h2 class="section-title" id="download-title" data-i18n="download-title">Choose your version</h2>
-      <p class="section-subtitle showcase-copy" data-i18n="download-desc">Available for Windows and macOS. Choose the build for your computer.</p>
+      <h2 class="section-title" id="download-title" data-i18n="download-title">Download Image Layout Manager</h2>
+      <p class="section-subtitle showcase-copy" data-i18n="download-desc">Free and open source for Windows and macOS.</p>
       <div class="download-grid">
         <article class="platform-card" aria-labelledby="download-windows-title">
           <h3 id="download-windows-title">Windows</h3>
-          <p data-i18n="download-windows-desc">Install from Microsoft Store for automatic updates, or download the installer directly.</p>
+          <p data-i18n="download-windows-desc">Install from Microsoft Store for automatic updates, or download the standalone installer.</p>
           <div class="download-actions">
             <a class="btn-primary" href="https://apps.microsoft.com/detail/9NGNW4D8L5QH" target="_blank" rel="noopener noreferrer" data-i18n="download-store">Get it from Microsoft Store</a>
             <a class="btn-secondary" data-download-suffix="_Windows_Setup.exe" href="https://downloads.luojiajiang.uk/ImageLayoutManager_v3.6.1_Windows_Setup.exe" data-i18n="dl-win-installer-title">Windows Installer (.exe)</a>
@@ -1011,7 +1128,7 @@
         </article>
         <article class="platform-card" aria-labelledby="download-mac-title">
           <h3 id="download-mac-title">macOS</h3>
-          <p data-i18n="download-mac-hint">Choose your chip: Apple Silicon (M-series) or Intel. Check Apple menu → About This Mac to find yours. Apple Silicon: open the DMG and drag the app to Applications.</p>
+          <p data-i18n="download-mac-hint">Apple Silicon (M-series): open the DMG and drag the app to Applications. Intel: extract the ZIP.</p>
           <div class="mac-options">
             <a class="btn-secondary" data-download-suffix="_macOS_arm64.dmg" href="https://downloads.luojiajiang.uk/ImageLayoutManager_v3.6.1_macOS_arm64.dmg">
               <span data-i18n="dl-mac-title">Apple Silicon</span><span class="download-sub" data-i18n="dl-mac-sub">M-series chips · .dmg</span>
@@ -1059,81 +1176,81 @@
     const translations = {
       en: {
         'nav-back': '← Back to Home',
-        'hero-badge': 'Open Source · Apache 2.0 source',
+        'hero-badge': 'Open source · Apache 2.0',
         'hero-h1': 'Image Layout Manager',
-        'hero-p': 'Create scientific plots, arrange multi-panel figures, and export for publication.',
+        'hero-p': 'Plot data, arrange multi-panel figures, and export for publication.',
         'hero-motto': '<strong>I</strong>nspired by <strong>L</strong>aziness. <strong>M</strong>ade for research.',
         'hero-download-text': '↓ Download',
         'hero-github-btn': 'View on GitHub',
         'showcase-ui-alt': 'Image Layout Manager with aerial photographs, editable plots, panel labels and a zoom inset on the canvas.',
-        'showcase-ui-caption': 'Images, plots and annotations together in one editable figure.',
+        'showcase-ui-caption': 'Images, plots, and annotations in one project.',
         'showcase-export-label': 'From canvas to figure',
         'showcase-export-title': 'Bring every panel together',
-        'showcase-export-desc': 'Arrange images and editable plots, add labels, insets and scale bars, then export a complete figure for your paper.',
+        'showcase-export-desc': 'Combine images and editable plots, add labels, insets, and scale bars, and export a publication-ready figure.',
         'showcase-export-alt': 'Exported multi-panel figure with aerial photographs, a zoom inset, a scale bar, a line plot and a column plot.',
-        'showcase-export-caption': 'Exported from ILM. The charts use illustrative data.',
+        'showcase-export-caption': 'Exported directly from ILM (sample data).',
         'showcase-flow-export': 'Export',
         'showcase-editor-label': 'Plot Editor',
         'showcase-editor-title': 'Start with your data',
-        'showcase-editor-desc': 'Import Excel or CSV data, add error bars, and adjust styles and figure size. Save an editable SVG to use in your layout.',
+        'showcase-editor-desc': 'Paste or import Excel/CSV data, add error bars and significance markers, and save as an editable SVG.',
         'showcase-editor-alt': 'Plot Editor showing a data worksheet beside three response curves with error bars.',
-        'showcase-editor-caption': 'Worksheet and plot preview side by side. Illustrative data.',
-        'showcase-reflow-title': 'Fit the plot to the panel',
-        'showcase-reflow-desc': 'Turn on Reflow to adapt native plots to their panels while preserving text and line widths in real points. Plots in the same row align their plotting areas automatically.',
+        'showcase-editor-caption': 'Side-by-side data table and live plot preview (sample data).',
+        'showcase-reflow-title': 'Plots that fit their panels',
+        'showcase-reflow-desc': 'Reflow resizes native plots to fit their panels while keeping font sizes and line widths at exact point values. Plots on the same row align axes automatically.',
         'showcase-reflow-aria': 'Compare Reflow off and on',
         'showcase-reflow-off-alt': 'Reflow off: the plots retain their saved appearance and their bottom axes sit at different heights.',
         'showcase-reflow-on-alt': 'Reflow on: both plots fill their panels with aligned plotting areas and bottom axes.',
-        'showcase-reflow-off-caption': 'OFF · Keep the saved SVG appearance.',
-        'showcase-reflow-on-caption': 'ON · Adapt the plots and align their plotting areas.',
-        'hl-note': 'Reflow works with native .ilmplot.svg files. Ordinary images and SVGs keep their original geometry. Locking the cell aspect ratio or using plot-area alignment pauses Reflow.',
+        'showcase-reflow-off-caption': 'OFF · Fixed SVG aspect ratio.',
+        'showcase-reflow-on-caption': 'ON · Plots fill their panels with aligned axes.',
+        'hl-note': 'Works with native .ilmplot.svg files. Standard images and SVGs keep their original proportions. Paused when cell aspect ratio is locked or manual plot-area alignment is active.',
         'features-label': 'Features',
-        'features-title': 'Tools for the whole figure',
-        'features-subtitle': 'Create plots, align panels, match text sizes, and add the finishing annotations before export.',
+        'features-title': 'Built for scientific figures',
+        'features-subtitle': 'Everything needed to take raw plots and microscopy images to journal standards.',
         'feat1-title': 'LaTeX Support',
-        'feat1-desc': 'Render complex formulas, symbols, and chemical notations directly on panels using standard LaTeX syntax.',
+        'feat1-desc': 'Write math, Greek letters, and chemical formulas directly in labels using standard LaTeX syntax.',
         'feat2-title': 'Picture-in-Picture (PiP)',
-        'feat2-desc': 'Create insets and magnified views with ease. Overlay sub-images with customizable borders to highlight key details.',
+        'feat2-desc': 'Add zoom insets or overlay sub-images with custom borders and leader lines.',
         'feat3-title': 'Hierarchical Splitting',
-        'feat3-desc': 'Split cells infinitely in vertical or horizontal stacks to create sophisticated, multi-tiered layouts.',
+        'feat3-desc': 'Split any cell horizontally or vertically as many times as needed for nested layouts.',
         'feat4-title': 'Vector-Sharp PDF Export',
-        'feat4-desc': 'Export publication-ready PDFs with high-DPI image embedding while keeping text and labels as resolution-independent vector objects.',
-        'feat5-title': 'Integrated Scale Bar Tool',
-        'feat5-desc': 'Add and fine-tune professional scale bars—an essential requirement for microscopy and imaging figures.',
+        'feat4-desc': 'Export PDFs and SVGs with high-DPI bitmaps and vector text, or CMYK TIFFs with ICC profiles.',
+        'feat5-title': 'Scale Bars',
+        'feat5-desc': 'Add calibrated scale bars to microscopy and imaging panels with custom units, lengths, and placement.',
         'feat6-title': 'Shared Group Labels',
-        'feat6-desc': 'Span a single label across several cells to mark rows, columns, or conditions — drag the label band outward to adjust its stacking order.',
+        'feat6-desc': 'Span headers across multiple rows or columns to label experimental conditions, and drag to reorder nested bands.',
         'feat9-title': 'AI / MCP Assisted Editing',
-        'feat9-desc': 'Connect Claude, Cursor, Windsurf, Cline, or other MCP hosts to build, style, annotate, preview, save, and export figures through the running app.',
+        'feat9-desc': 'Connect Claude, Cursor, Windsurf, or any MCP client to arrange panels, style labels, and export figures live.',
         'feat10-title': 'Align Plot Areas',
-        'feat10-desc': "Mark each chart's plotting area, then match plot heights and bottom axes across panels — in grid or freeform layouts, without touching the source files.",
+        'feat10-desc': 'Align axis boxes across different charts so plot heights and baselines match, even when tick labels or legends differ in size.',
         'feat11-title': 'Text Size Matching',
-        'feat11-desc': 'Pick text in SVG or raster panels and match its size across the whole figure, leaving the original files untouched.',
+        'feat11-desc': 'Sample text in any SVG or bitmap panel and scale panels to match font sizes across the figure.',
         'feat12-title': 'Freeform Layer Stack',
-        'feat12-desc': 'Switch to freeform placement and reorder overlapping panels and insets by dragging them in the Layers panel, Photoshop-style.',
+        'feat12-desc': 'Switch from grid to freeform mode anytime and reorder overlapping panels in the Layers list.',
         'feat13-title': 'Guided Tutorials',
-        'feat13-desc': 'Learn plotting, layout and export with guided practice projects in ILM and the Plot Editor.',
+        'feat13-desc': 'Step-by-step interactive projects built into both ILM and the Plot Editor.',
         'feat14-title': 'Editable Plot Editor',
-        'feat14-desc': 'Create line, scatter, column and distribution plots from Excel or CSV data. Add error bars and significance annotations, reuse styles, and save editable .ilmplot.svg files.',
+        'feat14-desc': 'Build line, scatter, bar, and distribution plots from Excel/CSV. Add error bars and p-values, and reopen saved .ilmplot.svg files anytime.',
         'workflow-label': 'Workflow',
-        'workflow-title': 'From panels to a finished figure',
-        'workflow-subtitle': 'A repeatable process from canvas to camera-ready export.',
-        'step1': 'Create layout',
-        'step2': 'Add images or plots',
-        'step3': 'Auto-layout panels',
-        'step4': 'Refine spacing & labels',
-        'step5': 'Save your project',
-        'step6': 'Export PDF / TIFF / JPG / PNG / SVG',
-        'cli-label': 'CLI',
-        'cli-title': 'CLI and MCP automation for repeatable workflows',
-        'cli-subtitle': 'Render, pack, inspect, edit, and connect AI agents through the bundled CLI — same quality as the GUI, plus live MCP control.',
+        'workflow-title': 'How it works',
+        'workflow-subtitle': 'Set your journal page width once, drop in your panels, and export.',
+        'step1': 'Set page size & grid',
+        'step2': 'Drop in images & plots',
+        'step3': 'Auto-fit & align axes',
+        'step4': 'Add labels & scale bars',
+        'step5': 'Save .figpack bundle',
+        'step6': 'Export PDF / TIFF / SVG / PNG',
+        'cli-label': 'CLI & MCP',
+        'cli-title': 'Automate from the terminal or AI agents',
+        'cli-subtitle': 'Use imagelayout-cli for headless rendering in scripts, or run it as an MCP server for AI assistants.',
         'cli-render-title': 'Render',
-        'cli-render-desc': 'Export .figpack / .figlayout to PDF, TIFF, JPG, or PNG with the same renderer as the GUI.',
+        'cli-render-desc': 'Render .figpack or .figlayout files to PDF, TIFF, JPG, or PNG with the exact same engine as the GUI.',
         'cli-pack-title': 'Pack / Unpack',
-        'cli-pack-desc': 'Bundle layouts with assets into .figpack, or extract .figpack to folders.',
+        'cli-pack-desc': 'Bundle a layout and all linked images into a single portable .figpack archive, or unpack it back to a folder.',
         'cli-inspect-title': 'Inspect',
-        'cli-inspect-desc': 'Query page size, DPI, cell counts, and metadata (text or JSON output).',
+        'cli-inspect-desc': 'Print page dimensions, DPI, cell counts, and layout metadata as plain text or JSON.',
         'cli-mcp-title': 'MCP adapter',
-        'cli-mcp-desc': 'Connect an AI assistant to the running app to arrange panels, adjust styles, add annotations, and save or export the figure.',
-        'cli-note': 'Included with the Windows installer and macOS app bundles (Apple Silicon and Intel), or run from source. See <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI docs</a> for setup and commands.',
+        'cli-mcp-desc': 'Expose layout, styling, and export tools over stdio so MCP clients can drive the live app or edit files headlessly.',
+        'cli-note': 'Bundled with the Windows and macOS apps. See the <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI docs</a> for all commands and MCP setup.',
         'technical-label': 'Compatibility',
         'technical-title': 'Platforms & formats',
         'tech-platforms': 'Platforms',
@@ -1144,12 +1261,12 @@
         'tech-license-value': 'Apache 2.0 source · GPL-3.0 / AGPL-3.0 builds',
         'release-loading': 'Loading release notes…',
         'download-label': 'Download',
-        'download-title': 'Choose your version',
-        'download-desc': 'Available for Windows and macOS. Choose the build for your computer.',
-        'download-windows-desc': 'Install from Microsoft Store for automatic updates, or download the installer directly.',
+        'download-title': 'Download Image Layout Manager',
+        'download-desc': 'Free and open source for Windows and macOS.',
+        'download-windows-desc': 'Install from Microsoft Store for automatic updates, or download the standalone installer.',
         'download-store': 'Get it from Microsoft Store',
         'download-other': 'Other Windows downloads',
-        'download-mac-hint': 'Choose your chip: Apple Silicon (M-series) or Intel. Check Apple menu → About This Mac to find yours. Apple Silicon: open the DMG and drag the app to Applications.',
+        'download-mac-hint': 'Apple Silicon (M-series): open the DMG and drag the app to Applications. Intel: extract the ZIP.',
         'dl-win-installer-title': 'Windows Installer (.exe)',
         'dl-win-portable-title': 'Windows Portable (.exe)',
         'dl-win-portable-sub': 'No installation required.',
@@ -1161,7 +1278,7 @@
         'release-latest-prefix': 'Latest Release · ',
         'release-released-prefix': 'Released ',
         'release-fallback-title': 'v3.6.1 - New look! More precise!',
-        'release-fallback-body': 'A refreshed interface and more precise figure editing. On Apple Silicon, open the signed, notarized DMG and drag ImageLayoutManager to Applications.',
+        'release-fallback-body': 'Refreshed interface and more precise figure editing. Apple Silicon builds now ship as a signed, notarized DMG.',
         'release-notes-fallback': 'See the release page for full notes.',
         'footer-home': '← Home',
         'footer-cli': 'CLI Docs',
@@ -1175,82 +1292,82 @@
       },
       zh: {
         'nav-back': '← 返回首页',
-        'hero-badge': '开源 · 源码 Apache 2.0',
+        'hero-badge': '开源 · Apache 2.0 协议',
         'hero-h1': 'Image Layout Manager',
-        'hero-p': '创建科学图表，排好多面板图，导出论文成图。',
+        'hero-p': '绘制科研图表、编排多面板组图，直接导出发表级配图。',
         'hero-motto': '<strong>I</strong>nspired by <strong>L</strong>aziness. <strong>M</strong>ade for research.',
         'hero-download-text': '↓ 下载',
         'hero-github-btn': '在 GitHub 上查看',
         'showcase-ui-alt': 'Image Layout Manager 主界面，画布中包含航拍照片、可编辑图表、面板编号和局部放大插图。',
-        'showcase-ui-caption': '图片、图表与标注，在同一份工程中排好。',
+        'showcase-ui-caption': '在同一工程中混排图片、图表与标注。',
         'showcase-export-label': '从画布到成图',
-        'showcase-export-title': '把每个面板组合成完整图版',
-        'showcase-export-desc': '排列图片与可编辑图表，添加编号、插图和比例尺，再导出用于论文的完整成图。',
+        'showcase-export-title': '所有子图，一处排齐',
+        'showcase-export-desc': '混排图片与可编辑图表，添加编号、局部放大与比例尺，一键导出论文插图。',
         'showcase-export-alt': '从 ILM 导出的多面板图，包含航拍照片、局部放大插图、比例尺、折线图与柱状图。',
-        'showcase-export-caption': '由 ILM 导出；图表使用示例数据。',
+        'showcase-export-caption': 'ILM 直接导出效果（示例数据）。',
         'showcase-flow-export': '导出',
         'showcase-editor-label': '图表编辑器',
-        'showcase-editor-title': '从数据开始绘图',
-        'showcase-editor-desc': '导入 Excel 或 CSV 数据，添加误差线，调整样式与图表尺寸，再保存为可编辑 SVG 用于组图。',
+        'showcase-editor-title': '内置图表编辑器',
+        'showcase-editor-desc': '提供原生图表格式.ilmplot.svg，可开启Reflow自动重排',
         'showcase-editor-alt': '图表编辑器中，数据工作表与三组带误差线的响应曲线并排显示。',
-        'showcase-editor-caption': '工作表与图表预览并排显示；使用示例数据。',
-        'showcase-reflow-title': '让图表适应面板',
-        'showcase-reflow-desc': '开启 Reflow，原生图表会适应面板尺寸，同时保持文字与线宽的真实磅值。同一行图表的绘图区也会自动对齐。',
+        'showcase-editor-caption': '数据表与实时预览并排显示（示例数据）。',
+        'showcase-reflow-title': '图表自适应面板尺寸',
+        'showcase-reflow-desc': '开启 Reflow 后，原生图表随面板缩放，字号与线宽保持真实磅值不变，同行坐标轴自动对齐。',
         'showcase-reflow-aria': '对比关闭与开启 Reflow 的效果',
         'showcase-reflow-off-alt': '关闭 Reflow：图表保持保存时的外观，底部坐标轴位于不同高度。',
         'showcase-reflow-on-alt': '开启 Reflow：两张图表适应面板，绘图区与底部坐标轴对齐。',
-        'showcase-reflow-off-caption': '关闭 · 保持保存时的 SVG 外观。',
-        'showcase-reflow-on-caption': '开启 · 适应面板，并对齐绘图区。',
-        'hl-note': 'Reflow 适用于原生 .ilmplot.svg 文件。普通图片与 SVG 保持原有图形结构；锁定单元格宽高比或使用绘图区对齐时，Reflow 暂停。',
+        'showcase-reflow-off-caption': '关闭 · 保持 SVG 原始比例。',
+        'showcase-reflow-on-caption': '开启 · 铺满面板并自动对齐坐标轴。',
+        'hl-note': '仅适用于原生 .ilmplot.svg 文件，普通图片与常规 SVG 保持原比例。锁定宽高比或启用手动绘图区对齐时自动暂停。',
         'features-label': '功能特性',
-        'features-title': '从绘图到成图',
-        'features-subtitle': '创建图表、对齐面板、统一字号，再添加标注并导出。',
+        'features-title': '专为论文组图设计',
+        'features-subtitle': '省去在绘图软件与矢量编辑器之间反复折腾的繁琐步骤。',
         'feat1-title': 'LaTeX 公式支持',
-        'feat1-desc': '使用标准 LaTeX 语法直接在面板上渲染数学公式、化学符号等复杂内容。',
+        'feat1-desc': '标签与文字标注直接支持 LaTeX 语法，轻松输入数学公式、上下标、希腊字母与化学式。',
         'feat2-title': '画中画 (PiP)',
-        'feat2-desc': '轻松创建嵌入图和放大视图。在图上叠放子图/插图，样式全部可自定义。',
+        'feat2-desc': '框选区域即可生成局部放大插图，支持叠加子图并自定义边框与指示线样式。',
         'feat3-title': '层级化单元格分割',
-        'feat3-desc': '水平或垂直无限分割单元格，以创建复杂且专业的多层级布局。',
+        'feat3-desc': '任意单元格均可横向或纵向继续拆分，灵活排出主次分明的嵌套网格。',
         'feat4-title': '矢量化 PDF 导出',
-        'feat4-desc': '导出符合发表要求的 PDF，在嵌入高分辨率图像的同时，确保所有文字和标签保持矢量清晰。',
-        'feat5-title': '集成比例尺工具',
-        'feat5-desc': '为每个图片添加并精细调整专业比例尺——显微镜与成像论文的必备功能。',
-        'feat6-title': '跨单元格共享标签',
-        'feat6-desc': '用一个标签横跨多个单元格，标记行、列或实验条件。',
+        'feat4-desc': '导出高 DPI 位图与矢量文字共存的 PDF / SVG，或带 ICC 色彩配置的印刷级 CMYK TIFF。',
+        'feat5-title': '比例尺工具',
+        'feat5-desc': '为显微与成像子图添加标定比例尺，自由设置物理单位、线宽与位置。',
+        'feat6-title': '跨单元格分组标签',
+        'feat6-desc': '添加跨越多行或多列的分组标题以标注实验条件，拖拽即可调整多层标题的内外顺序。',
         'feat9-title': 'AI / MCP 辅助编辑',
-        'feat9-desc': '连接 Claude、Cursor、Windsurf、Cline 或其他 MCP Agent，通过正在运行的应用构建、样式化、标注、预览、保存和导出图形。',
+        'feat9-desc': '接入 Claude、Cursor、Windsurf 等 MCP 客户端，直接操控运行中的软件完成排版、标注与导出。',
         'feat10-title': '绘图区对齐',
-        'feat10-desc': '标记每张图的绘图区，即可统一各面板的绘图高度并对齐底部坐标轴。',
-        'feat11-title': '文字大小统一',
-        'feat11-desc': '选中 SVG 或位图面板中的文字，统一整张图的字号。',
-        'feat12-title': '自由排布图层顺序',
-        'feat12-desc': '切换到自由排布后，可像 Photoshop 图层那样在图层面板中拖动，调整重叠面板与插图的前后顺序。',
-        'feat13-title': '引导教程',
-        'feat13-desc': '通过 ILM 与图表编辑器中的引导练习，学习绘图、排版与导出。',
+        'feat10-desc': '支持框选外部图表的坐标轴区域，即使刻度文字或图例长短不一，也能一键对齐绘图区高度与底边。',
+        'feat11-title': '文字字号统一',
+        'feat11-desc': '识别 SVG 或位图中的文字大小，自动调整面板缩放比例，让整张组图字号一致。',
+        'feat12-title': '自由排布与图层',
+        'feat12-desc': '随时从网格切换为自由排布，在图层列表中拖拽即可调整重叠面板的前后层级。',
+        'feat13-title': '交互式上手教程',
+        'feat13-desc': '内置交互式上手练习，边做边学绘图、对齐与导出。',
         'feat14-title': '可编辑图表编辑器',
-        'feat14-desc': '从 Excel 或 CSV 数据创建折线图、散点图、柱状图与分布图，添加误差线和显著性标注，复用样式，并保存为可编辑的 .ilmplot.svg。',
+        'feat14-desc': '支持折线、散点、柱状与分布图，内置误差线与显著性标记，保存的 .ilmplot.svg 可随时重新打开修改数据。',
         'workflow-label': '工作流程',
-        'workflow-title': '从面板到完整成图',
-        'workflow-subtitle': '从创建到投稿，可重复的标准化流程。',
-        'step1': '创建布局',
-        'step2': '添加图片或图表',
-        'step3': '自动排版',
-        'step4': '微调间距与标注',
-        'step5': '保存工程',
-        'step6': '导出 PDF / TIFF / JPG / PNG / SVG',
-        'cli-label': 'CLI',
-        'cli-title': 'CLI 与 MCP 自动化，工作流可重复',
-        'cli-subtitle': '通过内置 CLI 渲染、打包、检查、编辑布局并连接 AI agent —— 输出质量与 GUI 完全一致，同时支持实时 MCP 控制。',
-        'cli-render-title': '渲染',
-        'cli-render-desc': '使用与 GUI 相同的渲染器将 .figpack / .figlayout 导出为 PDF、TIFF、JPG 或 PNG。',
+        'workflow-title': '几步完成组图',
+        'workflow-subtitle': '设好期刊版心宽度，拖入图片微调即可出图。',
+        'step1': '设置版面与网格',
+        'step2': '拖入图片与图表',
+        'step3': '自动排版与对齐',
+        'step4': '添加编号与比例尺',
+        'step5': '保存 .figpack 工程',
+        'step6': '导出 PDF / TIFF / SVG / PNG',
+        'cli-label': '命令行与 MCP',
+        'cli-title': '命令行批处理与 AI 联动',
+        'cli-subtitle': '使用内置的 imagelayout-cli 在脚本中无界面渲染导出，或作为 MCP 服务接入 AI 助手。',
+        'cli-render-title': '渲染导出',
+        'cli-render-desc': '使用与界面完全一致的渲染引擎，将 .figpack 或 .figlayout 导出为 PDF、TIFF、JPG 或 PNG。',
         'cli-pack-title': '打包 / 解包',
-        'cli-pack-desc': '将布局与资源打包为 .figpack，或将 .figpack 解包到文件夹。',
-        'cli-inspect-title': '检查',
-        'cli-inspect-desc': '查询页面尺寸、DPI、单元格数量和元数据（文本或 JSON 输出）。',
+        'cli-pack-desc': '将布局与所有引用图片打包为单个 .figpack 归档便于分享，或随时解包还原。',
+        'cli-inspect-title': '工程检查',
+        'cli-inspect-desc': '以纯文本或 JSON 输出页面尺寸、DPI、子图数量等工程信息。',
         'cli-mcp-title': 'MCP 适配器',
-        'cli-mcp-desc': '将 AI 助手连接到正在运行的应用，完成面板排布、样式调整、标注与保存导出。',
-        'cli-note': 'Windows 安装版与 macOS 应用包（Apple Silicon 和 Intel）均包含 CLI，也可从源码运行。配置与命令见 <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI 文档</a>。',
-        'technical-label': '运行与文件',
+        'cli-mcp-desc': '提供标准 MCP 接口，让 AI 客户端实时驱动软件界面或无界面批量修改工程。',
+        'cli-note': '已内置于 Windows 与 macOS 安装包中。完整命令与 MCP 配置说明见 <a href="cli.html" rel="noopener noreferrer" style="color: var(--blue);">CLI 文档</a>。',
+        'technical-label': '兼容性',
         'technical-title': '平台与格式',
         'tech-platforms': '平台',
         'tech-platforms-value': 'Windows · macOS（Apple Silicon / Intel）',
@@ -1260,12 +1377,12 @@
         'tech-license-value': '源码 Apache 2.0 · 发行版 GPL-3.0 / AGPL-3.0',
         'release-loading': '正在加载发布说明…',
         'download-label': '下载',
-        'download-title': '选择适合你的版本',
-        'download-desc': '支持 Windows 与 macOS，请按电脑系统选择下载。',
-        'download-windows-desc': '通过 Microsoft Store 安装并自动更新，也可以直接下载安装包。',
+        'download-title': '下载 Image Layout Manager',
+        'download-desc': '免费开源，支持 Windows 与 macOS。',
+        'download-windows-desc': '可通过 Microsoft Store 安装并自动更新，或直接下载独立安装包。',
         'download-store': '从 Microsoft Store 获取',
         'download-other': '其他 Windows 下载',
-        'download-mac-hint': '选择 Apple Silicon（M 系列）或 Intel。在苹果菜单 →“关于本机”中查看芯片类型。 Apple Silicon：打开 DMG，将应用拖入 Applications（应用程序）文件夹。',
+        'download-mac-hint': 'Apple Silicon（M 系列芯片）：打开 DMG 并将应用拖入 Applications。Intel 芯片：解压 ZIP 即可运行。',
         'dl-win-installer-title': 'Windows 安装版（.exe）',
         'dl-win-portable-title': 'Windows 便携版（.exe）',
         'dl-win-portable-sub': '无需安装。',
@@ -1277,7 +1394,7 @@
         'release-latest-prefix': '最新版本 · ',
         'release-released-prefix': '发布于 ',
         'release-fallback-title': 'v3.6.1 - 焕然一新！更加精确！',
-        'release-fallback-body': '焕新的界面，更精确的图版编辑。Apple Silicon 用户可打开已签名并经 Apple 公证的 DMG，将 ImageLayoutManager 拖入 Applications（应用程序）文件夹。',
+        'release-fallback-body': '全新界面设计与更精细的排版控制。Apple Silicon 版本现已提供经 Apple 公证签名的 DMG 安装镜像。',
         'release-notes-fallback': '请前往发布页面查看完整说明。',
         'footer-home': '← 首页',
         'footer-cli': 'CLI 文档',
