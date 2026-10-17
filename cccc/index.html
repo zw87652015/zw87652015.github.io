@@ -262,6 +262,13 @@
       gap: 10px;
     }
 
+    .get-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
     .btn {
       display: inline-flex;
       align-items: center;
@@ -269,15 +276,32 @@
       min-height: 44px;
       padding: 10px 20px;
       border-radius: 4px;
+      border: 1px solid transparent;
       background: var(--green);
       color: #fff;
       font: 600 15px Inter, system-ui, sans-serif;
       text-decoration: none;
-      transition: background 0.15s;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .btn svg {
+      width: 16px;
+      height: 16px;
     }
 
     .btn:hover {
       background: var(--green-active);
+    }
+
+    .btn.ghost {
+      background: #fff;
+      color: var(--ink);
+      border-color: rgba(0, 0, 0, 0.14);
+    }
+
+    .btn.ghost:hover {
+      background: var(--warm-white);
+      border-color: rgba(0, 0, 0, 0.28);
     }
 
     .btn:active {
@@ -728,7 +752,13 @@
     <p class="stats" id="stats"></p>
 
     <div class="get">
-      <a class="btn" href="https://downloads.luojiajiang.uk/CCCC.exe"><span data-i18n="download">Download CCCC.exe</span><small>62 KB</small></a>
+      <div class="get-row">
+        <a class="btn" href="https://downloads.luojiajiang.uk/CCCC.exe"><span data-i18n="download">Download CCCC.exe</span><small>62 KB</small></a>
+        <a class="btn ghost" href="https://github.com/zw87652015/CCCC" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 8 4.77c.68.003 1.36.092 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z" /></svg>
+          <span data-i18n="github">View on GitHub</span>
+        </a>
+      </div>
       <span class="get-sub" data-i18n="download-sub">Windows 10 / 11 · free · it finishes downloading before you finish this line</span>
     </div>
 
@@ -798,6 +828,7 @@
         'key-aria': 'Press C',
         keyNote: touch => touch ? 'tap C' : 'press C',
         download: 'Download CCCC.exe',
+        github: 'View on GitHub',
         'download-sub': 'Windows 10 / 11 · free · it finishes downloading before you finish this line',
         'try-real': 'Or select any text here and really press <kbd class="kmod">Ctrl</kbd> <kbd>C</kbd>. Then try it with nothing selected.',
         scroll: '↓ the rest (there isn’t much)',
@@ -865,6 +896,7 @@
         'key-aria': '按下 C',
         keyNote: touch => touch ? '点 C' : '按 C',
         download: '下载 CCCC.exe',
+        github: '在 GitHub 上查看',
         'download-sub': 'Windows 10 / 11 · 免费 · 这行字还没读完，它就下好了',
         'try-real': '或者选中这页上的任意文字，真按一次 <kbd class="kmod">Ctrl</kbd> <kbd>C</kbd>。再什么都不选，按一次试试。',
         scroll: '↓ 剩下的（没多少）',
