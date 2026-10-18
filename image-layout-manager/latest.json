@@ -2,5 +2,10 @@
   "version": "v3.7.0",
   "name": "v3.7.0 - UI improvements, file format handling, and update management",
   "url": "https://luojiajiang.uk/image-layout-manager/#download",
-  "published_at": "2026-10-18"
+  "published_at": "2026-10-18",
+  "windows_installer": {
+    "url": "https://downloads.luojiajiang.uk/ImageLayoutManager_v3.7.0_Windows_Setup.exe",
+    "sha256": "99a8825422626c77ee4dcb67e5927cbc57ad1a16a6017187d61878b36809e8e4",
+    "size": 180708108
+  }
 }
