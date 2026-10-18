@@ -604,8 +604,10 @@
       color: var(--gray-500);
     }
 
-    .footer-views img {
-      display: block;
+    .footer-views b {
+      color: var(--near-black);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
     }
 
     @media (max-width: 600px) {
@@ -1163,11 +1165,8 @@
         data-i18n="footer-releases">All Releases</a>
     </div>
     <div class="footer-views">
-      <span data-i18n="footer-views">Page views</span>
-      <a href="https://hits.sh/zw87652015.github.io/image-layout-manager/" target="_blank"
-        rel="noopener noreferrer"><img src="https://hits.sh/zw87652015.github.io/image-layout-manager.svg"
-          height="20" alt="Page view count powered by Hits.sh" data-i18n-alt="footer-views-alt"
-          referrerpolicy="no-referrer"></a>
+      <span data-i18n="footer-views">Visitors</span>
+      <b id="hits">–</b>
     </div>
   </footer>
 
@@ -1286,8 +1285,7 @@
         'footer-licenses': 'Licences',
         'footer-sources': 'Source index',
         'footer-releases': 'All Releases',
-        'footer-views': 'Page views',
-        'footer-views-alt': 'Page view count powered by Hits.sh',
+        'footer-views': 'Visitors',
         'date-locale': 'en-US',
       },
       zh: {
@@ -1402,8 +1400,7 @@
         'footer-licenses': '许可协议',
         'footer-sources': '源码索引',
         'footer-releases': '所有版本',
-        'footer-views': '页面浏览量',
-        'footer-views-alt': '由 Hits.sh 提供的页面浏览量',
+        'footer-views': '访客',
         'date-locale': 'zh-CN',
       }
     };
@@ -1529,6 +1526,11 @@
         applyLang(currentLang);
       }
     })();
+
+    fetch('https://hits.luojiajiang.uk/image-layout-manager', { method: 'POST' })
+      .then(r => r.json())
+      .then(d => { document.getElementById('hits').textContent = d.visitors.toLocaleString(); })
+      .catch(() => { });
   </script>
 
 </body>

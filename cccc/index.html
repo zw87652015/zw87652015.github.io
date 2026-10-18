@@ -541,8 +541,10 @@
       font-size: 12px;
     }
 
-    .views img {
-      display: block;
+    .views b {
+      color: var(--ink);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
     }
 
     /* ── CCCC card (a faithful replica of the native one) ── */
@@ -809,10 +811,8 @@
     <a href="/" data-i18n="footer-home">← Home</a>
     <span data-i18n="footer-credit">Let\'s Ctrl+C!</span>
     <div class="views">
-      <span data-i18n="footer-views">Page views</span>
-      <a href="https://hits.sh/zw87652015.github.io/cccc/" target="_blank" rel="noopener noreferrer"><img
-          src="https://hits.sh/zw87652015.github.io/cccc.svg" height="20" alt="Page view count powered by Hits.sh"
-          data-i18n-alt="footer-views-alt" referrerpolicy="no-referrer"></a>
+      <span data-i18n="footer-views">Visitors</span>
+      <b id="hits">–</b>
     </div>
   </footer>
 
@@ -864,8 +864,7 @@
         ],
         'footer-home': '← Home',
         'footer-credit': 'Made by Luojia, who once pressed Ctrl+C nine times in a row.',
-        'footer-views': 'Page views',
-        'footer-views-alt': 'Page view count powered by Hits.sh',
+        'footer-views': 'Visitors',
         comments: [
           [0, ''],
           [1, 'Copied. That’s the whole app.'],
@@ -935,8 +934,7 @@
         ],
         'footer-home': '← 首页',
         'footer-credit': 'Let\'s Ctrl+C!',
-        'footer-views': '页面浏览量',
-        'footer-views-alt': '由 Hits.sh 提供的页面浏览量',
+        'footer-views': '访客',
         comments: [
           [0, ''],
           [1, '复制上了。这就是全部功能。'],
@@ -1238,6 +1236,11 @@
 
     applyLang(lang);
     intro();
+
+    fetch('https://hits.luojiajiang.uk/cccc', { method: 'POST' })
+      .then(r => r.json())
+      .then(d => { document.getElementById('hits').textContent = d.visitors.toLocaleString(); })
+      .catch(() => { });
   </script>
 
 </body>
