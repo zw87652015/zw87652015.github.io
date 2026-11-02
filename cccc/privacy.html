@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CCCC · Privacy Policy</title>
+  <meta name="description" content="Privacy policy for CCCC (CtrlCCCC) on Windows and macOS. Everything stays on your device.">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --green: #15803d;
+      --green-focus: #1ea84a;
+      --badge-bg: #ecf8f0;
+      --ink: rgba(0, 0, 0, 0.95);
+      --gray-500: #615d59;
+      --warm-white: #f6f5f4;
+      --border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      background: #fff;
+      color: var(--ink);
+      font-family: Inter, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, "Microsoft YaHei UI", "PingFang SC", sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--green);
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid var(--green-focus);
+      outline-offset: 3px;
+    }
+
+    nav {
+      height: 52px;
+      padding: 0 clamp(16px, 4vw, 32px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .brand img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .lang-toggle {
+      font: 500 12px Inter, system-ui, sans-serif;
+      background: none;
+      border: 1px solid rgba(0, 0, 0, 0.18);
+      border-radius: 4px;
+      padding: 2px 9px;
+      cursor: pointer;
+      color: var(--gray-500);
+    }
+
+    .lang-toggle:hover {
+      color: var(--ink);
+      border-color: rgba(0, 0, 0, 0.35);
+    }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px clamp(20px, 5vw, 32px) 72px;
+    }
+
+    .pill {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--green);
+      background: var(--badge-bg);
+      border-radius: 9999px;
+      padding: 4px 11px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: clamp(32px, 6vw, 44px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .date {
+      font-size: 14px;
+      color: var(--gray-500);
+      margin-bottom: 28px;
+    }
+
+    .short {
+      background: var(--warm-white);
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin-bottom: 36px;
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin: 36px 0 12px;
+    }
+
+    p+p {
+      margin-top: 12px;
+    }
+
+    ul {
+      padding-left: 1.2em;
+    }
+
+    li+li {
+      margin-top: 10px;
+    }
+
+    code {
+      font: 0.9em ui-monospace, "Cascadia Mono", Consolas, monospace;
+      background: var(--warm-white);
+      border-radius: 4px;
+      padding: 1px 5px;
+      overflow-wrap: anywhere;
+    }
+
+    p+ul {
+      margin-top: 12px;
+    }
+
+    [data-lang] {
+      display: none;
+    }
+
+    html[lang="en"] [data-lang="en"],
+    html[lang="zh"] [data-lang="zh"] {
+      display: block;
+    }
+
+    footer {
+      border-top: var(--border);
+      padding: 22px clamp(20px, 5vw, 48px) 26px;
+      font-size: 13px;
+      color: var(--gray-500);
+    }
+
+    footer a {
+      color: var(--gray-500);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--ink);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <a href="./" class="brand"><img src="assets/icon.svg" alt="">CCCC</a>
+    <button id="lang-toggle" class="lang-toggle" type="button">中文</button>
+  </nav>
+
+  <main>
+    <article data-lang="en">
+      <span class="pill">Windows &amp; macOS</span>
+      <h1>CCCC Privacy Policy</h1>
+      <p class="date">Effective 2 November 2026</p>
+      <p>This policy covers the CCCC app for Windows and macOS, including the Microsoft Store version “CtrlCCCC”, published by River Quasar.</p>
+
+      <div class="short">
+        <p><b>Short version.</b> CCCC works entirely on your device. There is no account, no ads, no analytics and no tracking. CCCC does not collect, sell or share your personal data. The Microsoft Store version never connects to the internet.</p>
+      </div>
+
+      <h2>What CCCC reads, and why</h2>
+      <p>CCCC only reads what it needs to draw its cards. This data stays in memory and is never sent anywhere.</p>
+      <ul>
+        <li><b>Clipboard.</b> When you copy or cut, CCCC reads the clipboard to describe what was copied: the text and its length, whether it is a link, an image’s size and a small thumbnail, or file names. Content that other apps mark as private, such as passwords from a password manager, is skipped. The last copied item is kept in memory only, for the “Still holding” line, and is never saved to disk.</li>
+        <li><b>Keyboard.</b> To notice a copy, CCCC watches for the copy and cut shortcuts (Ctrl+C, Ctrl+X, Ctrl+Insert, or ⌘C and ⌘X on a Mac) and for Caps Lock. All other keys are ignored. Keystrokes are never recorded, saved or sent.</li>
+        <li><b>Source app.</b> If “Show source” is on, CCCC reads the name, icon and window title of the app you copied from (for a browser, this is usually the page title). On macOS this uses the Accessibility permission.</li>
+        <li><b>Screen.</b> On Windows, and only with a Glass theme, CCCC reads the pixels directly behind its card to blur them. They are used for that one frame and then discarded.</li>
+        <li><b>Wi-Fi.</b> If Wi-Fi cards are on, CCCC reads the network name, band and signal strength to tell you when your Wi-Fi changes. Windows and macOS only share Wi-Fi names with apps that have location permission, so CCCC may ask for it. CCCC does not determine, use or store your location.</li>
+        <li><b>Sound output.</b> If sound cards are on, CCCC reads the name, volume and mute state of your current audio output device.</li>
+      </ul>
+
+      <h2>What CCCC saves on your device</h2>
+      <ul>
+        <li><b>Your settings</b>, including the apps you chose to ignore and the paths of any custom sound files. On Windows they are kept in the registry under <code>HKEY_CURRENT_USER\Software\CCCC</code> (the Store version keeps them in its own app storage, which Windows removes when you uninstall it). On macOS they are kept in the app’s preferences.</li>
+        <li><b>A settings file</b>, only when you choose “Export”, saved where you choose.</li>
+        <li><b>A debug log</b>, only if you start CCCC with the environment variable <code>CCCC_DEBUG=1</code>. It is written to your temporary folder and records events and the name of the app in front, never clipboard content.</li>
+      </ul>
+
+      <h2>Network</h2>
+      <ul>
+        <li><b>Microsoft Store version:</b> CCCC makes no network connections. Updates come through the Microsoft Store.</li>
+        <li><b>Versions downloaded from this website or GitHub:</b> to check for updates, CCCC contacts GitHub (<code>api.github.com</code>). When you install an update, it downloads it from <code>downloads.luojiajiang.uk</code> (Windows) or GitHub (macOS). These requests carry only what every web request carries, such as your IP address and the app version. No personal data or clipboard content is sent. You can turn off automatic update checks in Customize.</li>
+        <li><b>Links:</b> if you turn on “Open links on click” and click a link card, or click a link in the About page, the link opens in your default browser. That website’s own privacy policy then applies.</li>
+      </ul>
+
+      <h2>Third parties</h2>
+      <p>CCCC contains no third-party analytics, advertising or tracking code. Microsoft and Apple may collect data about app installs and crashes under their own privacy policies, and may share anonymous, aggregated reports with developers.</p>
+
+      <h2>Children</h2>
+      <p>CCCC does not collect personal data from anyone, including children.</p>
+
+      <h2>Changes</h2>
+      <p>If this policy changes, the new version will be posted on this page with a new effective date.</p>
+
+      <h2>Contact</h2>
+      <p>Questions about privacy: open an issue at <a href="https://github.com/zw87652015/CCCC/issues" target="_blank" rel="noopener noreferrer">github.com/zw87652015/CCCC/issues</a>.</p>
+    </article>
+
+    <article data-lang="zh">
+      <span class="pill">Windows &amp; macOS</span>
+      <h1>CCCC 隐私政策</h1>
+      <p class="date">生效日期：2026 年 11 月 2 日</p>
+      <p>本政策适用于 Windows 和 macOS 上的 CCCC 应用，包括 Microsoft Store 版“CtrlCCCC”，发布者为 River Quasar。</p>
+
+      <div class="short">
+        <p><b>一句话版本。</b>CCCC 的所有工作都在你的设备上完成。没有账号、没有广告、没有统计分析、没有跟踪。CCCC 不收集、不出售、不分享你的个人数据。Microsoft Store 版完全不联网。</p>
+      </div>
+
+      <h2>CCCC 读取什么，为什么</h2>
+      <p>CCCC 只读取画卡片所需的内容。这些数据只留在内存里，不会发送到任何地方。</p>
+      <ul>
+        <li><b>剪贴板。</b>你复制或剪切时，CCCC 读取剪贴板来描述复制了什么：文字及其长度、是否为链接、图片的尺寸和一张小缩略图，或文件名。其他应用标记为私密的内容（例如密码管理器里的密码）会被直接跳过。最近一次复制的内容只保存在内存里，用于“剪贴板仍是”这一行，从不写入磁盘。</li>
+        <li><b>键盘。</b>为了知道你按了复制，CCCC 只关注复制和剪切快捷键（Ctrl+C、Ctrl+X、Ctrl+Insert，Mac 上是 ⌘C 和 ⌘X）以及大写锁定键。其他按键一律忽略。按键从不被记录、保存或发送。</li>
+        <li><b>来源应用。</b>开启“显示来源”时，CCCC 读取你复制时所在应用的名称、图标和窗口标题（浏览器的窗口标题通常就是网页标题）。在 macOS 上需要“辅助功能”权限。</li>
+        <li><b>屏幕。</b>仅在 Windows 上、且使用玻璃主题时，CCCC 读取卡片正后方的像素来做模糊效果。这些像素只用于当前这一帧，随即丢弃。</li>
+        <li><b>Wi-Fi。</b>开启 Wi-Fi 卡片时，CCCC 读取网络名称、频段和信号强度，在 Wi-Fi 变化时提醒你。Windows 和 macOS 只把 Wi-Fi 名称提供给拥有位置权限的应用，所以 CCCC 可能会请求该权限。CCCC 不会获取、使用或保存你的位置。</li>
+        <li><b>声音输出。</b>开启声音卡片时，CCCC 读取当前音频输出设备的名称、音量和静音状态。</li>
+      </ul>
+
+      <h2>CCCC 在你的设备上保存什么</h2>
+      <ul>
+        <li><b>你的设置</b>，包括你选择忽略的应用和自定义提示音文件的路径。Windows 上保存在注册表 <code>HKEY_CURRENT_USER\Software\CCCC</code>（Store 版保存在它自己的应用存储中，卸载时由 Windows 一并删除）。macOS 上保存在应用的偏好设置中。</li>
+        <li><b>设置文件</b>：仅在你选择“导出”时，保存到你指定的位置。</li>
+        <li><b>调试日志</b>：仅在你用环境变量 <code>CCCC_DEBUG=1</code> 启动 CCCC 时生成，写在临时文件夹中，记录事件和前台应用的名称，从不包含剪贴板内容。</li>
+      </ul>
+
+      <h2>联网</h2>
+      <ul>
+        <li><b>Microsoft Store 版：</b>CCCC 不建立任何网络连接。更新通过 Microsoft Store 进行。</li>
+        <li><b>从本网站或 GitHub 下载的版本：</b>检查更新时，CCCC 会访问 GitHub（<code>api.github.com</code>）。安装更新时，从 <code>downloads.luojiajiang.uk</code>（Windows）或 GitHub（macOS）下载。这些请求只包含任何网络请求都会带有的信息，例如你的 IP 地址和应用版本号，不发送任何个人数据或剪贴板内容。你可以在“自定义…”中关闭自动检查更新。</li>
+        <li><b>链接：</b>如果你开启“点击打开链接”并点击链接卡片，或点击“关于”页中的链接，链接会在你的默认浏览器中打开，之后适用该网站自己的隐私政策。</li>
+      </ul>
+
+      <h2>第三方</h2>
+      <p>CCCC 不包含任何第三方统计、广告或跟踪代码。Microsoft 和 Apple 可能根据各自的隐私政策收集应用安装和崩溃数据，并可能向开发者提供匿名的汇总报告。</p>
+
+      <h2>儿童</h2>
+      <p>CCCC 不收集任何人的个人数据，包括儿童。</p>
+
+      <h2>变更</h2>
+      <p>本政策如有变更，新版本将发布在本页面，并更新生效日期。</p>
+
+      <h2>联系</h2>
+      <p>有关隐私的问题，请在 <a href="https://github.com/zw87652015/CCCC/issues" target="_blank" rel="noopener noreferrer">github.com/zw87652015/CCCC/issues</a> 提交 issue。</p>
+    </article>
+  </main>
+
+  <footer>
+    <a href="./">← CCCC</a>
+  </footer>
+
+  <script>
+    function detectLang() {
+      const q = new URLSearchParams(location.search).get('lang');
+      if (q === 'zh' || q === 'en') return q;
+      const stored = localStorage.getItem('cccc-lang');
+      if (stored === 'zh' || stored === 'en') return stored;
+      const langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en'];
+      return langs.some(l => l.toLowerCase().startsWith('zh')) ? 'zh' : 'en';
+    }
+    function applyLang(lang) {
+      document.documentElement.lang = lang;
+      document.title = lang === 'zh' ? 'CCCC · 隐私政策' : 'CCCC · Privacy Policy';
+      document.getElementById('lang-toggle').textContent = lang === 'zh' ? 'EN' : '中文';
+    }
+    let lang = detectLang();
+    applyLang(lang);
+    document.getElementById('lang-toggle').addEventListener('click', () => {
+      lang = lang === 'zh' ? 'en' : 'zh';
+      localStorage.setItem('cccc-lang', lang);
+      applyLang(lang);
+    });
+  </script>
+</body>
+
+</html>
