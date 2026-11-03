@@ -205,7 +205,7 @@
   /* ================= THE AGENT SESSION (single state, two renderers) ================= */
   var AG = { msgs: [], mid: 0, status: 'run', q: null, draft: '', screen: 'chat',
              focused: false, kb: false, voice: false, sheet: null, lock: null, notif: null,
-             clock: '12:02', statusMsg: '', theme: 'light' };
+             clock: '12:02', statusMsg: '', theme: 'light', screen: 'chat' };
 
   /* ---------- desktop ---------- */
   var monWrap = el('div', '', world); monWrap.id = 'monwrap';
@@ -314,7 +314,7 @@
     place(vcall, c);
     /* leader from callout edge to the input box edge (callout above or below the box) */
     var up = r[1] < c[1];
-    var ax = c[0] + c[2] / 2, ay = up ? c[1] : c[1] + c[3], bx = r[0] + r[2] / 2, by = up ? r[1] + r[3] : r[1] + 8;
+    var ax = c[0] + c[2] / 2, ay = up ? vcall.offsetTop : vcall.offsetTop + vcall.offsetHeight, bx = r[0] + r[2] / 2, by = up ? r[1] + r[3] : r[1] + 8;
     var dx = bx - ax, dy = by - ay, len = Math.sqrt(dx * dx + dy * dy), ang = Math.atan2(dy, dx) * 180 / Math.PI;
     vlead.style.left = ax + 'px'; vlead.style.top = ay + 'px';
     vlead.style.width = len + 'px'; vlead.style.transform = 'rotate(' + ang + 'deg)';
@@ -390,16 +390,39 @@
       return null;
     }).filter(Boolean);
   }
-  function baseState() {
+  function ovView() {
+    var tm = AG.msgs.filter(function (m) { return m.id === AG.testId; })[0], cnt = tm ? tm.count : 0;
+    var a = { id: 'a', app: 'cursor', state: 'run', badge: S.ov_run, time: S.ov_t_a, title: S.session, context: S.ov_a_ctx,
+      now: S.ov_a_now, work: S.ov_work, fill: Math.round(cnt / 132 * 100), num: cnt, total: 132 };
+    var b = { id: 'b', app: 'devin', state: 'wait', badge: S.ov_wait, time: S.ov_t_b, title: S.ov_b_title, context: S.ov_b_ctx,
+      now: S.ov_b_now, work: S.ov_wait, fill: 0 };
+    var d = { id: 'd', app: 'codex', state: 'run', badge: S.ov_run, time: S.ov_t_d, title: S.ov_d_title, context: S.ov_d_ctx,
+      now: S.ov_d_now, work: S.ov_work, fill: 63, num: 5, total: 8 };
+    var n = function (k) { return [a, b, d].filter(function (t) { return t.state === k; }).length; };
     return {
+      heading: S.ov_heading, scope: S.ov_scope, open: S.ov_open,
+      levels: [{ icon: 'grid', label: S.ov_lv1, on: true }, { icon: 'folder', label: S.ov_lv2 },
+        { icon: 'star', label: S.ov_lv3 }, { icon: 'fusion', label: S.ov_lv4 }],
+      summary: [{ n: 3, label: S.ov_sum_all, color: 'var(--fg-3)' }, { n: n('wait'), label: S.ov_sum_wait, color: 'var(--ov-amber)' },
+        { n: n('run'), label: S.ov_sum_run, color: 'var(--accent)' }],
+      computers: [
+        { name: S.ov_pc1, detail: S.ov_pc1_n, tiles: [b, a] },
+        { name: S.ov_pc2, detail: S.ov_pc2_n, tiles: [d] }
+      ]
+    };
+  }
+  function baseState() {
+    var st = {
       app: 'cursor', title: 'Cursor', project: S.project, model: S.model,
       status: AG.status, msgs: phoneMsgs(), q: AG.q, draft: AG.draft,
       focused: AG.focused, kb: AG.kb, voice: AG.voice, sheet: AG.sheet,
       lock: AG.lock, notif: AG.notif, statusMsg: AG.statusMsg, theme: AG.theme
     };
+    if (SHORT) st.ov = ovView();
+    return st;
   }
   function syncPhone(instant) {
-    var st = baseState(); st.screen = 'chat';
+    var st = baseState(); st.screen = AG.screen;
     postTo(pApp, { type: 'state', state: st, instant: !!instant });
     var stT = baseState(); stT.screen = 'term'; stT.sheet = null; stT.lock = null; stT.notif = null;
     stT.term = { cmd: S.term_cmd, lines: S.term_lines };
@@ -592,6 +615,7 @@
   }
   function agStatus(s) { AG.status = s; renderDPanel(); syncPhone(FF); }
   function agFocus(on) { AG.focused = on; AG.kb = on; syncPhone(FF); }
+  function agScreen(name) { AG.screen = name; phoneWrap.classList.toggle('ovscreen', name === 'overview'); syncPhone(FF); }
   function agVoice(on) {
     AG.voice = on;
     AG.statusMsg = '';
@@ -1113,9 +1137,21 @@
     }
   }, 'short');
 
+  /* ================= short 2b — overview (1080x1920) ================= */
+  scene('overview', 3.2, function (t0) {
+    at(t0, function () { caption('cap_overview'); tween(monWrap, [{ opacity: 1 }, { opacity: 0 }], 300); });
+    at(t0 + 0.3, function () { pTap('#ovBack'); });
+    at(t0 + 0.55, function () { agScreen('overview'); });
+    for (var k = 1; k <= 6; k++) {
+      (function (n) { at(t0 + 0.9 + n * 0.2, function () { agUpdate(AG.testId, { count: 97 + Math.round(7 * n / 6) }); }); })(k);
+    }
+    at(t0 + 2.5, function () { pTap('[data-ovt="a"]'); });
+    at(t0 + 2.8, function () { agScreen('chat'); });
+  }, 'short');
+
   /* ================= short 3 — ask (1080x1920) ================= */
   scene('ask', 4.6, function (t0) {
-    at(t0, function () { caption('cap_ask'); setTime('12:28'); });
+    at(t0, function () { caption('cap_ask'); setTime('12:28'); tween(monWrap, [{ opacity: 0 }, { opacity: 1 }], 400); });
     at(t0 + 0.2, function () {
       agStatus('wait');
       agQuestion({ q: S.q, opts: S.opts });
@@ -1189,7 +1225,7 @@
   scene('done', 2.4, function (t0) {
     at(t0, function () { caption('cap_done'); setTime('12:41'); });
     for (var n = 1; n <= 6; n++) {
-      (function (k) { at(t0 + k * 0.07, function () { agUpdate(AG.testId, { count: 97 + Math.round(35 * k / 6) }); }); })(n);
+      (function (k) { at(t0 + k * 0.07, function () { agUpdate(AG.testId, { count: 104 + Math.round(28 * k / 6) }); }); })(n);
     }
     at(t0 + 0.5, function () {
       agUpdate(AG.testId, { state: 'done' });

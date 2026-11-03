@@ -52,6 +52,13 @@
     edit: '<svg class="ticon" ' + SVG + '><path d="M9.5 2.5 13.5 6.5 6 14l-4.2.8L2.5 11z"/></svg>'
   };
 
+  var OV_ICON = {
+    folder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>',
+    grid: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>',
+    star: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="m12 3 2.8 5.7 6.3.9-4.5 4.4 1.1 6.2-5.7-3-5.7 3 1.1-6.2L3 9.6l6.2-.9z"/></svg>',
+    fusion: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m7 8 3 3m4 2 3 3M7 16l3-3m4-2 3-3"/><circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="12" cy="12" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="18" r="2.5"/></svg>'
+  };
+
   /* ---------- state ---------- */
   var ST = null;
   function itemsHtml(msgs) {
@@ -127,6 +134,35 @@
     }).join('');
     sheet.classList.add('open'); shade.classList.add('open');
   }
+  function ovTile(t, label) {
+    var ag = '<img class="on-dark" src="../app/logo-' + t.app + '-dark.svg" alt=""><img class="on-light" src="../app/logo-' + t.app + '-light.svg" alt="">';
+    return '<div class="ov-tile ov-session ov-compact ov-st-' + t.state + '" style="--p:' + t.fill + '%" data-ovt="' + t.id + '">' +
+      '<span class="ov-logo"><span class="ov-ag">' + ag + '</span></span>' +
+      '<div class="ov-state"><span class="ov-badge">' + esc(t.badge) + '</span><span class="ov-time">' + esc(t.time) + '</span></div>' +
+      '<div class="ov-title ovRaw">' + esc(t.title) + '</div>' +
+      '<div class="ov-context ovRaw">' + esc(t.context) + '</div>' +
+      '<div class="ov-now"><span class="ovRaw">' + esc(t.now) + '</span></div>' +
+      '<div class="ov-foot"><span class="ov-num">' + (t.total ? t.num + '<small>/' + t.total + '</small>' : '') + '</span></div>' +
+      '<div class="ov-actions"><span class="ov-work">' + esc(t.work) + '</span><button class="ov-link ov-direct">' + esc(label) + '</button></div>' +
+      '</div>';
+  }
+  function renderOverview(o) {
+    $('ovCrumbs').innerHTML = '<div class="ov-heading">' + esc(o.heading) + '</div>' +
+      '<label class="ov-scope"><select class="ovRaw"><option>' + esc(o.scope) + '</option></select>' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></label>';
+    $('ovLevels').innerHTML = o.levels.map(function (l) {
+      return '<button class="ov-lv' + (l.on ? ' on' : '') + '"><i>' + OV_ICON[l.icon] + '</i><span>' + esc(l.label) + '</span></button>';
+    }).join('');
+    $('ovSummary').innerHTML = o.summary.map(function (s) {
+      return '<span><i class="ov-d" style="background:' + s.color + '"></i><b>' + s.n + '</b><em>' + esc(s.label) + '</em></span>';
+    }).join('');
+    $('ovBoard').innerHTML = o.computers.map(function (c) {
+      var row = '<div class="ov-computer-row online"><button class="ov-computer-toggle" type="button"><span class="ov-computer-dot"></span>' +
+        '<span class="ov-computer-label"><span class="ov-computer-name ovRaw">' + esc(c.name) + '</span><span class="ov-computer-detail">' + esc(c.detail) + '</span></span></button>' +
+        '<button class="ov-computer-fold" type="button" aria-expanded="true"><svg class="ov-computer-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button></div>';
+      return '<section class="ov-computer">' + row + '<div class="ov-board">' + c.tiles.map(function (t) { return ovTile(t, o.open); }).join('') + '</div></section>';
+    }).join('');
+  }
   function renderLock() {
     var lk = $('lock'), n = $('notif');
     if (!ST.lock) { lk.classList.remove('on'); return; }
@@ -166,6 +202,11 @@
     document.body.dataset.app = st.app || 'cursor';
     document.body.classList.toggle('term', st.screen === 'term');
     document.body.classList.toggle('chatmode', st.screen === 'chat');
+    document.body.classList.toggle('conv', !!st.ov && st.screen !== 'overview');
+    document.body.classList.toggle('ovshort', !!st.ov);
+    $('ovBack').hidden = !st.ov;
+    $('overview').hidden = !st.ov;
+    if (st.ov) renderOverview(st.ov);
     document.body.classList.toggle('kb', !!st.kb);
     $('titleText').textContent = st.title || 'Cursor';
     $('titleProject').textContent = st.project || '';

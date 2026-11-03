@@ -430,3 +430,4 @@ body[data-format="short"] .ot { font-size:40px; }
 body[data-format="short"] .os { font-size:30px; }
 body[data-format="short"] .cta { top:1440px; font-size:38px; }
 body[data-format="short"] .o-meta { left:60px; right:60px; top:1560px; font-size:28px; }
+body[data-format="short"] #phonewrap.ovscreen .pscr { background:linear-gradient(180deg, #DDE0E4, #E7E3E2); }

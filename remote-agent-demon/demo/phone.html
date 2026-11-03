@@ -11,6 +11,7 @@
 </head>
 <body class="chatmode">
 <header>
+  <button id="ovBack" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
   <button id="title"><span class="appAvatar"><span id="dot" class="ok"></span></span><span class="titleLabels"><span class="titleRow"><span id="titleText">Cursor</span><span id="titlePlan" hidden></span></span><span id="titleProject"></span></span><span id="titleLatency"></span><svg class="arrowIcon titleArrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
     <div id="meters">
       <button class="meter" id="meterCtx" type="button"><span class="track" id="meterCtxTrack"><i id="meterCtxFill"></i></span><span class="meterText"><span class="meterLabel" id="meterCtxLabel">上下文</span><b id="meterCtxPct">42%</b></span></button>
@@ -100,6 +101,20 @@
   </div>
 </footer>
 
+<div id="overview" hidden>
+  <div class="ov-top">
+    <button class="ov-ibtn ov-hide" id="ovUp" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="ov-crumbs" id="ovCrumbs"></div>
+    <button class="ov-ibtn" id="ovMenu" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button>
+  </div>
+  <div class="ov-body">
+    <div class="ov-levels" id="ovLevels"></div>
+    <div class="ov-main">
+      <div class="ov-sum" id="ovSummary"></div>
+      <div class="ov-board" id="ovBoard"></div>
+    </div>
+  </div>
+</div>
 <div id="shade"></div>
 <div id="sheet"></div>
 

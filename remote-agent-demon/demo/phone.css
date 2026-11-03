@@ -77,3 +77,10 @@ html[data-theme="light"] #fakekb .kbar span { background: #BFC2CA; }
 .rspin { width: 15px; height: 15px; flex: none; border: 2px solid var(--line-3); border-top-color: var(--accent); border-radius: 50%; animation: rsp .8s linear infinite; }
 @keyframes rsp { to { transform: rotate(360deg); } }
 .tdone { color: var(--ok); font-weight: 700; font-size: 15px; line-height: 1; flex: none; }
+
+/* overview (short cut only): hidden unless the state carries st.ov */
+#overview[hidden] { display: none; }
+body.ovshort #overview .ov-tile.ov-compact > .ov-now { display: block; }
+body.ovshort #overview .ov-tile.ov-compact > .ov-foot { display: flex; }
+body.ovshort #overview .ov-session.ov-compact:not(.ov-open) { grid-template-rows: auto auto auto auto auto auto; grid-template-areas: "logo title" "logo badge" "context context" "now now" "foot foot" "actions actions"; }
+body.ovshort #overview .ov-session.ov-compact:not(.ov-open) > .ov-actions { flex-direction: column; align-items: flex-start; gap: 6px; }

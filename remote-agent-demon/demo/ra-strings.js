@@ -46,7 +46,16 @@ var RA_STRINGS = {
     card1_t: "只遥控 Agent", card1_s: "为手机重新排版，字大好点",
     card2_t: "驱动本机真实会话", card2_s: "Cursor · Devin · Codex · Fusion",
     card3_t: "免费、自托管", card3_s: "自己的中继，扫码配对",
-    cta_meta: "MIT 开源 · Windows / macOS / Linux · Android / iOS / PWA"
+    cta_meta: "MIT 开源 · Windows / macOS / Linux · Android / iOS / PWA",
+    cap_overview: "多台电脑、多个 Agent，<b>一屏总览</b>",
+    ov_heading: "概览", ov_scope: "全部电脑", ov_open: "打开对话",
+    ov_lv1: "概览", ov_lv2: "项目", ov_lv3: "收藏", ov_lv4: "Fusion",
+    ov_sum_all: "全部会话", ov_sum_wait: "需要你", ov_sum_run: "运行中",
+    ov_pc1: "Studio-PC", ov_pc1_n: "2 个会话", ov_pc2: "MacBook-Air", ov_pc2_n: "1 个会话",
+    ov_run: "运行中", ov_wait: "问题", ov_work: "正在工作…",
+    ov_a_ctx: "auth-service · Cursor", ov_a_now: "运行了 npm test", ov_t_a: "13m",
+    ov_b_ctx: "docs-site · Devin", ov_b_title: "更新部署文档", ov_b_now: "要不要同时更新英文版？", ov_t_b: "2m",
+    ov_d_ctx: "mobile-app · Codex", ov_d_title: "适配深色模式", ov_d_now: "Edited ThemeProvider.tsx", ov_t_d: "21m"
   },
   en: {
     cap_hook: "Your agent is mid-task. <b>You have to leave.</b>",
@@ -95,6 +104,15 @@ var RA_STRINGS = {
     card1_t: "Only the agent", card1_s: "Re-laid out for your phone, big and tappable",
     card2_t: "Your real local sessions", card2_s: "Cursor · Devin · Codex · Fusion",
     card3_t: "Free & self-hosted", card3_s: "Your own relay, scan to pair",
-    cta_meta: "MIT open source · Windows / macOS / Linux · Android / iOS / PWA"
+    cta_meta: "MIT open source · Windows / macOS / Linux · Android / iOS / PWA",
+    cap_overview: "Every computer, every agent, <b>one overview</b>",
+    ov_heading: "Overview", ov_scope: "All computers", ov_open: "Open chat",
+    ov_lv1: "Overview", ov_lv2: "Projects", ov_lv3: "Favorites", ov_lv4: "Fusion",
+    ov_sum_all: "All sessions", ov_sum_wait: "Needs you", ov_sum_run: "Running",
+    ov_pc1: "Studio-PC", ov_pc1_n: "2 sessions", ov_pc2: "MacBook-Air", ov_pc2_n: "1 session",
+    ov_run: "Running", ov_wait: "Question", ov_work: "Working…",
+    ov_a_ctx: "auth-service · Cursor", ov_a_now: "Ran npm test", ov_t_a: "13m",
+    ov_b_ctx: "docs-site · Devin", ov_b_title: "Update the deploy docs", ov_b_now: "Update the English version too?", ov_t_b: "2m",
+    ov_d_ctx: "mobile-app · Codex", ov_d_title: "Support dark mode", ov_d_now: "Edited ThemeProvider.tsx", ov_t_d: "21m"
   }
 };
