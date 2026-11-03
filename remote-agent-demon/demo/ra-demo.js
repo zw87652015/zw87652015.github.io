@@ -33,21 +33,27 @@
   var G = SHORT ? {
     pushIn: 'translate(-22px,-38px) scale(1.04)',
     monFull: 'translate(38px,660px) scale(.76)',
-    monSplit: 'translate(91px,300px) scale(.68)',   // monitor vertically centered, above the relay
-    phoneOff: 'translate(0px,980px)',
-    flyTo: [540.5, 1400.5],                           // phone app-area center (phone at 330,935)
+    monSplit: 'translate(24px,300px) scale(.36)',    // picture-in-picture inset over the phone
+    phoneOff: 'translate(0px,1700px) scale(1.8)',
+    phoneHome: 'translate(0px,0px) scale(1.8)',
+    phoneBounce: 'translate(0px,-8px) scale(1.84)',
+    flySize: [707, 1449],
+    flyTo: [540.4, 1128.1],                           // phone app-area center (phone at 161,290, scale 1.8)
     flyCtl: function (x0, y0, x1, y1) { return [x0 + 260, (y0 + y1) / 2]; },
-    beam: [542, 840, 542, 940],
-    callout: function () { return [90, 520]; }
+    beam: [300, 660, 560, 900],
+    callout: function () { return [90, 690, 900, 180]; }
   } : {
     pushIn: 'translate(-38px,-21px) scale(1.04)',
     monFull: 'translate(300px,60px) scale(1)',
     monSplit: 'translate(120px,285px) scale(.58)', // monitor vertically centered on the phone's line
     phoneOff: 'translate(620px,0px)',
+    phoneHome: PHONE_HOME,
+    phoneBounce: 'translate(0px,-8px) scale(1.02)',
+    flySize: [393, 805],
     flyTo: [1304 + 393 / 2, 133 + 805 / 2],          /* phone app-area center */
     flyCtl: function (x0, y0, x1, y1) { return [(x0 + x1) / 2, Math.min(y0, y1) - 150]; },
     beam: [900, 508, 1284, 508],
-    callout: function (r) { return [Math.min(760, Math.max(120, r[0] - 320)), Math.max(60, r[1] - 560)]; }
+    callout: function (r) { return [Math.min(760, Math.max(120, r[0] - 320)), Math.max(60, r[1] - 560), 400, 110]; }
   };
 
   /* ---------------- stage scaling ---------------- */
@@ -305,9 +311,10 @@
     if (FF) { vcall.style.opacity = '1'; vlead.style.opacity = '1'; }
     var r = rectInWorld(dBox);
     var c = G.callout(r);
-    place(vcall, [c[0], c[1], 400, 110]);
-    /* leader from callout bottom to the input box top edge */
-    var ax = c[0] + 200, ay = vcall.offsetTop + 110, bx = r[0] + r[2] / 2, by = r[1] + 8;
+    place(vcall, c);
+    /* leader from callout edge to the input box edge (callout above or below the box) */
+    var up = r[1] < c[1];
+    var ax = c[0] + c[2] / 2, ay = up ? c[1] : c[1] + c[3], bx = r[0] + r[2] / 2, by = up ? r[1] + r[3] : r[1] + 8;
     var dx = bx - ax, dy = by - ay, len = Math.sqrt(dx * dx + dy * dy), ang = Math.atan2(dy, dx) * 180 / Math.PI;
     vlead.style.left = ax + 'px'; vlead.style.top = ay + 'px';
     vlead.style.width = len + 'px'; vlead.style.transform = 'rotate(' + ang + 'deg)';
@@ -769,7 +776,7 @@
     flight.appendChild(clone);
     tween(flight, [
       { offsetDistance: '0%', width: r[2] + 'px', height: r[3] + 'px', borderRadius: '10px', opacity: 1 },
-      { offsetDistance: '100%', width: '393px', height: '805px', borderRadius: '40px', opacity: 1 }
+      { offsetDistance: '100%', width: G.flySize[0] + 'px', height: G.flySize[1] + 'px', borderRadius: '40px', opacity: 1 }
     ], 1000);
   }
   function flyLand() {
@@ -777,8 +784,8 @@
     tween(dPanel, [{ opacity: 0 }, { opacity: 1 }], 300);
     tween(pApp, [{ opacity: 0 }, { opacity: 1 }], 300);
     tween(pFlash, [{ opacity: 0 }, { opacity: 0.85 }, { opacity: 0 }], 420);
-    tween(phoneWrap, [{ transform: PHONE_HOME }, { transform: 'translate(0px,-8px) scale(1.02)' },
-      { transform: PHONE_HOME }], 460);
+    tween(phoneWrap, [{ transform: G.phoneHome }, { transform: G.phoneBounce },
+      { transform: G.phoneHome }], 460);
   }
   scene('fly', 5.0, function (t0) {
     at(t0, function () {
@@ -1089,16 +1096,10 @@
       tween(monWrap, [{ transform: G.monFull }, { transform: G.monSplit }], 600);
     });
     at(t0 + 0.1, function () {
-      tween(phoneWrap, [{ transform: G.phoneOff, opacity: 0 }, { transform: PHONE_HOME, opacity: 1 }], 800);
+      tween(phoneWrap, [{ transform: G.phoneOff, opacity: 0 }, { transform: G.phoneHome, opacity: 1 }], 800);
     });
     at(t0 + 0.7, flyOut);
     at(t0 + 1.75, flyLand);
-    at(t0 + 1.9, function () {
-      relay.classList.remove('hidden');
-      tween(relay, [{ height: '0px' }, { height: '78px' }], 700);
-      relayLbl.classList.remove('hidden');
-      tween(relayLbl, [{ opacity: 0 }, { opacity: 1 }], 400);
-    });
     var mA = null;
     at(t0 + 2.2, function () { setTime('12:15'); mA = agPush({ type: 'edit', f: S.t_token, add: 46, del: 12, state: 'run' }); pulseBeam(); });
     at(t0 + 2.6, function () { agUpdate(mA, { state: 'done' }); });
@@ -1129,7 +1130,6 @@
     at(t0 + 1.9, function () {
       pTap('#notif').then(function () { agLock(false); });
     });
-    at(t0 + 2.2, function () { focusPhone(true); });
     at(t0 + 2.6, function () {
       pTap('.qnOpts .qnOpt:nth-child(2)').then(function () { agSel(1); });
     });
@@ -1139,7 +1139,6 @@
         agStatus('run');
       });
     });
-    at(t0 + 3.4, function () { focusPhone(false); });
     at(t0 + 3.5, function () {
       var id = agPush({ type: 'edit', f: S.t_compat, add: 58, del: 4, state: 'run' });
       pulseBeam();
